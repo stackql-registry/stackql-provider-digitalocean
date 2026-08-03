@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>tags</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>tags</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="tags" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.tags" /></td></tr>
 </tbody></table>
@@ -54,12 +55,12 @@ The response will be a JSON object with a key called `tag`. <br />The value of t
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The name of the tag. Tags may contain letters, numbers, colons, dashes, and underscores. There is a limit of 255 characters per tag.  **Note:** Tag names are case stable, which means the capitalization you use when you first create a tag is canonical.  When working with tags in the API, you must use the tag's canonical capitalization. For example, if you create a tag named "PROD", the URL to add that tag to a resource would be `https://api.digitalocean.com/v2/tags/PROD/resources` (not `/v2/tags/prod/resources`).  Tagged resources in the control panel will always display the canonical capitalization. For example, if you create a tag named "PROD", you can tag resources in the control panel by entering "prod". The tag will still display with its canonical capitalization, "PROD".  (pattern: <code>^[a-zA-Z0-9_\-\:]+$</code>, example: extra-awesome)</td>
+    <td>The name of the tag. Tags may contain letters, numbers, colons, dashes, and underscores. There is a limit of 255 characters per tag.  **Note:** Tag names are case stable, which means the capitalization you use when you first create a tag is canonical.  When working with tags in the API, you must use the tag's canonical capitalization. For example, if you create a tag named "PROD", the URL to add that tag to a resource would be `https://api.digitalocean.com/v2/tags/PROD/resources` (not `/v2/tags/prod/resources`).  Tagged resources in the control panel will always display the canonical capitalization. For example, if you create a tag named "PROD", you can tag resources in the control panel by entering "prod". The tag will still display with its canonical capitalization, "PROD".  (pattern: <code>^&#91;a-zA-Z0-9_\-\:&#93;+$</code>, example: extra-awesome)</td>
 </tr>
 <tr>
     <td><CopyableCode code="resources" /></td>
     <td><code>object</code></td>
-    <td>Tagged Resource Statistics include metadata regarding the resource type that has been tagged.</td>
+    <td>An embedded object containing key value pairs of resource type and resource statistics. It also includes a count of the total number of resources tagged with the current tag as well as a `last_tagged_uri` attribute set to the last resource tagged with the current tag.  This will only include resources that you are authorized to see. For example, to see tagged Droplets, include the `droplet:read` scope. </td>
 </tr>
 </tbody>
 </table>
@@ -80,12 +81,12 @@ To list all of your tags, you can send a `GET` request to `/v2/tags`.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The name of the tag. Tags may contain letters, numbers, colons, dashes, and underscores. There is a limit of 255 characters per tag.  **Note:** Tag names are case stable, which means the capitalization you use when you first create a tag is canonical.  When working with tags in the API, you must use the tag's canonical capitalization. For example, if you create a tag named "PROD", the URL to add that tag to a resource would be `https://api.digitalocean.com/v2/tags/PROD/resources` (not `/v2/tags/prod/resources`).  Tagged resources in the control panel will always display the canonical capitalization. For example, if you create a tag named "PROD", you can tag resources in the control panel by entering "prod". The tag will still display with its canonical capitalization, "PROD".  (pattern: <code>^[a-zA-Z0-9_\-\:]+$</code>, example: extra-awesome)</td>
+    <td>The name of the tag. Tags may contain letters, numbers, colons, dashes, and underscores. There is a limit of 255 characters per tag.  **Note:** Tag names are case stable, which means the capitalization you use when you first create a tag is canonical.  When working with tags in the API, you must use the tag's canonical capitalization. For example, if you create a tag named "PROD", the URL to add that tag to a resource would be `https://api.digitalocean.com/v2/tags/PROD/resources` (not `/v2/tags/prod/resources`).  Tagged resources in the control panel will always display the canonical capitalization. For example, if you create a tag named "PROD", you can tag resources in the control panel by entering "prod". The tag will still display with its canonical capitalization, "PROD".  (pattern: <code>^&#91;a-zA-Z0-9_\-\:&#93;+$</code>, example: extra-awesome)</td>
 </tr>
 <tr>
     <td><CopyableCode code="resources" /></td>
     <td><code>object</code></td>
-    <td>Tagged Resource Statistics include metadata regarding the resource type that has been tagged.</td>
+    <td>An embedded object containing key value pairs of resource type and resource statistics. It also includes a count of the total number of resources tagged with the current tag as well as a `last_tagged_uri` attribute set to the last resource tagged with the current tag.  This will only include resources that you are authorized to see. For example, to see tagged Droplets, include the `droplet:read` scope. </td>
 </tr>
 </tbody>
 </table>
@@ -237,7 +238,7 @@ To create a tag you can send a POST request to `/v2/tags` with a `name` attribut
 
 ```sql
 INSERT INTO digitalocean.compute.tags (
-data__name
+name
 )
 SELECT 
 '{{ name }}'
@@ -248,23 +249,19 @@ tag
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: tags
   props:
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The name of the tag. Tags may contain letters, numbers, colons, dashes, and underscores.
-There is a limit of 255 characters per tag.
+        There is a limit of 255 characters per tag.
+        **Note:** Tag names are case stable, which means the capitalization you use when you first create a tag is canonical.
+        When working with tags in the API, you must use the tag's canonical capitalization. For example, if you create a tag named "PROD", the URL to add that tag to a resource would be \`https://api.digitalocean.com/v2/tags/PROD/resources\` (not \`/v2/tags/prod/resources\`).
+        Tagged resources in the control panel will always display the canonical capitalization. For example, if you create a tag named "PROD", you can tag resources in the control panel by entering "prod". The tag will still display with its canonical capitalization, "PROD".
+`}</CodeBlock>
 
-**Note:** Tag names are case stable, which means the capitalization you use when you first create a tag is canonical.
-
-When working with tags in the API, you must use the tag's canonical capitalization. For example, if you create a tag named "PROD", the URL to add that tag to a resource would be `https://api.digitalocean.com/v2/tags/PROD/resources` (not `/v2/tags/prod/resources`).
-
-Tagged resources in the control panel will always display the canonical capitalization. For example, if you create a tag named "PROD", you can tag resources in the control panel by entering "prod". The tag will still display with its canonical capitalization, "PROD".
-
-```
 </TabItem>
 </Tabs>
 

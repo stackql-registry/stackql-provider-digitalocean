@@ -18,7 +18,7 @@ monitoring service documentation.
 
 :::info[Service Summary]
 
-total resources: __53__  
+total resources: __64__  
 
 :::
 
@@ -32,6 +32,17 @@ total resources: __53__
 <a href="/services/monitoring/app_restart_count_metrics/">app_restart_count_metrics</a><br />
 <a href="/services/monitoring/check_states/">check_states</a><br />
 <a href="/services/monitoring/checks/">checks</a><br />
+<a href="/services/monitoring/database_mysql_cpu_usage/">database_mysql_cpu_usage</a><br />
+<a href="/services/monitoring/database_mysql_disk_usage/">database_mysql_disk_usage</a><br />
+<a href="/services/monitoring/database_mysql_index_vs_sequential_reads/">database_mysql_index_vs_sequential_reads</a><br />
+<a href="/services/monitoring/database_mysql_load/">database_mysql_load</a><br />
+<a href="/services/monitoring/database_mysql_memory_usage/">database_mysql_memory_usage</a><br />
+<a href="/services/monitoring/database_mysql_op_rates/">database_mysql_op_rates</a><br />
+<a href="/services/monitoring/database_mysql_schema_latency/">database_mysql_schema_latency</a><br />
+<a href="/services/monitoring/database_mysql_schema_throughput/">database_mysql_schema_throughput</a><br />
+<a href="/services/monitoring/database_mysql_threads_active/">database_mysql_threads_active</a><br />
+<a href="/services/monitoring/database_mysql_threads_connected/">database_mysql_threads_connected</a><br />
+<a href="/services/monitoring/database_mysql_threads_created_rate/">database_mysql_threads_created_rate</a><br />
 <a href="/services/monitoring/destinations/">destinations</a><br />
 <a href="/services/monitoring/droplet_autoscale_current_cpu_utilization/">droplet_autoscale_current_cpu_utilization</a><br />
 <a href="/services/monitoring/droplet_autoscale_current_instances/">droplet_autoscale_current_instances</a><br />
@@ -45,15 +56,15 @@ total resources: __53__
 <a href="/services/monitoring/droplet_filesystem_size_metrics/">droplet_filesystem_size_metrics</a><br />
 <a href="/services/monitoring/droplet_load1_metrics/">droplet_load1_metrics</a><br />
 <a href="/services/monitoring/droplet_load15_metrics/">droplet_load15_metrics</a><br />
-<a href="/services/monitoring/droplet_load5_metrics/">droplet_load5_metrics</a><br />
+<a href="/services/monitoring/droplet_load5_metrics/">droplet_load5_metrics</a>
+</div>
+<div class="providerDocColumn">
 <a href="/services/monitoring/droplet_memory_available_metrics/">droplet_memory_available_metrics</a><br />
 <a href="/services/monitoring/droplet_memory_cached_metrics/">droplet_memory_cached_metrics</a><br />
 <a href="/services/monitoring/droplet_memory_free_metrics/">droplet_memory_free_metrics</a><br />
 <a href="/services/monitoring/droplet_memory_total_metrics/">droplet_memory_total_metrics</a><br />
 <a href="/services/monitoring/lb_droplets_connections/">lb_droplets_connections</a><br />
-<a href="/services/monitoring/lb_droplets_downtime/">lb_droplets_downtime</a>
-</div>
-<div class="providerDocColumn">
+<a href="/services/monitoring/lb_droplets_downtime/">lb_droplets_downtime</a><br />
 <a href="/services/monitoring/lb_droplets_health_checks/">lb_droplets_health_checks</a><br />
 <a href="/services/monitoring/lb_droplets_http_response_time_50p/">lb_droplets_http_response_time_50p</a><br />
 <a href="/services/monitoring/lb_droplets_http_response_time_95p/">lb_droplets_http_response_time_95p</a><br />

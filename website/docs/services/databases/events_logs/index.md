@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>events_logs</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>events_logs</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="events_logs" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.events_logs" /></td></tr>
 </tbody></table>
@@ -68,7 +69,7 @@ A JSON object with a key of `events`.
 <tr>
     <td><CopyableCode code="event_type" /></td>
     <td><code>string</code></td>
-    <td>Type of the event. (example: cluster_create)</td>
+    <td>Type of the event. (cluster_maintenance_perform, cluster_master_promotion, cluster_create, cluster_update, cluster_delete, cluster_poweron, cluster_poweroff) (example: cluster_create)</td>
 </tr>
 </tbody>
 </table>

@@ -1,0 +1,6 @@
+{
+  "auth": {
+    "credentialsenvvar": "DIGITALOCEAN_TOKEN",
+    "type": "bearer"
+  }
+}

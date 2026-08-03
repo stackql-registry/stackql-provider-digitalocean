@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>active_garbage_collection</cod
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>active_garbage_collection</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="active_garbage_collection" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.container_registry.active_garbage_collection" /></td></tr>
 </tbody></table>
@@ -73,7 +74,7 @@ The response will be a JSON object with a key of `garbage_collection`. This will
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>The current status of this garbage collection. (example: requested)</td>
+    <td>The current status of this garbage collection. (requested, waiting for write JWTs to expire, scanning manifests, deleting unreferenced blobs, cancelling, failed, succeeded, cancelled) (example: requested)</td>
 </tr>
 <tr>
     <td><CopyableCode code="updated_at" /></td>

@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>agents_by_openai_key</code> re
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>agents_by_openai_key</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="agents_by_openai_key" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.genai.agents_by_openai_key" /></td></tr>
 </tbody></table>

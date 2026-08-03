@@ -1,0 +1,6 @@
+/*+ exports, retries=5, retry_delay=10 */
+SELECT
+ JSON_EXTRACT(networks, '$.v4[1].ip_address') as droplet_public_ip,
+ 'http://' || JSON_EXTRACT(networks, '$.v4[1].ip_address') as web_server_url
+FROM digitalocean.compute.droplets
+WHERE droplet_id = '{{ droplet_id }}'

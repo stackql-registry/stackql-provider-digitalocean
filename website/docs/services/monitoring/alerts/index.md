@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>alerts</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>alerts</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="alerts" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.monitoring.alerts" /></td></tr>
 </tbody></table>
@@ -64,7 +65,7 @@ The response will be a JSON object with a key called `alert`. The value of this 
 <tr>
     <td><CopyableCode code="comparison" /></td>
     <td><code>string</code></td>
-    <td>The comparison operator used against the alert's threshold. (example: greater_than)</td>
+    <td>The comparison operator used against the alert's threshold. (greater_than, less_than) (example: greater_than)</td>
 </tr>
 <tr>
     <td><CopyableCode code="notifications" /></td>
@@ -74,7 +75,7 @@ The response will be a JSON object with a key called `alert`. The value of this 
 <tr>
     <td><CopyableCode code="period" /></td>
     <td><code>string</code></td>
-    <td>Period of time the threshold must be exceeded to trigger the alert. (example: 2m)</td>
+    <td>Period of time the threshold must be exceeded to trigger the alert. (2m, 3m, 5m, 10m, 15m, 30m, 1h) (example: 2m)</td>
 </tr>
 <tr>
     <td><CopyableCode code="threshold" /></td>
@@ -84,7 +85,7 @@ The response will be a JSON object with a key called `alert`. The value of this 
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>The type of alert. (example: latency)</td>
+    <td>The type of alert. (latency, down, down_global, ssl_expiry) (example: latency)</td>
 </tr>
 </tbody>
 </table>
@@ -115,7 +116,7 @@ The response will be a JSON object with a key called `alerts`. This will be set 
 <tr>
     <td><CopyableCode code="comparison" /></td>
     <td><code>string</code></td>
-    <td>The comparison operator used against the alert's threshold. (example: greater_than)</td>
+    <td>The comparison operator used against the alert's threshold. (greater_than, less_than) (example: greater_than)</td>
 </tr>
 <tr>
     <td><CopyableCode code="notifications" /></td>
@@ -125,7 +126,7 @@ The response will be a JSON object with a key called `alerts`. This will be set 
 <tr>
     <td><CopyableCode code="period" /></td>
     <td><code>string</code></td>
-    <td>Period of time the threshold must be exceeded to trigger the alert. (example: 2m)</td>
+    <td>Period of time the threshold must be exceeded to trigger the alert. (2m, 3m, 5m, 10m, 15m, 30m, 1h) (example: 2m)</td>
 </tr>
 <tr>
     <td><CopyableCode code="threshold" /></td>
@@ -135,7 +136,7 @@ The response will be a JSON object with a key called `alerts`. This will be set 
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>The type of alert. (example: latency)</td>
+    <td>The type of alert. (latency, down, down_global, ssl_expiry) (example: latency)</td>
 </tr>
 </tbody>
 </table>
@@ -174,14 +175,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#uptime_create_alert"><CopyableCode code="uptime_create_alert" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-check_id"><code>check_id</code></a>, <a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__type"><code>data__type</code></a>, <a href="#parameter-data__notifications"><code>data__notifications</code></a>, <a href="#parameter-data__period"><code>data__period</code></a></td>
+    <td><a href="#parameter-check_id"><code>check_id</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-type"><code>type</code></a>, <a href="#parameter-notifications"><code>notifications</code></a>, <a href="#parameter-period"><code>period</code></a></td>
     <td></td>
     <td>To create an Uptime alert, send a POST request to `/v2/uptime/checks/$CHECK_ID/alerts` specifying the attributes<br />in the table below in the JSON body.<br /></td>
 </tr>
 <tr>
     <td><a href="#uptime_update_alert"><CopyableCode code="uptime_update_alert" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-check_id"><code>check_id</code></a>, <a href="#parameter-alert_id"><code>alert_id</code></a>, <a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__type"><code>data__type</code></a>, <a href="#parameter-data__notifications"><code>data__notifications</code></a>, <a href="#parameter-data__period"><code>data__period</code></a></td>
+    <td><a href="#parameter-check_id"><code>check_id</code></a>, <a href="#parameter-alert_id"><code>alert_id</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-type"><code>type</code></a>, <a href="#parameter-notifications"><code>notifications</code></a>, <a href="#parameter-period"><code>period</code></a></td>
     <td></td>
     <td>To update the settings of an Uptime alert, send a PUT request to `/v2/uptime/checks/$CHECK_ID/alerts/$ALERT_ID`.<br /></td>
 </tr>
@@ -297,12 +298,12 @@ To create an Uptime alert, send a POST request to `/v2/uptime/checks/$CHECK_ID/a
 
 ```sql
 INSERT INTO digitalocean.monitoring.alerts (
-data__name,
-data__type,
-data__threshold,
-data__comparison,
-data__notifications,
-data__period,
+name,
+type,
+threshold,
+comparison,
+notifications,
+period,
 check_id
 )
 SELECT 
@@ -320,47 +321,46 @@ alert
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: alerts
   props:
     - name: check_id
-      value: string (uuid)
+      value: "{{ check_id }}"
       description: Required parameter for the alerts resource.
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         A human-friendly display name.
-        
     - name: type
-      value: string
-      description: >
+      value: "{{ type }}"
+      description: |
         The type of alert.
-        
       valid_values: ['latency', 'down', 'down_global', 'ssl_expiry']
     - name: threshold
-      value: integer
-      description: >
+      value: {{ threshold }}
+      description: |
         The threshold at which the alert will enter a trigger state. The specific threshold is dependent on the alert type.
-        
     - name: comparison
-      value: string
-      description: >
+      value: "{{ comparison }}"
+      description: |
         The comparison operator used against the alert's threshold.
-        
       valid_values: ['greater_than', 'less_than']
     - name: notifications
-      value: object
-      description: >
+      description: |
         The notification settings for a trigger alert.
-        
+      value:
+        email:
+          - "{{ email }}"
+        slack:
+          - channel: "{{ channel }}"
+            url: "{{ url }}"
     - name: period
-      value: string
-      description: >
+      value: "{{ period }}"
+      description: |
         Period of time the threshold must be exceeded to trigger the alert.
-        
       valid_values: ['2m', '3m', '5m', '10m', '15m', '30m', '1h']
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -380,19 +380,19 @@ To update the settings of an Uptime alert, send a PUT request to `/v2/uptime/che
 ```sql
 REPLACE digitalocean.monitoring.alerts
 SET 
-data__name = '{{ name }}',
-data__type = '{{ type }}',
-data__threshold = {{ threshold }},
-data__comparison = '{{ comparison }}',
-data__notifications = '{{ notifications }}',
-data__period = '{{ period }}'
+name = '{{ name }}',
+type = '{{ type }}',
+threshold = {{ threshold }},
+comparison = '{{ comparison }}',
+notifications = '{{ notifications }}',
+period = '{{ period }}'
 WHERE 
 check_id = '{{ check_id }}' --required
 AND alert_id = '{{ alert_id }}' --required
-AND data__name = '{{ name }}' --required
-AND data__type = '{{ type }}' --required
-AND data__notifications = '{{ notifications }}' --required
-AND data__period = '{{ period }}' --required
+AND name = '{{ name }}' --required
+AND type = '{{ type }}' --required
+AND notifications = '{{ notifications }}' --required
+AND period = '{{ period }}' --required
 RETURNING
 alert;
 ```

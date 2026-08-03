@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>repository_tags</code> resource
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>repository_tags</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="repository_tags" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.container_registry.repository_tags" /></td></tr>
 </tbody></table>
@@ -110,28 +111,28 @@ The following methods are available for this resource:
     <td><CopyableCode code="select" /></td>
     <td><a href="#parameter-registry_name"><code>registry_name</code></a>, <a href="#parameter-repository_name"><code>repository_name</code></a></td>
     <td><a href="#parameter-per_page"><code>per_page</code></a>, <a href="#parameter-page"><code>page</code></a></td>
-    <td>To list all tags in one of your container registry's repository, send a GET<br />request to `/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list tags for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags`. <br /><br />It is similar to GET `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags` and exists for backward compatibility.<br /></td>
+    <td>To list all tags in one of your container registry's repository, send a GET<br />request to `/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list tags for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags`. <br /><br />It is similar to GET `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags`.<br /></td>
 </tr>
 <tr>
     <td><a href="#registries_delete_repository_tag"><CopyableCode code="registries_delete_repository_tag" /></a></td>
     <td><CopyableCode code="delete" /></td>
     <td><a href="#parameter-registry_name"><code>registry_name</code></a>, <a href="#parameter-repository_name"><code>repository_name</code></a>, <a href="#parameter-repository_tag"><code>repository_tag</code></a></td>
     <td></td>
-    <td>To delete a container repository tag in on of our container registries, send a DELETE request to<br />`/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags/$TAG`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo:mytag`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags/mytag`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully. It is similar to DELETE `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags/$TAG` and exists for backward compatibility.<br /></td>
+    <td>To delete a container repository tag in on of our container registries, send a DELETE request to<br />`/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags/$TAG`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo:mytag`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags/mytag`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully. It is similar to DELETE `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags/$TAG`.<br /></td>
 </tr>
 <tr>
     <td><a href="#registry_list_repository_tags_legacy"><CopyableCode code="registry_list_repository_tags_legacy" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-registry_name"><code>registry_name</code></a>, <a href="#parameter-repository_name"><code>repository_name</code></a></td>
     <td><a href="#parameter-per_page"><code>per_page</code></a>, <a href="#parameter-page"><code>page</code></a></td>
-    <td>To list all tags in your container registry repository, send a GET<br />request to `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list tags for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags`.<br /></td>
+    <td>**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To list all tags in your container registry repository, send a GET<br />request to `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list tags for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags`.<br /></td>
 </tr>
 <tr>
     <td><a href="#registry_delete_repository_tag_legacy"><CopyableCode code="registry_delete_repository_tag_legacy" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-registry_name"><code>registry_name</code></a>, <a href="#parameter-repository_name"><code>repository_name</code></a>, <a href="#parameter-repository_tag"><code>repository_tag</code></a></td>
     <td></td>
-    <td>To delete a container repository tag, send a DELETE request to<br />`/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags/$TAG`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo:mytag`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags/mytag`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully.<br /></td>
+    <td>**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To delete a container repository tag, send a DELETE request to<br />`/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags/$TAG`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo:mytag`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags/mytag`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully.<br /></td>
 </tr>
 </tbody>
 </table>
@@ -187,7 +188,7 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
 >
 <TabItem value="registries_list_repository_tags">
 
-To list all tags in one of your container registry's repository, send a GET<br />request to `/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list tags for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags`. <br /><br />It is similar to GET `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags` and exists for backward compatibility.<br />
+To list all tags in one of your container registry's repository, send a GET<br />request to `/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list tags for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags`. <br /><br />It is similar to GET `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags`.<br />
 
 ```sql
 SELECT
@@ -219,7 +220,7 @@ AND page = '{{ page }}'
 >
 <TabItem value="registries_delete_repository_tag">
 
-To delete a container repository tag in on of our container registries, send a DELETE request to<br />`/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags/$TAG`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo:mytag`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags/mytag`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully. It is similar to DELETE `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags/$TAG` and exists for backward compatibility.<br />
+To delete a container repository tag in on of our container registries, send a DELETE request to<br />`/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags/$TAG`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo:mytag`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags/mytag`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully. It is similar to DELETE `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags/$TAG`.<br />
 
 ```sql
 DELETE FROM digitalocean.container_registry.repository_tags
@@ -243,7 +244,7 @@ AND repository_tag = '{{ repository_tag }}' --required
 >
 <TabItem value="registry_list_repository_tags_legacy">
 
-To list all tags in your container registry repository, send a GET<br />request to `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list tags for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags`.<br />
+**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To list all tags in your container registry repository, send a GET<br />request to `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list tags for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags`.<br />
 
 ```sql
 EXEC digitalocean.container_registry.repository_tags.registry_list_repository_tags_legacy 
@@ -256,7 +257,7 @@ EXEC digitalocean.container_registry.repository_tags.registry_list_repository_ta
 </TabItem>
 <TabItem value="registry_delete_repository_tag_legacy">
 
-To delete a container repository tag, send a DELETE request to<br />`/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags/$TAG`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo:mytag`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags/mytag`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully.<br />
+**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To delete a container repository tag, send a DELETE request to<br />`/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/tags/$TAG`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo:mytag`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/tags/mytag`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully.<br />
 
 ```sql
 EXEC digitalocean.container_registry.repository_tags.registry_delete_repository_tag_legacy 

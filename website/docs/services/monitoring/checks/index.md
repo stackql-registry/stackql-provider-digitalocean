@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>checks</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>checks</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="checks" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.monitoring.checks" /></td></tr>
 </tbody></table>
@@ -79,7 +80,7 @@ The response will be a JSON object with a key called `check`. The value of this 
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>The type of health check to perform. (example: https)</td>
+    <td>The type of health check to perform. (ping, http, https) (example: https)</td>
 </tr>
 </tbody>
 </table>
@@ -125,7 +126,7 @@ The response will be a JSON object with a key called `checks`. This will be set 
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>The type of health check to perform. (example: https)</td>
+    <td>The type of health check to perform. (ping, http, https) (example: https)</td>
 </tr>
 </tbody>
 </table>
@@ -164,7 +165,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#uptime_create_check"><CopyableCode code="uptime_create_check" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__method"><code>data__method</code></a>, <a href="#parameter-data__target"><code>data__target</code></a>, <a href="#parameter-data__regions"><code>data__regions</code></a>, <a href="#parameter-data__type"><code>data__type</code></a>, <a href="#parameter-data__enabled"><code>data__enabled</code></a></td>
+    <td><a href="#parameter-name"><code>name</code></a>, <a href="#parameter-method"><code>method</code></a>, <a href="#parameter-target"><code>target</code></a>, <a href="#parameter-regions"><code>regions</code></a>, <a href="#parameter-type"><code>type</code></a>, <a href="#parameter-enabled"><code>enabled</code></a></td>
     <td></td>
     <td>To create an Uptime check, send a POST request to `/v2/uptime/checks` specifying the attributes<br />in the table below in the JSON body.<br /></td>
 </tr>
@@ -278,11 +279,11 @@ To create an Uptime check, send a POST request to `/v2/uptime/checks` specifying
 
 ```sql
 INSERT INTO digitalocean.monitoring.checks (
-data__name,
-data__type,
-data__target,
-data__regions,
-data__enabled
+name,
+type,
+target,
+regions,
+enabled
 )
 SELECT 
 '{{ name }}' /* required */,
@@ -297,38 +298,34 @@ check
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: checks
   props:
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         A human-friendly display name.
-        
     - name: type
-      value: string
-      description: >
+      value: "{{ type }}"
+      description: |
         The type of health check to perform.
-        
       valid_values: ['ping', 'http', 'https']
     - name: target
-      value: string
-      description: >
+      value: "{{ target }}"
+      description: |
         The endpoint to perform healthchecks on.
-        
     - name: regions
-      value: array
-      description: >
+      value:
+        - "{{ regions }}"
+      description: |
         An array containing the selected regions to perform healthchecks from.
-        
     - name: enabled
-      value: boolean
-      description: >
+      value: {{ enabled }}
+      description: |
         A boolean value indicating whether the check is enabled/disabled.
-        
       default: true
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -348,11 +345,11 @@ To update the settings of an Uptime check, send a PUT request to `/v2/uptime/che
 ```sql
 REPLACE digitalocean.monitoring.checks
 SET 
-data__name = '{{ name }}',
-data__type = '{{ type }}',
-data__target = '{{ target }}',
-data__regions = '{{ regions }}',
-data__enabled = {{ enabled }}
+name = '{{ name }}',
+type = '{{ type }}',
+target = '{{ target }}',
+regions = '{{ regions }}',
+enabled = {{ enabled }}
 WHERE 
 check_id = '{{ check_id }}' --required
 RETURNING

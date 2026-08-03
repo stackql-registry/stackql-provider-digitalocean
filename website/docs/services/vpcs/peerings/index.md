@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>peerings</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>peerings</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="peerings" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.vpcs.peerings" /></td></tr>
 </tbody></table>
@@ -58,7 +59,7 @@ The response will be a JSON object with a key called `peerings`. This  will be s
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The name of the VPC peering. Must be unique within the team and may only contain alphanumeric characters and dashes. (pattern: <code>^[a-zA-Z0-9\-]+$</code>, example: nyc1-blr1-peering)</td>
+    <td>The name of the VPC peering. Must be unique within the team and may only contain alphanumeric characters and dashes. (pattern: <code>^&#91;a-zA-Z0-9\-&#93;+$</code>, example: nyc1-blr1-peering)</td>
 </tr>
 <tr>
     <td><CopyableCode code="created_at" /></td>
@@ -68,7 +69,7 @@ The response will be a JSON object with a key called `peerings`. This  will be s
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>The current status of the VPC peering. (example: ACTIVE)</td>
+    <td>The current status of the VPC peering. (PROVISIONING, ACTIVE, DELETING) (example: ACTIVE)</td>
 </tr>
 <tr>
     <td><CopyableCode code="vpc_ids" /></td>
@@ -105,14 +106,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#vpcs_create_peerings"><CopyableCode code="vpcs_create_peerings" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-vpc_id"><code>vpc_id</code></a>, <a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__vpc_id"><code>data__vpc_id</code></a></td>
+    <td><a href="#parameter-vpc_id"><code>vpc_id</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-vpc_id"><code>vpc_id</code></a></td>
     <td></td>
     <td>To create a new VPC peering for a given VPC, send a POST request to<br />`/v2/vpcs/$VPC_ID/peerings`.<br /></td>
 </tr>
 <tr>
     <td><a href="#vpcs_patch_peerings"><CopyableCode code="vpcs_patch_peerings" /></a></td>
     <td><CopyableCode code="update" /></td>
-    <td><a href="#parameter-vpc_id"><code>vpc_id</code></a>, <a href="#parameter-vpc_peering_id"><code>vpc_peering_id</code></a>, <a href="#parameter-data__name"><code>data__name</code></a></td>
+    <td><a href="#parameter-vpc_id"><code>vpc_id</code></a>, <a href="#parameter-vpc_peering_id"><code>vpc_peering_id</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>To update the name of a VPC peering in a particular VPC, send a PATCH request <br />to `/v2/vpcs/$VPC_ID/peerings/$VPC_PEERING_ID` with the new `name` in the <br />request body.<br /></td>
 </tr>
@@ -199,14 +200,14 @@ To create a new VPC peering for a given VPC, send a POST request to<br />`/v2/vp
 
 ```sql
 INSERT INTO digitalocean.vpcs.peerings (
-data__name,
-data__vpc_id,
+name,
+vpc_id,
 vpc_id
 )
 SELECT 
 '{{ name }}' /* required */,
 '{{ vpc_id }}' /* required */,
-'{{ vpc_id }}'
+'{{ vpc_id }}' /* required */
 RETURNING
 peering
 ;
@@ -214,24 +215,22 @@ peering
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: peerings
   props:
     - name: vpc_id
-      value: string (uuid)
+      value: "{{ vpc_id }}"
       description: Required parameter for the peerings resource.
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The name of the VPC peering. Must be unique and may only contain alphanumeric characters, dashes, and periods.
-        
     - name: vpc_id
-      value: string
-      description: >
+      value: "{{ vpc_id }}"
+      description: |
         The ID of the VPC to peer with.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -251,11 +250,11 @@ To update the name of a VPC peering in a particular VPC, send a PATCH request <b
 ```sql
 UPDATE digitalocean.vpcs.peerings
 SET 
-data__name = '{{ name }}'
+name = '{{ name }}'
 WHERE 
 vpc_id = '{{ vpc_id }}' --required
 AND vpc_peering_id = '{{ vpc_peering_id }}' --required
-AND data__name = '{{ name }}' --required
+AND name = '{{ name }}' --required
 RETURNING
 peering;
 ```

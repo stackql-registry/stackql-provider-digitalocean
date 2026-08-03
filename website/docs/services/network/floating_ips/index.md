@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>floating_ips</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>floating_ips</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="floating_ips" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.network.floating_ips" /></td></tr>
 </tbody></table>
@@ -58,8 +59,8 @@ The response will be a JSON object with a key called `floating_ip`. The value of
 </tr>
 <tr>
     <td><CopyableCode code="droplet" /></td>
-    <td><code></code></td>
-    <td>The Droplet that the floating IP has been assigned to. When you query a floating IP, if it is assigned to a Droplet, the entire Droplet object will be returned. If it is not assigned, the value will be null. <br /><br />Requires `droplet:read` scope.</td>
+    <td><code>string</code></td>
+    <td>The Droplet that the floating IP has been assigned to. When you query a floating IP, if it is assigned to a Droplet, the entire Droplet object will be returned. If it is not assigned, the value will be null. <br /><br />Requires `droplet:read` scope. (title: null)</td>
 </tr>
 <tr>
     <td><CopyableCode code="ip" /></td>
@@ -74,7 +75,7 @@ The response will be a JSON object with a key called `floating_ip`. The value of
 <tr>
     <td><CopyableCode code="region" /></td>
     <td><code>object</code></td>
-    <td>The region that the floating IP is reserved to. When you query a floating IP, the entire region object will be returned.</td>
+    <td>The region that the floating IP is reserved to. When you query a floating IP, the entire region object will be returned. (opaque JSON object)</td>
 </tr>
 </tbody>
 </table>
@@ -99,8 +100,8 @@ The response will be a JSON object with a key called `floating_ips`. This will b
 </tr>
 <tr>
     <td><CopyableCode code="droplet" /></td>
-    <td><code></code></td>
-    <td>The Droplet that the floating IP has been assigned to. When you query a floating IP, if it is assigned to a Droplet, the entire Droplet object will be returned. If it is not assigned, the value will be null. <br /><br />Requires `droplet:read` scope.</td>
+    <td><code>string</code></td>
+    <td>The Droplet that the floating IP has been assigned to. When you query a floating IP, if it is assigned to a Droplet, the entire Droplet object will be returned. If it is not assigned, the value will be null. <br /><br />Requires `droplet:read` scope. (title: null)</td>
 </tr>
 <tr>
     <td><CopyableCode code="ip" /></td>
@@ -115,7 +116,7 @@ The response will be a JSON object with a key called `floating_ips`. This will b
 <tr>
     <td><CopyableCode code="region" /></td>
     <td><code>object</code></td>
-    <td>The region that the floating IP is reserved to. When you query a floating IP, the entire region object will be returned.</td>
+    <td>The region that the floating IP is reserved to. When you query a floating IP, the entire region object will be returned. (opaque JSON object)</td>
 </tr>
 </tbody>
 </table>
@@ -154,9 +155,9 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#floating_ips_create"><CopyableCode code="floating_ips_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__droplet_id"><code>data__droplet_id</code></a></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a>, <a href="#parameter-region"><code>region</code></a></td>
     <td></td>
-    <td>On creation, a floating IP must be either assigned to a Droplet or reserved to a region.<br />* To create a new floating IP assigned to a Droplet, send a POST<br />  request to `/v2/floating_ips` with the `droplet_id` attribute.<br /><br />* To create a new floating IP reserved to a region, send a POST request to<br />  `/v2/floating_ips` with the `region` attribute.<br /><br />**Note**:  In addition to the standard rate limiting, only 12 floating IPs may be created per 60 seconds.</td>
+    <td>On creation, a floating IP must be either assigned to a Droplet or reserved to a region.<br />* To create a new floating IP assigned to a Droplet, send a POST<br />  request to `/v2/floating_ips` with the `droplet_id` attribute.<br /><br />* To create a new floating IP reserved to a region, send a POST request to<br />  `/v2/floating_ips` with the `region` attribute.</td>
 </tr>
 <tr>
     <td><a href="#floating_ips_delete"><CopyableCode code="floating_ips_delete" /></a></td>
@@ -164,6 +165,20 @@ The following methods are available for this resource:
     <td><a href="#parameter-floating_ip"><code>floating_ip</code></a></td>
     <td></td>
     <td>To delete a floating IP and remove it from your account, send a DELETE request<br />to `/v2/floating_ips/$FLOATING_IP_ADDR`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully.<br /></td>
+</tr>
+<tr>
+    <td><a href="#assign"><CopyableCode code="assign" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-floating_ip"><code>floating_ip</code></a></td>
+    <td></td>
+    <td>Invokes the `assign` action. Fabricated lifecycle operation over `POST /v2/floating_ips/&#123;floating_ip&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#unassign"><CopyableCode code="unassign" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-floating_ip"><code>floating_ip</code></a></td>
+    <td></td>
+    <td>Invokes the `unassign` action. Fabricated lifecycle operation over `POST /v2/floating_ips/&#123;floating_ip&#125;/actions`.</td>
 </tr>
 </tbody>
 </table>
@@ -255,14 +270,18 @@ AND page = '{{ page }}'
 >
 <TabItem value="floating_ips_create">
 
-On creation, a floating IP must be either assigned to a Droplet or reserved to a region.<br />* To create a new floating IP assigned to a Droplet, send a POST<br />  request to `/v2/floating_ips` with the `droplet_id` attribute.<br /><br />* To create a new floating IP reserved to a region, send a POST request to<br />  `/v2/floating_ips` with the `region` attribute.<br /><br />**Note**:  In addition to the standard rate limiting, only 12 floating IPs may be created per 60 seconds.
+On creation, a floating IP must be either assigned to a Droplet or reserved to a region.<br />* To create a new floating IP assigned to a Droplet, send a POST<br />  request to `/v2/floating_ips` with the `droplet_id` attribute.<br /><br />* To create a new floating IP reserved to a region, send a POST request to<br />  `/v2/floating_ips` with the `region` attribute.
 
 ```sql
 INSERT INTO digitalocean.network.floating_ips (
-data__droplet_id
+droplet_id,
+region,
+project_id
 )
 SELECT 
-{{ droplet_id }} /* required */
+{{ droplet_id }} /* required */,
+'{{ region }}' /* required */,
+'{{ project_id }}'
 RETURNING
 floating_ip,
 links
@@ -271,16 +290,23 @@ links
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: floating_ips
   props:
     - name: droplet_id
-      value: integer
-      description: >
+      value: {{ droplet_id }}
+      description: |
         The ID of the Droplet that the floating IP will be assigned to.
-        
-```
+    - name: region
+      value: "{{ region }}"
+      description: |
+        The slug identifier for the region the floating IP will be reserved to.
+    - name: project_id
+      value: "{{ project_id }}"
+      description: |
+        The UUID of the project to which the floating IP will be assigned.
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -300,6 +326,42 @@ To delete a floating IP and remove it from your account, send a DELETE request<b
 ```sql
 DELETE FROM digitalocean.network.floating_ips
 WHERE floating_ip = '{{ floating_ip }}' --required
+;
+```
+</TabItem>
+</Tabs>
+
+
+## Lifecycle Methods
+
+<Tabs
+    defaultValue="assign"
+    values={[
+        { label: 'assign', value: 'assign' },
+        { label: 'unassign', value: 'unassign' }
+    ]}
+>
+<TabItem value="assign">
+
+Invokes the `assign` action. Fabricated lifecycle operation over `POST /v2/floating_ips/&#123;floating_ip&#125;/actions`.
+
+```sql
+EXEC digitalocean.network.floating_ips.assign 
+@floating_ip='{{ floating_ip }}' --required 
+@@json=
+'{
+"droplet_id": {{ droplet_id }}
+}'
+;
+```
+</TabItem>
+<TabItem value="unassign">
+
+Invokes the `unassign` action. Fabricated lifecycle operation over `POST /v2/floating_ips/&#123;floating_ip&#125;/actions`.
+
+```sql
+EXEC digitalocean.network.floating_ips.unassign 
+@floating_ip='{{ floating_ip }}' --required
 ;
 ```
 </TabItem>

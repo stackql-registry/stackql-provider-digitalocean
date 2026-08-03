@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>clusters</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>clusters</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="clusters" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.clusters" /></td></tr>
 </tbody></table>
@@ -82,9 +83,14 @@ A JSON object with a key of `database`.
     <td>An array of strings containing the names of databases created in the database cluster.</td>
 </tr>
 <tr>
+    <td><CopyableCode code="do_settings" /></td>
+    <td><code>object</code></td>
+    <td>DigitalOcean-specific settings for the database cluster.</td>
+</tr>
+<tr>
     <td><CopyableCode code="engine" /></td>
     <td><code>string</code></td>
-    <td>A slug representing the database engine used for the cluster. The possible values are: "pg" for PostgreSQL, "mysql" for MySQL, "redis" for Caching, "mongodb" for MongoDB, "kafka" for Kafka, "opensearch" for OpenSearch, and "valkey" for Valkey. (example: mysql)</td>
+    <td>A slug representing the database engine used for the cluster. The possible values are: "pg" for PostgreSQL, "mysql" for MySQL, "redis" for Caching, "mongodb" for MongoDB, "kafka" for Kafka, "opensearch" for OpenSearch, "valkey" for Valkey, "advanced_pg" for PostgreSQL Advanced Edition, and "advanced_mysql" for MySQL Advanced Edition. Advanced Edition engines are currently in public preview. (pg, mysql, redis, valkey, mongodb, kafka, opensearch, advanced_pg, advanced_mysql) (example: mysql)</td>
 </tr>
 <tr>
     <td><CopyableCode code="maintenance_window" /></td>
@@ -109,7 +115,7 @@ A JSON object with a key of `database`.
 <tr>
     <td><CopyableCode code="private_network_uuid" /></td>
     <td><code>string</code></td>
-    <td>A string specifying the UUID of the VPC to which the database cluster will be assigned. If excluded, the cluster when creating a new database cluster, it will be assigned to your account's default VPC for the region. <br /><br />Requires `vpc:read` scope. (pattern: <code>^$|[0-9a-f]&#123;8&#125;\b-[0-9a-f]&#123;4&#125;-[0-9a-f]&#123;4&#125;-[0-9a-f]&#123;4&#125;-\b[0-9a-f]&#123;12&#125;</code>, example: d455e75d-4858-4eec-8c95-da2f0a5f93a7)</td>
+    <td>A string specifying the UUID of the VPC to which the database cluster will be assigned. If excluded, the cluster when creating a new database cluster, it will be assigned to your account's default VPC for the region. <br /><br />Requires `vpc:read` scope. (pattern: <code>^$|&#91;0-9a-f&#93;&#123;8&#125;\b-&#91;0-9a-f&#93;&#123;4&#125;-&#91;0-9a-f&#93;&#123;4&#125;-&#91;0-9a-f&#93;&#123;4&#125;-\b&#91;0-9a-f&#93;&#123;12&#125;</code>, example: d455e75d-4858-4eec-8c95-da2f0a5f93a7)</td>
 </tr>
 <tr>
     <td><CopyableCode code="region" /></td>
@@ -149,7 +155,7 @@ A JSON object with a key of `database`.
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>A string representing the current status of the database cluster. (example: creating)</td>
+    <td>A string representing the current status of the database cluster. (creating, online, resizing, migrating, forking) (example: creating)</td>
 </tr>
 <tr>
     <td><CopyableCode code="storage_size_mib" /></td>
@@ -233,9 +239,14 @@ A JSON object with a key of `databases`.
     <td>An array of strings containing the names of databases created in the database cluster.</td>
 </tr>
 <tr>
+    <td><CopyableCode code="do_settings" /></td>
+    <td><code>object</code></td>
+    <td>DigitalOcean-specific settings for the database cluster.</td>
+</tr>
+<tr>
     <td><CopyableCode code="engine" /></td>
     <td><code>string</code></td>
-    <td>A slug representing the database engine used for the cluster. The possible values are: "pg" for PostgreSQL, "mysql" for MySQL, "redis" for Caching, "mongodb" for MongoDB, "kafka" for Kafka, "opensearch" for OpenSearch, and "valkey" for Valkey. (example: mysql)</td>
+    <td>A slug representing the database engine used for the cluster. The possible values are: "pg" for PostgreSQL, "mysql" for MySQL, "redis" for Caching, "mongodb" for MongoDB, "kafka" for Kafka, "opensearch" for OpenSearch, "valkey" for Valkey, "advanced_pg" for PostgreSQL Advanced Edition, and "advanced_mysql" for MySQL Advanced Edition. Advanced Edition engines are currently in public preview. (pg, mysql, redis, valkey, mongodb, kafka, opensearch, advanced_pg, advanced_mysql) (example: mysql)</td>
 </tr>
 <tr>
     <td><CopyableCode code="maintenance_window" /></td>
@@ -260,7 +271,7 @@ A JSON object with a key of `databases`.
 <tr>
     <td><CopyableCode code="private_network_uuid" /></td>
     <td><code>string</code></td>
-    <td>A string specifying the UUID of the VPC to which the database cluster will be assigned. If excluded, the cluster when creating a new database cluster, it will be assigned to your account's default VPC for the region. <br /><br />Requires `vpc:read` scope. (pattern: <code>^$|[0-9a-f]&#123;8&#125;\b-[0-9a-f]&#123;4&#125;-[0-9a-f]&#123;4&#125;-[0-9a-f]&#123;4&#125;-\b[0-9a-f]&#123;12&#125;</code>, example: d455e75d-4858-4eec-8c95-da2f0a5f93a7)</td>
+    <td>A string specifying the UUID of the VPC to which the database cluster will be assigned. If excluded, the cluster when creating a new database cluster, it will be assigned to your account's default VPC for the region. <br /><br />Requires `vpc:read` scope. (pattern: <code>^$|&#91;0-9a-f&#93;&#123;8&#125;\b-&#91;0-9a-f&#93;&#123;4&#125;-&#91;0-9a-f&#93;&#123;4&#125;-&#91;0-9a-f&#93;&#123;4&#125;-\b&#91;0-9a-f&#93;&#123;12&#125;</code>, example: d455e75d-4858-4eec-8c95-da2f0a5f93a7)</td>
 </tr>
 <tr>
     <td><CopyableCode code="region" /></td>
@@ -300,7 +311,7 @@ A JSON object with a key of `databases`.
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>A string representing the current status of the database cluster. (example: creating)</td>
+    <td>A string representing the current status of the database cluster. (creating, online, resizing, migrating, forking) (example: creating)</td>
 </tr>
 <tr>
     <td><CopyableCode code="storage_size_mib" /></td>
@@ -374,9 +385,9 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#databases_create_cluster"><CopyableCode code="databases_create_cluster" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__engine"><code>data__engine</code></a>, <a href="#parameter-data__num_nodes"><code>data__num_nodes</code></a>, <a href="#parameter-data__size"><code>data__size</code></a>, <a href="#parameter-data__region"><code>data__region</code></a></td>
+    <td><a href="#parameter-name"><code>name</code></a>, <a href="#parameter-engine"><code>engine</code></a>, <a href="#parameter-num_nodes"><code>num_nodes</code></a>, <a href="#parameter-size"><code>size</code></a>, <a href="#parameter-region"><code>region</code></a></td>
     <td></td>
-    <td>To create a database cluster, send a POST request to `/v2/databases`. To see a list  of options for each engine, such as available regions, size slugs, and versions, send a GET request to the `/v2/databases/options` endpoint. The available sizes for  the `storage_size_mib` field depends on the cluster's size. To see a list of available sizes, see [Managed Database Pricing](https://www.digitalocean.com/pricing/managed-databases).<br /><br />The create response returns a JSON object with a key called `database`. The value of this is an object that contains the standard attributes associated with a database cluster. The initial value of the database cluster's `status` attribute is `creating`. When the cluster is ready to receive traffic, this changes to `online`.<br /><br />The embedded `connection` and `private_connection` objects contains the information needed to access the database cluster. For multi-node clusters, the `standby_connection` and `standby_private_connection` objects contain the information needed to connect to the cluster's standby node(s).<br /><br />DigitalOcean managed PostgreSQL and MySQL database clusters take automated daily backups. To create a new database cluster based on a backup of an existing cluster, send a POST request to `/v2/databases`. In addition to the standard database cluster attributes, the JSON body must include a key named `backup_restore` with the name of the original database cluster and the timestamp of the backup to be restored. Creating a database from a backup is the same as forking a database in the control panel.<br />Note: Caching cluster creates are no longer supported as of 2025-04-30T00:00:00Z. Backups are also not supported for Caching or Valkey clusters.</td>
+    <td>To create a database cluster, send a POST request to `/v2/databases`. To see a list  of options for each engine, such as available regions, size slugs, and versions, send a GET request to the `/v2/databases/options` endpoint. The available sizes for  the `storage_size_mib` field depends on the cluster's size. To see a list of available sizes, see [Managed Database Pricing](https://www.digitalocean.com/pricing/managed-databases).<br /><br />The create response returns a JSON object with a key called `database`. The value of this is an object that contains the standard attributes associated with a database cluster. The initial value of the database cluster's `status` attribute is `creating`. When the cluster is ready to receive traffic, this changes to `online`.<br /><br />The embedded `connection` and `private_connection` objects contains the information needed to access the database cluster. For multi-node clusters, the `standby_connection` and `standby_private_connection` objects contain the information needed to connect to the cluster's standby node(s).<br /><br />DigitalOcean managed PostgreSQL and MySQL database clusters take automated daily backups. To create a new database cluster based on a backup of an existing cluster, send a POST request to `/v2/databases`. In addition to the standard database cluster attributes, the JSON body must include a key named `backup_restore` with the name of the original database cluster and the timestamp of the backup to be restored. Creating a database from a backup is the same as forking a database in the control panel.<br /><br />PostgreSQL and MySQL Advanced Edition clusters can be provisioned by setting `engine` to `advanced_pg` or `advanced_mysql`. Advanced Edition clusters are currently in public preview and target highly available workloads. `advanced_pg` supports 1-, 2-, and 3-node deployments; `advanced_mysql` only supports 1- and 3-node deployments. See the [PostgreSQL Advanced Edition](https://docs.digitalocean.com/products/databases/postgresql/how-to/use-advanced-edition-clusters/) and [MySQL Advanced Edition](https://docs.digitalocean.com/products/databases/mysql/how-to/use-advanced-edition-clusters/) documentation for the feature differences vs. Standard Edition and current preview limitations.<br /><br />Note: Caching cluster creates are no longer supported as of 2025-04-30T00:00:00Z. Backups are also not supported for Caching or Valkey clusters.</td>
 </tr>
 <tr>
     <td><a href="#databases_destroy_cluster"><CopyableCode code="databases_destroy_cluster" /></a></td>
@@ -470,6 +481,7 @@ project_id,
 connection,
 created_at,
 db_names,
+do_settings,
 engine,
 maintenance_window,
 metrics_endpoints,
@@ -508,6 +520,7 @@ project_id,
 connection,
 created_at,
 db_names,
+do_settings,
 engine,
 maintenance_window,
 metrics_endpoints,
@@ -548,23 +561,24 @@ WHERE tag_name = '{{ tag_name }}'
 >
 <TabItem value="databases_create_cluster">
 
-To create a database cluster, send a POST request to `/v2/databases`. To see a list  of options for each engine, such as available regions, size slugs, and versions, send a GET request to the `/v2/databases/options` endpoint. The available sizes for  the `storage_size_mib` field depends on the cluster's size. To see a list of available sizes, see [Managed Database Pricing](https://www.digitalocean.com/pricing/managed-databases).<br /><br />The create response returns a JSON object with a key called `database`. The value of this is an object that contains the standard attributes associated with a database cluster. The initial value of the database cluster's `status` attribute is `creating`. When the cluster is ready to receive traffic, this changes to `online`.<br /><br />The embedded `connection` and `private_connection` objects contains the information needed to access the database cluster. For multi-node clusters, the `standby_connection` and `standby_private_connection` objects contain the information needed to connect to the cluster's standby node(s).<br /><br />DigitalOcean managed PostgreSQL and MySQL database clusters take automated daily backups. To create a new database cluster based on a backup of an existing cluster, send a POST request to `/v2/databases`. In addition to the standard database cluster attributes, the JSON body must include a key named `backup_restore` with the name of the original database cluster and the timestamp of the backup to be restored. Creating a database from a backup is the same as forking a database in the control panel.<br />Note: Caching cluster creates are no longer supported as of 2025-04-30T00:00:00Z. Backups are also not supported for Caching or Valkey clusters.
+To create a database cluster, send a POST request to `/v2/databases`. To see a list  of options for each engine, such as available regions, size slugs, and versions, send a GET request to the `/v2/databases/options` endpoint. The available sizes for  the `storage_size_mib` field depends on the cluster's size. To see a list of available sizes, see [Managed Database Pricing](https://www.digitalocean.com/pricing/managed-databases).<br /><br />The create response returns a JSON object with a key called `database`. The value of this is an object that contains the standard attributes associated with a database cluster. The initial value of the database cluster's `status` attribute is `creating`. When the cluster is ready to receive traffic, this changes to `online`.<br /><br />The embedded `connection` and `private_connection` objects contains the information needed to access the database cluster. For multi-node clusters, the `standby_connection` and `standby_private_connection` objects contain the information needed to connect to the cluster's standby node(s).<br /><br />DigitalOcean managed PostgreSQL and MySQL database clusters take automated daily backups. To create a new database cluster based on a backup of an existing cluster, send a POST request to `/v2/databases`. In addition to the standard database cluster attributes, the JSON body must include a key named `backup_restore` with the name of the original database cluster and the timestamp of the backup to be restored. Creating a database from a backup is the same as forking a database in the control panel.<br /><br />PostgreSQL and MySQL Advanced Edition clusters can be provisioned by setting `engine` to `advanced_pg` or `advanced_mysql`. Advanced Edition clusters are currently in public preview and target highly available workloads. `advanced_pg` supports 1-, 2-, and 3-node deployments; `advanced_mysql` only supports 1- and 3-node deployments. See the [PostgreSQL Advanced Edition](https://docs.digitalocean.com/products/databases/postgresql/how-to/use-advanced-edition-clusters/) and [MySQL Advanced Edition](https://docs.digitalocean.com/products/databases/mysql/how-to/use-advanced-edition-clusters/) documentation for the feature differences vs. Standard Edition and current preview limitations.<br /><br />Note: Caching cluster creates are no longer supported as of 2025-04-30T00:00:00Z. Backups are also not supported for Caching or Valkey clusters.
 
 ```sql
 INSERT INTO digitalocean.databases.clusters (
-data__name,
-data__engine,
-data__version,
-data__num_nodes,
-data__size,
-data__region,
-data__private_network_uuid,
-data__tags,
-data__project_id,
-data__rules,
-data__storage_size_mib,
-data__autoscale,
-data__backup_restore
+name,
+engine,
+version,
+num_nodes,
+size,
+region,
+private_network_uuid,
+tags,
+project_id,
+rules,
+storage_size_mib,
+autoscale,
+do_settings,
+backup_restore
 )
 SELECT 
 '{{ name }}' /* required */,
@@ -579,6 +593,7 @@ SELECT
 '{{ rules }}',
 {{ storage_size_mib }},
 '{{ autoscale }}',
+'{{ do_settings }}',
 '{{ backup_restore }}'
 RETURNING
 database
@@ -587,71 +602,79 @@ database
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: clusters
   props:
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         A unique, human-readable name referring to a database cluster.
-        
     - name: engine
-      value: string
-      description: >
-        A slug representing the database engine used for the cluster. The possible values are: "pg" for PostgreSQL, "mysql" for MySQL, "redis" for Caching, "mongodb" for MongoDB, "kafka" for Kafka, "opensearch" for OpenSearch, and "valkey" for Valkey.
-        
-      valid_values: ['pg', 'mysql', 'redis', 'valkey', 'mongodb', 'kafka', 'opensearch']
+      value: "{{ engine }}"
+      description: |
+        A slug representing the database engine used for the cluster. The possible values are: "pg" for PostgreSQL, "mysql" for MySQL, "redis" for Caching, "mongodb" for MongoDB, "kafka" for Kafka, "opensearch" for OpenSearch, "valkey" for Valkey, "advanced_pg" for PostgreSQL Advanced Edition, and "advanced_mysql" for MySQL Advanced Edition. Advanced Edition engines are currently in public preview.
+      valid_values: ['pg', 'mysql', 'redis', 'valkey', 'mongodb', 'kafka', 'opensearch', 'advanced_pg', 'advanced_mysql']
     - name: version
-      value: string
-      description: >
+      value: "{{ version }}"
+      description: |
         A string representing the version of the database engine in use for the cluster.
-        
     - name: num_nodes
-      value: integer
-      description: >
+      value: {{ num_nodes }}
+      description: |
         The number of nodes in the database cluster.
-        
     - name: size
-      value: string
-      description: >
+      value: "{{ size }}"
+      description: |
         The slug identifier representing the size of the nodes in the database cluster.
-        
     - name: region
-      value: string
-      description: >
+      value: "{{ region }}"
+      description: |
         The slug identifier for the region where the database cluster is located.
-        
     - name: private_network_uuid
-      value: string
-      description: >
-        A string specifying the UUID of the VPC to which the database cluster will be assigned. If excluded, the cluster when creating a new database cluster, it will be assigned to your account's default VPC for the region. <br><br>Requires `vpc:read` scope.
-        
+      value: "{{ private_network_uuid }}"
+      description: |
+        A string specifying the UUID of the VPC to which the database cluster will be assigned. If excluded, the cluster when creating a new database cluster, it will be assigned to your account's default VPC for the region. <br><br>Requires \`vpc:read\` scope.
     - name: tags
-      value: array
-      description: >
-        An array of tags (as strings) to apply to the database cluster. <br><br>Requires `tag:create` scope.
-        
+      value:
+        - "{{ tags }}"
+      description: |
+        An array of tags (as strings) to apply to the database cluster. <br><br>Requires \`tag:create\` scope.
     - name: project_id
-      value: string
-      description: >
-        The ID of the project that the database cluster is assigned to. If excluded when creating a new database cluster, it will be assigned to your default project.<br><br>Requires `project:update` scope.
-        
+      value: "{{ project_id }}"
+      description: |
+        The ID of the project that the database cluster is assigned to. If excluded when creating a new database cluster, it will be assigned to your default project.<br><br>Requires \`project:assign_resource\` scope.
     - name: rules
-      value: array
+      value:
+        - uuid: "{{ uuid }}"
+          cluster_uuid: "{{ cluster_uuid }}"
+          type: "{{ type }}"
+          value: "{{ value }}"
+          created_at: "{{ created_at }}"
+          description: "{{ description }}"
     - name: storage_size_mib
-      value: integer
-      description: >
+      value: {{ storage_size_mib }}
+      description: |
         Additional storage added to the cluster, in MiB. If null, no additional storage is added to the cluster, beyond what is provided as a base amount from the 'size' and any previously added additional storage.
-        
     - name: autoscale
-      value: object
-      description: >
-        Contains all autoscaling configuration for a database cluster
-        
+      description: |
+        Autoscaling configuration for the database cluster. Currently only supports storage autoscaling. If null, autoscaling is not configured for the cluster.
+      value:
+        storage:
+          enabled: {{ enabled }}
+          threshold_percent: {{ threshold_percent }}
+          increment_gib: {{ increment_gib }}
+    - name: do_settings
+      description: |
+        DigitalOcean-specific settings for the database cluster.
+      value:
+        service_cnames:
+          - "{{ service_cnames }}"
     - name: backup_restore
-      value: object
-```
+      value:
+        database_name: "{{ database_name }}"
+        backup_created_at: "{{ backup_created_at }}"
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 

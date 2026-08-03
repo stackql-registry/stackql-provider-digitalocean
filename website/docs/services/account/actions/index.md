@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>actions</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>actions</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="actions" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.account.actions" /></td></tr>
 </tbody></table>
@@ -89,7 +90,7 @@ The result will be a JSON object with an action key.  This will be set to an act
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>The current status of the action. This can be "in-progress", "completed", or "errored". (example: completed, default: in-progress)</td>
+    <td>The current status of the action. This can be "in-progress", "completed", or "errored". (in-progress, completed, errored) (example: completed, default: in-progress)</td>
 </tr>
 <tr>
     <td><CopyableCode code="type" /></td>
@@ -150,7 +151,7 @@ The results will be returned as a JSON object with an actions key.  This will be
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>The current status of the action. This can be "in-progress", "completed", or "errored". (example: completed, default: in-progress)</td>
+    <td>The current status of the action. This can be "in-progress", "completed", or "errored". (in-progress, completed, errored) (example: completed, default: in-progress)</td>
 </tr>
 <tr>
     <td><CopyableCode code="type" /></td>

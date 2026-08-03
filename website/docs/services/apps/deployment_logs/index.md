@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>deployment_logs</code> resource
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>deployment_logs</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="deployment_logs" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.apps.deployment_logs" /></td></tr>
 </tbody></table>
@@ -223,7 +224,7 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
 <tr id="parameter-type">
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>The type of logs to retrieve - BUILD: Build-time logs - DEPLOY: Deploy-time logs - RUN: Live run-time logs - RUN_RESTARTED: Logs of crashed/restarted instances during runtime (example: BUILD)</td>
+    <td>The type of logs to retrieve - BUILD: Build-time logs - DEPLOY: Deploy-time logs - RUN: Live run-time logs - RUN_RESTARTED: Logs of crashed/restarted instances during runtime - AUTOSCALE_EVENT: Logs of an autoscaling event (requires event_id) (example: BUILD)</td>
 </tr>
 <tr id="parameter-follow">
     <td><CopyableCode code="follow" /></td>

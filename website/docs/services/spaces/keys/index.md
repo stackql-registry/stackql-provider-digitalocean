@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>keys</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>keys</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="keys" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.spaces.keys" /></td></tr>
 </tbody></table>
@@ -291,8 +292,8 @@ To create a new Spaces Access Key, send a POST request to `/v2/spaces/keys`.<br 
 
 ```sql
 INSERT INTO digitalocean.spaces.keys (
-data__name,
-data__grants
+name,
+grants
 )
 SELECT 
 '{{ name }}',
@@ -304,22 +305,22 @@ key
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: keys
   props:
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The access key's name.
-        
     - name: grants
-      value: array
-      description: >
+      description: |
         The list of permissions for the access key.
-        
+      value:
+        - bucket: "{{ bucket }}"
+          permission: "{{ permission }}"
       default: 
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -339,8 +340,8 @@ To update Spaces Access Key, send a PUT or PATCH request to `/v2/spaces/keys/$AC
 ```sql
 UPDATE digitalocean.spaces.keys
 SET 
-data__name = '{{ name }}',
-data__grants = '{{ grants }}'
+name = '{{ name }}',
+grants = '{{ grants }}'
 WHERE 
 access_key = '{{ access_key }}' --required
 RETURNING
@@ -365,8 +366,8 @@ To update Spaces Access Key, send a PUT or PATCH request to `/v2/spaces/keys/$AC
 ```sql
 REPLACE digitalocean.spaces.keys
 SET 
-data__name = '{{ name }}',
-data__grants = '{{ grants }}'
+name = '{{ name }}',
+grants = '{{ grants }}'
 WHERE 
 access_key = '{{ access_key }}' --required
 RETURNING

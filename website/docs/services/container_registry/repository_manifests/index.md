@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>repository_manifests</code> res
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>repository_manifests</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="repository_manifests" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.container_registry.repository_manifests" /></td></tr>
 </tbody></table>
@@ -115,28 +116,28 @@ The following methods are available for this resource:
     <td><CopyableCode code="select" /></td>
     <td><a href="#parameter-registry_name"><code>registry_name</code></a>, <a href="#parameter-repository_name"><code>repository_name</code></a></td>
     <td><a href="#parameter-per_page"><code>per_page</code></a>, <a href="#parameter-page"><code>page</code></a></td>
-    <td>To list all manifests in your container registry repository, send a GET<br />request to `/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list manifests for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests`.<br /><br />It is similar to `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests` and exists for backward compatibility.<br /></td>
+    <td>To list all manifests in your container registry repository, send a GET<br />request to `/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list manifests for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests`.<br /><br />It is similar to `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests`.<br /></td>
 </tr>
 <tr>
     <td><a href="#registries_delete_repository_manifest"><CopyableCode code="registries_delete_repository_manifest" /></a></td>
     <td><CopyableCode code="delete" /></td>
     <td><a href="#parameter-registry_name"><code>registry_name</code></a>, <a href="#parameter-repository_name"><code>repository_name</code></a>, <a href="#parameter-manifest_digest"><code>manifest_digest</code></a></td>
     <td></td>
-    <td>To delete a container repository manifest by digest in one of your registries, send a DELETE request to<br />`/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests/$MANIFEST_DIGEST`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo@sha256:abcd`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests/sha256:abcd`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully.<br /><br />It is similar to DELETE `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests/$MANIFEST_DIGEST` and exists for backward compatibility.<br /></td>
+    <td>To delete a container repository manifest by digest in one of your registries, send a DELETE request to<br />`/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests/$MANIFEST_DIGEST`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo@sha256:abcd`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests/sha256:abcd`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully.<br /><br />It is similar to DELETE `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests/$MANIFEST_DIGEST`.<br /></td>
 </tr>
 <tr>
     <td><a href="#registry_list_repository_manifests_legacy"><CopyableCode code="registry_list_repository_manifests_legacy" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-registry_name"><code>registry_name</code></a>, <a href="#parameter-repository_name"><code>repository_name</code></a></td>
     <td><a href="#parameter-per_page"><code>per_page</code></a>, <a href="#parameter-page"><code>page</code></a></td>
-    <td>To list all manifests in your container registry repository, send a GET<br />request to `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list manifests for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests`.<br /></td>
+    <td>**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To list all manifests in your container registry repository, send a GET<br />request to `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list manifests for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests`.<br /></td>
 </tr>
 <tr>
     <td><a href="#registry_delete_repository_manifest_legacy"><CopyableCode code="registry_delete_repository_manifest_legacy" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-registry_name"><code>registry_name</code></a>, <a href="#parameter-repository_name"><code>repository_name</code></a>, <a href="#parameter-manifest_digest"><code>manifest_digest</code></a></td>
     <td></td>
-    <td>To delete a container repository manifest by digest, send a DELETE request to<br />`/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests/$MANIFEST_DIGEST`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo@sha256:abcd`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests/sha256:abcd`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully.<br /></td>
+    <td>**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To delete a container repository manifest by digest, send a DELETE request to<br />`/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests/$MANIFEST_DIGEST`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo@sha256:abcd`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests/sha256:abcd`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully.<br /></td>
 </tr>
 </tbody>
 </table>
@@ -192,7 +193,7 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
 >
 <TabItem value="registries_list_repository_manifests">
 
-To list all manifests in your container registry repository, send a GET<br />request to `/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list manifests for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests`.<br /><br />It is similar to `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests` and exists for backward compatibility.<br />
+To list all manifests in your container registry repository, send a GET<br />request to `/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list manifests for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests`.<br /><br />It is similar to `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests`.<br />
 
 ```sql
 SELECT
@@ -225,7 +226,7 @@ AND page = '{{ page }}'
 >
 <TabItem value="registries_delete_repository_manifest">
 
-To delete a container repository manifest by digest in one of your registries, send a DELETE request to<br />`/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests/$MANIFEST_DIGEST`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo@sha256:abcd`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests/sha256:abcd`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully.<br /><br />It is similar to DELETE `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests/$MANIFEST_DIGEST` and exists for backward compatibility.<br />
+To delete a container repository manifest by digest in one of your registries, send a DELETE request to<br />`/v2/registries/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests/$MANIFEST_DIGEST`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo@sha256:abcd`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests/sha256:abcd`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully.<br /><br />It is similar to DELETE `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests/$MANIFEST_DIGEST`.<br />
 
 ```sql
 DELETE FROM digitalocean.container_registry.repository_manifests
@@ -249,7 +250,7 @@ AND manifest_digest = '{{ manifest_digest }}' --required
 >
 <TabItem value="registry_list_repository_manifests_legacy">
 
-To list all manifests in your container registry repository, send a GET<br />request to `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list manifests for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests`.<br />
+**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To list all manifests in your container registry repository, send a GET<br />request to `/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to list manifests for<br />`registry.digitalocean.com/example/my/repo`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests`.<br />
 
 ```sql
 EXEC digitalocean.container_registry.repository_manifests.registry_list_repository_manifests_legacy 
@@ -262,7 +263,7 @@ EXEC digitalocean.container_registry.repository_manifests.registry_list_reposito
 </TabItem>
 <TabItem value="registry_delete_repository_manifest_legacy">
 
-To delete a container repository manifest by digest, send a DELETE request to<br />`/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests/$MANIFEST_DIGEST`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo@sha256:abcd`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests/sha256:abcd`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully.<br />
+**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To delete a container repository manifest by digest, send a DELETE request to<br />`/v2/registry/$REGISTRY_NAME/repositories/$REPOSITORY_NAME/digests/$MANIFEST_DIGEST`.<br /><br />Note that if your repository name contains `/` characters, it must be<br />URL-encoded in the request URL. For example, to delete<br />`registry.digitalocean.com/example/my/repo@sha256:abcd`, the path would be<br />`/v2/registry/example/repositories/my%2Frepo/digests/sha256:abcd`.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully.<br />
 
 ```sql
 EXEC digitalocean.container_registry.repository_manifests.registry_delete_repository_manifest_legacy 

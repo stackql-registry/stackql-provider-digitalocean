@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>sinks</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>sinks</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="sinks" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.monitoring.sinks" /></td></tr>
 </tbody></table>
@@ -217,8 +218,8 @@ To create a new sink, send a POST request to `/v2/monitoring/sinks`. Forwards lo
 
 ```sql
 INSERT INTO digitalocean.monitoring.sinks (
-data__destination_uuid,
-data__resources
+destination_uuid,
+resources
 )
 SELECT 
 '{{ destination_uuid }}',
@@ -228,21 +229,21 @@ SELECT
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: sinks
   props:
     - name: destination_uuid
-      value: string
-      description: >
+      value: "{{ destination_uuid }}"
+      description: |
         A unique identifier for an already-existing destination.
-        
     - name: resources
-      value: array
-      description: >
+      description: |
         List of resources identified by their URNs.
-        
-```
+      value:
+        - urn: "{{ urn }}"
+          name: "{{ name }}"
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 

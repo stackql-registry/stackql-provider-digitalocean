@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>dbs</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>dbs</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="dbs" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.dbs" /></td></tr>
 </tbody></table>
@@ -114,7 +115,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#databases_add"><CopyableCode code="databases_add" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-data__name"><code>data__name</code></a></td>
+    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>To add a new database to an existing cluster, send a POST request to<br />`/v2/databases/$DATABASE_ID/dbs`.<br /><br />Note: Database management is not supported for Caching or Valkey clusters.<br /><br />The response will be a JSON object with a key called `db`. The value of this will be<br />an object that contains the standard attributes associated with a database.<br /></td>
 </tr>
@@ -206,7 +207,7 @@ To add a new database to an existing cluster, send a POST request to<br />`/v2/d
 
 ```sql
 INSERT INTO digitalocean.databases.dbs (
-data__name,
+name,
 database_cluster_uuid
 )
 SELECT 
@@ -219,19 +220,18 @@ db
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: dbs
   props:
     - name: database_cluster_uuid
-      value: string (uuid)
+      value: "{{ database_cluster_uuid }}"
       description: Required parameter for the dbs resource.
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The name of the database.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 

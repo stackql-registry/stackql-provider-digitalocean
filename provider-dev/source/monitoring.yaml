@@ -8,9 +8,7 @@ paths:
     get:
       operationId: monitoring_list_alertPolicy
       summary: List Alert Policies
-      description: >-
-        Returns all alert policies that are configured for the given account. To
-        List all alert policies, send a GET request to `/v2/monitoring/alerts`.
+      description: Returns all alert policies that are configured for the given account. To List all alert policies, send a GET request to `/v2/monitoring/alerts`.
       tags:
         - Monitoring
       parameters:
@@ -63,131 +61,47 @@ paths:
         default:
           $ref: '#/components/responses/unexpected_error'
       requestBody:
-        description: >
-          The `type` field dictates what type of entity that the alert policy
-          applies to and hence what type of entity is passed in the `entities`
-          array. If both the `tags` array and `entities` array are empty the
-          alert policy applies to all entities of the relevant type that are
-          owned by the user account. Otherwise the following table shows the
-          valid entity types for each type of alert policy:
-
+        description: |
+          The `type` field dictates what type of entity that the alert policy applies to and hence what type of entity is passed in the `entities` array. If both the `tags` array and `entities` array are empty the alert policy applies to all entities of the relevant type that are owned by the user account. Otherwise the following table shows the valid entity types for each type of alert policy:
 
           Type | Description | Valid Entity Type
-
           -----|-------------|--------------------
-
-          `v1/insights/droplet/memory_utilization_percent` | alert on the
-          percent of memory utilization | Droplet ID
-
-          `v1/insights/droplet/disk_read` | alert on the rate of disk read I/O
-          in MBps | Droplet ID
-
-          `v1/insights/droplet/load_5` | alert on the 5 minute load average |
-          Droplet ID
-
-          `v1/insights/droplet/load_15` | alert on the 15 minute load average |
-          Droplet ID
-
-          `v1/insights/droplet/disk_utilization_percent` | alert on the percent
-          of disk utilization | Droplet ID
-
-          `v1/insights/droplet/cpu` | alert on the percent of CPU utilization |
-          Droplet ID
-
-          `v1/insights/droplet/disk_write` | alert on the rate of disk write I/O
-          in MBps | Droplet ID
-
-          `v1/insights/droplet/public_outbound_bandwidth` | alert on the rate of
-          public outbound bandwidth in Mbps | Droplet ID
-
-          `v1/insights/droplet/public_inbound_bandwidth` | alert on the rate of
-          public inbound bandwidth in Mbps | Droplet ID
-
-          `v1/insights/droplet/private_outbound_bandwidth` | alert on the rate
-          of private outbound bandwidth in Mbps | Droplet ID
-
-          `v1/insights/droplet/private_inbound_bandwidth` | alert on the rate of
-          private inbound bandwidth in Mbps | Droplet ID
-
-          `v1/insights/droplet/load_1` | alert on the 1 minute load average |
-          Droplet ID
-
-          `v1/insights/lbaas/avg_cpu_utilization_percent`|alert on the percent
-          of CPU utilization|load balancer ID
-
-          `v1/insights/lbaas/connection_utilization_percent`|alert on the
-          percent of connection utilization|load balancer ID
-
-          `v1/insights/lbaas/droplet_health`|alert on Droplet health status
-          changes|load balancer ID
-
-          `v1/insights/lbaas/tls_connections_per_second_utilization_percent`|alert
-          on the percent of TLS connections per second utilization (requires at
-          least one HTTPS forwarding rule)|load balancer ID
-
-          `v1/insights/lbaas/increase_in_http_error_rate_percentage_5xx`|alert
-          on the percent increase of 5xx level http errors over 5m|load balancer
-          ID
-
-          `v1/insights/lbaas/increase_in_http_error_rate_percentage_4xx`|alert
-          on the percent increase of 4xx level http errors over 5m|load balancer
-          ID
-
-          `v1/insights/lbaas/increase_in_http_error_rate_count_5xx`|alert on the
-          count of 5xx level http errors over 5m|load balancer ID
-
-          `v1/insights/lbaas/increase_in_http_error_rate_count_4xx`|alert on the
-          count of 4xx level http errors over 5m|load balancer ID
-
-          `v1/insights/lbaas/high_http_request_response_time`|alert on high
-          average http response time|load balancer ID
-
-          `v1/insights/lbaas/high_http_request_response_time_50p`|alert on high
-          50th percentile http response time|load balancer ID
-
-          `v1/insights/lbaas/high_http_request_response_time_95p`|alert on high
-          95th percentile http response time|load balancer ID
-
-          `v1/insights/lbaas/high_http_request_response_time_99p`|alert on high
-          99th percentile http response time|load balancer ID
-
-          `v1/dbaas/alerts/load_15_alerts` | alert on 15 minute load average
-          across the database cluster | database cluster UUID
-
-          `v1/dbaas/alerts/memory_utilization_alerts` | alert on the percent
-          memory utilization average across the database cluster | database
-          cluster UUID
-
-          `v1/dbaas/alerts/disk_utilization_alerts` | alert on the percent disk
-          utilization average across the database cluster | database cluster
-          UUID
-
-          `v1/dbaas/alerts/cpu_alerts` | alert on the percent CPU usage average
-          across the database cluster | database cluster UUID
-
-          `v1/droplet/autoscale_alerts/current_instances` | alert on current
-          pool size | autoscale pool ID
-
-          `v1/droplet/autoscale_alerts/target_instances` | alert on target pool
-          size | autoscale pool ID
-
-          `v1/droplet/autoscale_alerts/current_cpu_utilization` | alert on
-          current average CPU utilization | autoscale pool ID
-
-          `v1/droplet/autoscale_alerts/target_cpu_utilization` | alert on target
-          average CPU utilization | autoscale pool ID
-
-          `v1/droplet/autoscale_alerts/current_memory_utilization` | alert on
-          current average memory utilization | autoscale pool ID
-
-          `v1/droplet/autoscale_alerts/target_memory_utilization` | alert on
-          target average memory utilization | autoscale pool ID
-
-          `v1/droplet/autoscale_alerts/scale_up` | alert on scale up event |
-          autoscale pool ID
-
-          `v1/droplet/autoscale_alerts/scale_down` | alert on scale down event |
-          autoscale pool ID
+          `v1/insights/droplet/memory_utilization_percent` | alert on the percent of memory utilization | Droplet ID
+          `v1/insights/droplet/disk_read` | alert on the rate of disk read I/O in MBps | Droplet ID
+          `v1/insights/droplet/load_5` | alert on the 5 minute load average | Droplet ID
+          `v1/insights/droplet/load_15` | alert on the 15 minute load average | Droplet ID
+          `v1/insights/droplet/disk_utilization_percent` | alert on the percent of disk utilization | Droplet ID
+          `v1/insights/droplet/cpu` | alert on the percent of CPU utilization | Droplet ID
+          `v1/insights/droplet/disk_write` | alert on the rate of disk write I/O in MBps | Droplet ID
+          `v1/insights/droplet/public_outbound_bandwidth` | alert on the rate of public outbound bandwidth in Mbps | Droplet ID
+          `v1/insights/droplet/public_inbound_bandwidth` | alert on the rate of public inbound bandwidth in Mbps | Droplet ID
+          `v1/insights/droplet/private_outbound_bandwidth` | alert on the rate of private outbound bandwidth in Mbps | Droplet ID
+          `v1/insights/droplet/private_inbound_bandwidth` | alert on the rate of private inbound bandwidth in Mbps | Droplet ID
+          `v1/insights/droplet/load_1` | alert on the 1 minute load average | Droplet ID
+          `v1/insights/lbaas/avg_cpu_utilization_percent`|alert on the percent of CPU utilization|load balancer ID
+          `v1/insights/lbaas/connection_utilization_percent`|alert on the percent of connection utilization|load balancer ID
+          `v1/insights/lbaas/droplet_health`|alert on Droplet health status changes|load balancer ID
+          `v1/insights/lbaas/tls_connections_per_second_utilization_percent`|alert on the percent of TLS connections per second utilization (requires at least one HTTPS forwarding rule)|load balancer ID
+          `v1/insights/lbaas/increase_in_http_error_rate_percentage_5xx`|alert on the percent increase of 5xx level http errors over 5m|load balancer ID
+          `v1/insights/lbaas/increase_in_http_error_rate_percentage_4xx`|alert on the percent increase of 4xx level http errors over 5m|load balancer ID
+          `v1/insights/lbaas/increase_in_http_error_rate_count_5xx`|alert on the count of 5xx level http errors over 5m|load balancer ID
+          `v1/insights/lbaas/increase_in_http_error_rate_count_4xx`|alert on the count of 4xx level http errors over 5m|load balancer ID
+          `v1/insights/lbaas/high_http_request_response_time`|alert on high average http response time|load balancer ID
+          `v1/insights/lbaas/high_http_request_response_time_50p`|alert on high 50th percentile http response time|load balancer ID
+          `v1/insights/lbaas/high_http_request_response_time_95p`|alert on high 95th percentile http response time|load balancer ID
+          `v1/insights/lbaas/high_http_request_response_time_99p`|alert on high 99th percentile http response time|load balancer ID
+          `v1/dbaas/alerts/load_15_alerts` | alert on 15 minute load average across the database cluster | database cluster UUID
+          `v1/dbaas/alerts/memory_utilization_alerts` | alert on the percent memory utilization average across the database cluster | database cluster UUID
+          `v1/dbaas/alerts/disk_utilization_alerts` | alert on the percent disk utilization average across the database cluster | database cluster UUID
+          `v1/dbaas/alerts/cpu_alerts` | alert on the percent CPU usage average across the database cluster | database cluster UUID
+          `v1/droplet/autoscale_alerts/current_instances` | alert on current pool size | autoscale pool ID
+          `v1/droplet/autoscale_alerts/target_instances` | alert on target pool size | autoscale pool ID
+          `v1/droplet/autoscale_alerts/current_cpu_utilization` | alert on current average CPU utilization | autoscale pool ID
+          `v1/droplet/autoscale_alerts/target_cpu_utilization` | alert on target average CPU utilization | autoscale pool ID
+          `v1/droplet/autoscale_alerts/current_memory_utilization` | alert on current average memory utilization | autoscale pool ID
+          `v1/droplet/autoscale_alerts/target_memory_utilization` | alert on target average memory utilization | autoscale pool ID
+          `v1/droplet/autoscale_alerts/scale_up` | alert on scale up event | autoscale pool ID
+          `v1/droplet/autoscale_alerts/scale_down` | alert on scale down event | autoscale pool ID
         required: true
         content:
           application/json:
@@ -195,9 +109,8 @@ paths:
               $ref: '#/components/schemas/alert_policy_request'
       x-codeSamples:
         - lang: cURL
-          source: >-
-            curl -X POST
-            \                                                                                                                              
+          source: |-
+            curl -X POST \                                                                                                                              
               -H "Content-Type: application/json" \
               -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
               "https://api.digitalocean.com/v2/monitoring/alerts" \
@@ -243,9 +156,7 @@ paths:
     get:
       operationId: monitoring_get_alertPolicy
       summary: Retrieve an Existing Alert Policy
-      description: >-
-        To retrieve a given alert policy, send a GET request to
-        `/v2/monitoring/alerts/{alert_uuid}`
+      description: To retrieve a given alert policy, send a GET request to `/v2/monitoring/alerts/{alert_uuid}`
       tags:
         - Monitoring
       responses:
@@ -284,9 +195,7 @@ paths:
     put:
       operationId: monitoring_update_alertPolicy
       summary: Update an Alert Policy
-      description: >-
-        To update en existing policy, send a PUT request to
-        `v2/monitoring/alerts/{alert_uuid}`.
+      description: To update en existing policy, send a PUT request to `v2/monitoring/alerts/{alert_uuid}`.
       tags:
         - Monitoring
       responses:
@@ -305,131 +214,47 @@ paths:
       parameters:
         - $ref: '#/components/parameters/alert_uuid'
       requestBody:
-        description: >
-          The `type` field dictates what type of entity that the alert policy
-          applies to and hence what type of entity is passed in the `entities`
-          array. If both the `tags` array and `entities` array are empty the
-          alert policy applies to all entities of the relevant type that are
-          owned by the user account. Otherwise the following table shows the
-          valid entity types for each type of alert policy:
-
+        description: |
+          The `type` field dictates what type of entity that the alert policy applies to and hence what type of entity is passed in the `entities` array. If both the `tags` array and `entities` array are empty the alert policy applies to all entities of the relevant type that are owned by the user account. Otherwise the following table shows the valid entity types for each type of alert policy:
 
           Type | Description | Valid Entity Type
-
           -----|-------------|--------------------
-
-          `v1/insights/droplet/memory_utilization_percent` | alert on the
-          percent of memory utilization | Droplet ID
-
-          `v1/insights/droplet/disk_read` | alert on the rate of disk read I/O
-          in MBps | Droplet ID
-
-          `v1/insights/droplet/load_5` | alert on the 5 minute load average |
-          Droplet ID
-
-          `v1/insights/droplet/load_15` | alert on the 15 minute load average |
-          Droplet ID
-
-          `v1/insights/droplet/disk_utilization_percent` | alert on the percent
-          of disk utilization | Droplet ID
-
-          `v1/insights/droplet/cpu` | alert on the percent of CPU utilization |
-          Droplet ID
-
-          `v1/insights/droplet/disk_write` | alert on the rate of disk write I/O
-          in MBps | Droplet ID
-
-          `v1/insights/droplet/public_outbound_bandwidth` | alert on the rate of
-          public outbound bandwidth in Mbps | Droplet ID
-
-          `v1/insights/droplet/public_inbound_bandwidth` | alert on the rate of
-          public inbound bandwidth in Mbps | Droplet ID
-
-          `v1/insights/droplet/private_outbound_bandwidth` | alert on the rate
-          of private outbound bandwidth in Mbps | Droplet ID
-
-          `v1/insights/droplet/private_inbound_bandwidth` | alert on the rate of
-          private inbound bandwidth in Mbps | Droplet ID
-
-          `v1/insights/droplet/load_1` | alert on the 1 minute load average |
-          Droplet ID
-
-          `v1/insights/lbaas/avg_cpu_utilization_percent`|alert on the percent
-          of CPU utilization|load balancer ID
-
-          `v1/insights/lbaas/connection_utilization_percent`|alert on the
-          percent of connection utilization|load balancer ID
-
-          `v1/insights/lbaas/droplet_health`|alert on Droplet health status
-          changes|load balancer ID
-
-          `v1/insights/lbaas/tls_connections_per_second_utilization_percent`|alert
-          on the percent of TLS connections per second utilization (requires at
-          least one HTTPS forwarding rule)|load balancer ID
-
-          `v1/insights/lbaas/increase_in_http_error_rate_percentage_5xx`|alert
-          on the percent increase of 5xx level http errors over 5m|load balancer
-          ID
-
-          `v1/insights/lbaas/increase_in_http_error_rate_percentage_4xx`|alert
-          on the percent increase of 4xx level http errors over 5m|load balancer
-          ID
-
-          `v1/insights/lbaas/increase_in_http_error_rate_count_5xx`|alert on the
-          count of 5xx level http errors over 5m|load balancer ID
-
-          `v1/insights/lbaas/increase_in_http_error_rate_count_4xx`|alert on the
-          count of 4xx level http errors over 5m|load balancer ID
-
-          `v1/insights/lbaas/high_http_request_response_time`|alert on high
-          average http response time|load balancer ID
-
-          `v1/insights/lbaas/high_http_request_response_time_50p`|alert on high
-          50th percentile http response time|load balancer ID
-
-          `v1/insights/lbaas/high_http_request_response_time_95p`|alert on high
-          95th percentile http response time|load balancer ID
-
-          `v1/insights/lbaas/high_http_request_response_time_99p`|alert on high
-          99th percentile http response time|load balancer ID
-
-          `v1/dbaas/alerts/load_15_alerts` | alert on 15 minute load average
-          across the database cluster | database cluster UUID
-
-          `v1/dbaas/alerts/memory_utilization_alerts` | alert on the percent
-          memory utilization average across the database cluster | database
-          cluster UUID
-
-          `v1/dbaas/alerts/disk_utilization_alerts` | alert on the percent disk
-          utilization average across the database cluster | database cluster
-          UUID
-
-          `v1/dbaas/alerts/cpu_alerts` | alert on the percent CPU usage average
-          across the database cluster | database cluster UUID
-
-          `v1/droplet/autoscale_alerts/current_instances` | alert on current
-          pool size | autoscale pool ID
-
-          `v1/droplet/autoscale_alerts/target_instances` | alert on target pool
-          size | autoscale pool ID
-
-          `v1/droplet/autoscale_alerts/current_cpu_utilization` | alert on
-          current average CPU utilization | autoscale pool ID
-
-          `v1/droplet/autoscale_alerts/target_cpu_utilization` | alert on target
-          average CPU utilization | autoscale pool ID
-
-          `v1/droplet/autoscale_alerts/current_memory_utilization` | alert on
-          current average memory utilization | autoscale pool ID
-
-          `v1/droplet/autoscale_alerts/target_memory_utilization` | alert on
-          target average memory utilization | autoscale pool ID
-
-          `v1/droplet/autoscale_alerts/scale_up` | alert on scale up event |
-          autoscale pool ID
-
-          `v1/droplet/autoscale_alerts/scale_down` | alert on scale down event |
-          autoscale pool ID
+          `v1/insights/droplet/memory_utilization_percent` | alert on the percent of memory utilization | Droplet ID
+          `v1/insights/droplet/disk_read` | alert on the rate of disk read I/O in MBps | Droplet ID
+          `v1/insights/droplet/load_5` | alert on the 5 minute load average | Droplet ID
+          `v1/insights/droplet/load_15` | alert on the 15 minute load average | Droplet ID
+          `v1/insights/droplet/disk_utilization_percent` | alert on the percent of disk utilization | Droplet ID
+          `v1/insights/droplet/cpu` | alert on the percent of CPU utilization | Droplet ID
+          `v1/insights/droplet/disk_write` | alert on the rate of disk write I/O in MBps | Droplet ID
+          `v1/insights/droplet/public_outbound_bandwidth` | alert on the rate of public outbound bandwidth in Mbps | Droplet ID
+          `v1/insights/droplet/public_inbound_bandwidth` | alert on the rate of public inbound bandwidth in Mbps | Droplet ID
+          `v1/insights/droplet/private_outbound_bandwidth` | alert on the rate of private outbound bandwidth in Mbps | Droplet ID
+          `v1/insights/droplet/private_inbound_bandwidth` | alert on the rate of private inbound bandwidth in Mbps | Droplet ID
+          `v1/insights/droplet/load_1` | alert on the 1 minute load average | Droplet ID
+          `v1/insights/lbaas/avg_cpu_utilization_percent`|alert on the percent of CPU utilization|load balancer ID
+          `v1/insights/lbaas/connection_utilization_percent`|alert on the percent of connection utilization|load balancer ID
+          `v1/insights/lbaas/droplet_health`|alert on Droplet health status changes|load balancer ID
+          `v1/insights/lbaas/tls_connections_per_second_utilization_percent`|alert on the percent of TLS connections per second utilization (requires at least one HTTPS forwarding rule)|load balancer ID
+          `v1/insights/lbaas/increase_in_http_error_rate_percentage_5xx`|alert on the percent increase of 5xx level http errors over 5m|load balancer ID
+          `v1/insights/lbaas/increase_in_http_error_rate_percentage_4xx`|alert on the percent increase of 4xx level http errors over 5m|load balancer ID
+          `v1/insights/lbaas/increase_in_http_error_rate_count_5xx`|alert on the count of 5xx level http errors over 5m|load balancer ID
+          `v1/insights/lbaas/increase_in_http_error_rate_count_4xx`|alert on the count of 4xx level http errors over 5m|load balancer ID
+          `v1/insights/lbaas/high_http_request_response_time`|alert on high average http response time|load balancer ID
+          `v1/insights/lbaas/high_http_request_response_time_50p`|alert on high 50th percentile http response time|load balancer ID
+          `v1/insights/lbaas/high_http_request_response_time_95p`|alert on high 95th percentile http response time|load balancer ID
+          `v1/insights/lbaas/high_http_request_response_time_99p`|alert on high 99th percentile http response time|load balancer ID
+          `v1/dbaas/alerts/load_15_alerts` | alert on 15 minute load average across the database cluster | database cluster UUID
+          `v1/dbaas/alerts/memory_utilization_alerts` | alert on the percent memory utilization average across the database cluster | database cluster UUID
+          `v1/dbaas/alerts/disk_utilization_alerts` | alert on the percent disk utilization average across the database cluster | database cluster UUID
+          `v1/dbaas/alerts/cpu_alerts` | alert on the percent CPU usage average across the database cluster | database cluster UUID
+          `v1/droplet/autoscale_alerts/current_instances` | alert on current pool size | autoscale pool ID
+          `v1/droplet/autoscale_alerts/target_instances` | alert on target pool size | autoscale pool ID
+          `v1/droplet/autoscale_alerts/current_cpu_utilization` | alert on current average CPU utilization | autoscale pool ID
+          `v1/droplet/autoscale_alerts/target_cpu_utilization` | alert on target average CPU utilization | autoscale pool ID
+          `v1/droplet/autoscale_alerts/current_memory_utilization` | alert on current average memory utilization | autoscale pool ID
+          `v1/droplet/autoscale_alerts/target_memory_utilization` | alert on target average memory utilization | autoscale pool ID
+          `v1/droplet/autoscale_alerts/scale_up` | alert on scale up event | autoscale pool ID
+          `v1/droplet/autoscale_alerts/scale_down` | alert on scale down event | autoscale pool ID
         required: true
         content:
           application/json:
@@ -444,14 +269,11 @@ paths:
               "https://api.digitalocean.com/v2/monitoring/alerts/78b3da62-27e5-49ba-ac70-5db0b5935c64" \
               --data '{"alerts":{"email":["alerts@example.com"]},"compare":"GreaterThan","description":"CPU Alert","enabled":true,"entities":["12345678"],"tags":["droplet_tag"],"type":"v1/insights/droplet/cpu","value":80,"window":"5m"}'
         - lang: Python
-          source: >-
+          source: |-
             import os
-
             from pydo import Client
 
-
             client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
-
 
             req = {
               "alerts": {
@@ -479,18 +301,14 @@ paths:
               "window": "5m"
             }
 
-
-            resp = client.monitoring.update_alert_policy(alert_uuid="fda9da",
-            body=req)
+            resp = client.monitoring.update_alert_policy(alert_uuid="fda9da", body=req)
       security:
         - bearer_auth:
             - monitoring:update
     delete:
       operationId: monitoring_delete_alertPolicy
       summary: Delete an Alert Policy
-      description: >-
-        To delete an alert policy, send a DELETE request to
-        `/v2/monitoring/alerts/{alert_uuid}`
+      description: To delete an alert policy, send a DELETE request to `/v2/monitoring/alerts/{alert_uuid}`
       tags:
         - Monitoring
       responses:
@@ -530,13 +348,8 @@ paths:
     get:
       operationId: monitoring_get_dropletBandwidthMetrics
       summary: Get Droplet Bandwidth Metrics
-      description: >-
-        To retrieve bandwidth metrics for a given Droplet, send a GET request to
-        `/v2/monitoring/metrics/droplet/bandwidth`. Use the `interface` query
-        parameter to specify if the results should be for the `private` or
-        `public` interface. Use the `direction` query parameter to specify if
-        the results should be for `inbound` or `outbound` traffic.
-
+      description: |-
+        To retrieve bandwidth metrics for a given Droplet, send a GET request to `/v2/monitoring/metrics/droplet/bandwidth`. Use the `interface` query parameter to specify if the results should be for the `private` or `public` interface. Use the `direction` query parameter to specify if the results should be for `inbound` or `outbound` traffic.
         The metrics in the response body are in megabits per second (Mbps).
       tags:
         - Monitoring
@@ -565,19 +378,13 @@ paths:
               -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
               "https://api.digitalocean.com/v2/monitoring/metrics/droplet/bandwidth?host_id=222651441&interface=public&direction=outbound&start=1636051668&end=1636051668"
         - lang: Python
-          source: >-
+          source: |-
             import os
-
             from pydo import Client
-
 
             client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
 
-
-            resp =
-            client.monitoring.get_droplet_bandwidth_metrics(alert_uuid="dfa8da",
-            host_id="17209102", interface="private", direction="inbound",
-            start="1620683817", end="1620705417")
+            resp = client.monitoring.get_droplet_bandwidth_metrics(alert_uuid="dfa8da", host_id="17209102", interface="private", direction="inbound", start="1620683817", end="1620705417")
       security:
         - bearer_auth:
             - monitoring:read
@@ -585,9 +392,7 @@ paths:
     get:
       operationId: monitoring_get_DropletCpuMetrics
       summary: Get Droplet CPU Metrics
-      description: >-
-        To retrieve CPU metrics for a given droplet, send a GET request to
-        `/v2/monitoring/metrics/droplet/cpu`.
+      description: To retrieve CPU metrics for a given droplet, send a GET request to `/v2/monitoring/metrics/droplet/cpu`.
       tags:
         - Monitoring
       responses:
@@ -613,17 +418,13 @@ paths:
               -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
               "https://api.digitalocean.com/v2/monitoring/metrics/droplet/cpu?host_id=222651441&start=1636051668&end=1636051668"
         - lang: Python
-          source: >-
+          source: |-
             import os
-
             from pydo import Client
-
 
             client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
 
-
-            resp = client.monitoring.get_droplet_cpu_metrics(host_id="17209102",
-            start="1620683817", end="1620705417")
+            resp = client.monitoring.get_droplet_cpu_metrics(host_id="17209102", start="1620683817", end="1620705417")
       security:
         - bearer_auth:
             - monitoring:read
@@ -631,9 +432,7 @@ paths:
     get:
       operationId: monitoring_get_dropletFilesystemFreeMetrics
       summary: Get Droplet Filesystem Free Metrics
-      description: >-
-        To retrieve filesystem free metrics for a given droplet, send a GET
-        request to `/v2/monitoring/metrics/droplet/filesystem_free`.
+      description: To retrieve filesystem free metrics for a given droplet, send a GET request to `/v2/monitoring/metrics/droplet/filesystem_free`.
       tags:
         - Monitoring
       responses:
@@ -659,18 +458,13 @@ paths:
               -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
               "https://api.digitalocean.com/v2/monitoring/metrics/droplet/filesystem_free?host_id=222651441&start=1636051668&end=1636051668"
         - lang: Python
-          source: >-
+          source: |-
             import os
-
             from pydo import Client
-
 
             client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
 
-
-            resp =
-            client.monitoring.get_droplet_filesystem_free_metrics(host_id="17209102",
-            start="1620683817", end="1620705417")
+            resp = client.monitoring.get_droplet_filesystem_free_metrics(host_id="17209102", start="1620683817", end="1620705417")
       security:
         - bearer_auth:
             - monitoring:read
@@ -678,9 +472,7 @@ paths:
     get:
       operationId: monitoring_get_dropletFilesystemSizeMetrics
       summary: Get Droplet Filesystem Size Metrics
-      description: >-
-        To retrieve filesystem size metrics for a given droplet, send a GET
-        request to `/v2/monitoring/metrics/droplet/filesystem_size`.
+      description: To retrieve filesystem size metrics for a given droplet, send a GET request to `/v2/monitoring/metrics/droplet/filesystem_size`.
       tags:
         - Monitoring
       responses:
@@ -706,18 +498,13 @@ paths:
               -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
               "https://api.digitalocean.com/v2/monitoring/metrics/droplet/filesystem_size?host_id=222651441&interface=public&direction=outbound&start=1636051668&end=1636051668"
         - lang: Python
-          source: >-
+          source: |-
             import os
-
             from pydo import Client
-
 
             client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
 
-
-            resp =
-            client.monitoring.get_droplet_filesystem_size_metrics(host_id="17209102",
-            start="1620683817", end="1620705417")
+            resp = client.monitoring.get_droplet_filesystem_size_metrics(host_id="17209102", start="1620683817", end="1620705417")
       security:
         - bearer_auth:
             - monitoring:read
@@ -725,9 +512,7 @@ paths:
     get:
       operationId: monitoring_get_dropletLoad1Metrics
       summary: Get Droplet Load1 Metrics
-      description: >-
-        To retrieve 1 minute load average metrics for a given droplet, send a
-        GET request to `/v2/monitoring/metrics/droplet/load_1`.
+      description: To retrieve 1 minute load average metrics for a given droplet, send a GET request to `/v2/monitoring/metrics/droplet/load_1`.
       tags:
         - Monitoring
       responses:
@@ -753,18 +538,13 @@ paths:
               -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
               "https://api.digitalocean.com/v2/monitoring/metrics/droplet/load_1?host_id=222651441&start=1636051668&end=1636051668"
         - lang: Python
-          source: >-
+          source: |-
             import os
-
             from pydo import Client
-
 
             client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
 
-
-            resp =
-            client.monitoring.get_droplet_load1_metrics(host_id="17209102",
-            start="1620683817", end="1620705417")
+            resp = client.monitoring.get_droplet_load1_metrics(host_id="17209102", start="1620683817", end="1620705417")
       security:
         - bearer_auth:
             - monitoring:read
@@ -772,9 +552,7 @@ paths:
     get:
       operationId: monitoring_get_dropletLoad5Metrics
       summary: Get Droplet Load5 Metrics
-      description: >-
-        To retrieve 5 minute load average metrics for a given droplet, send a
-        GET request to `/v2/monitoring/metrics/droplet/load_5`.
+      description: To retrieve 5 minute load average metrics for a given droplet, send a GET request to `/v2/monitoring/metrics/droplet/load_5`.
       tags:
         - Monitoring
       responses:
@@ -800,18 +578,13 @@ paths:
               -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
               "https://api.digitalocean.com/v2/monitoring/metrics/droplet/load_5?host_id=222651441&start=1636051668&end=1636051668"
         - lang: Python
-          source: >-
+          source: |-
             import os
-
             from pydo import Client
-
 
             client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
 
-
-            resp =
-            client.monitoring.get_droplet_load5_metrics(host_id="17209102",
-            start="1620683817", end="1620705417")
+            resp = client.monitoring.get_droplet_load5_metrics(host_id="17209102", start="1620683817", end="1620705417")
       security:
         - bearer_auth:
             - monitoring:read
@@ -819,9 +592,7 @@ paths:
     get:
       operationId: monitoring_get_dropletLoad15Metrics
       summary: Get Droplet Load15 Metrics
-      description: >-
-        To retrieve 15 minute load average metrics for a given droplet, send a
-        GET request to `/v2/monitoring/metrics/droplet/load_15`.
+      description: To retrieve 15 minute load average metrics for a given droplet, send a GET request to `/v2/monitoring/metrics/droplet/load_15`.
       tags:
         - Monitoring
       responses:
@@ -847,18 +618,13 @@ paths:
               -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
               "https://api.digitalocean.com/v2/monitoring/metrics/droplet/load_15?host_id=222651441&start=1636051668&end=1636051668"
         - lang: Python
-          source: >-
+          source: |-
             import os
-
             from pydo import Client
-
 
             client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
 
-
-            resp =
-            client.monitoring.get_droplet_load15_metrics(host_id="17209102",
-            start="1620683817", end="1620705417")
+            resp = client.monitoring.get_droplet_load15_metrics(host_id="17209102", start="1620683817", end="1620705417")
       security:
         - bearer_auth:
             - monitoring:read
@@ -866,9 +632,7 @@ paths:
     get:
       operationId: monitoring_get_dropletMemoryCachedMetrics
       summary: Get Droplet Cached Memory Metrics
-      description: >-
-        To retrieve cached memory metrics for a given droplet, send a GET
-        request to `/v2/monitoring/metrics/droplet/memory_cached`.
+      description: To retrieve cached memory metrics for a given droplet, send a GET request to `/v2/monitoring/metrics/droplet/memory_cached`.
       tags:
         - Monitoring
       responses:
@@ -894,18 +658,13 @@ paths:
               -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
               "https://api.digitalocean.com/v2/monitoring/metrics/droplet/memory_cached?host_id=222651441&start=1636051668&end=1636051668"
         - lang: Python
-          source: >-
+          source: |-
             import os
-
             from pydo import Client
-
 
             client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
 
-
-            resp =
-            client.monitoring.get_droplet_memory_cached_metrics(host_id="17209102",
-            start="1620683817", end="1620705417")
+            resp = client.monitoring.get_droplet_memory_cached_metrics(host_id="17209102", start="1620683817", end="1620705417")
       security:
         - bearer_auth:
             - monitoring:read
@@ -913,9 +672,7 @@ paths:
     get:
       operationId: monitoring_get_dropletMemoryFreeMetrics
       summary: Get Droplet Free Memory Metrics
-      description: >-
-        To retrieve free memory metrics for a given droplet, send a GET request
-        to `/v2/monitoring/metrics/droplet/memory_free`.
+      description: To retrieve free memory metrics for a given droplet, send a GET request to `/v2/monitoring/metrics/droplet/memory_free`.
       tags:
         - Monitoring
       responses:
@@ -941,18 +698,13 @@ paths:
               -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
               "https://api.digitalocean.com/v2/monitoring/metrics/droplet/memory_free?host_id=222651441&start=1636051668&end=1636051668"
         - lang: Python
-          source: >-
+          source: |-
             import os
-
             from pydo import Client
-
 
             client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
 
-
-            resp =
-            client.monitoring.get_droplet_memory_free_metrics(host_id="17209102",
-            start="1620683817", end="1620705417")
+            resp = client.monitoring.get_droplet_memory_free_metrics(host_id="17209102", start="1620683817", end="1620705417")
       security:
         - bearer_auth:
             - monitoring:read
@@ -960,9 +712,7 @@ paths:
     get:
       operationId: monitoring_get_dropletMemoryTotalMetrics
       summary: Get Droplet Total Memory Metrics
-      description: >-
-        To retrieve total memory metrics for a given droplet, send a GET request
-        to `/v2/monitoring/metrics/droplet/memory_total`.
+      description: To retrieve total memory metrics for a given droplet, send a GET request to `/v2/monitoring/metrics/droplet/memory_total`.
       tags:
         - Monitoring
       responses:
@@ -988,18 +738,13 @@ paths:
               -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
               "https://api.digitalocean.com/v2/monitoring/metrics/droplet/memory_total?host_id=222651441&start=1636051668&end=1636051668"
         - lang: Python
-          source: >-
+          source: |-
             import os
-
             from pydo import Client
-
 
             client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
 
-
-            resp =
-            client.monitoring.get_droplet_memory_total_metrics(host_id="17209102",
-            start="1620683817", end="1620705417")
+            resp = client.monitoring.get_droplet_memory_total_metrics(host_id="17209102", start="1620683817", end="1620705417")
       security:
         - bearer_auth:
             - monitoring:read
@@ -1007,9 +752,7 @@ paths:
     get:
       operationId: monitoring_get_dropletMemoryAvailableMetrics
       summary: Get Droplet Available Memory Metrics
-      description: >-
-        To retrieve available memory metrics for a given droplet, send a GET
-        request to `/v2/monitoring/metrics/droplet/memory_available`.
+      description: To retrieve available memory metrics for a given droplet, send a GET request to `/v2/monitoring/metrics/droplet/memory_available`.
       tags:
         - Monitoring
       responses:
@@ -1035,18 +778,13 @@ paths:
               -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
               "https://api.digitalocean.com/v2/monitoring/metrics/droplet/memory_available?host_id=222651441&start=1636051668&end=1636051668"
         - lang: Python
-          source: >-
+          source: |-
             import os
-
             from pydo import Client
-
 
             client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
 
-
-            resp =
-            client.monitoring.get_droplet_memory_available_metrics(host_id="17209102",
-            start="1620683817", end="1620705417")
+            resp = client.monitoring.get_droplet_memory_available_metrics(host_id="17209102", start="1620683817", end="1620705417")
       security:
         - bearer_auth:
             - monitoring:read
@@ -1054,9 +792,7 @@ paths:
     get:
       operationId: monitoring_get_appMemoryPercentageMetrics
       summary: Get App Memory Percentage Metrics
-      description: >-
-        To retrieve memory percentage metrics for a given app, send a GET
-        request to `/v2/monitoring/metrics/apps/memory_percentage`.
+      description: To retrieve memory percentage metrics for a given app, send a GET request to `/v2/monitoring/metrics/apps/memory_percentage`.
       tags:
         - Monitoring
       responses:
@@ -1089,9 +825,7 @@ paths:
     get:
       operationId: monitoring_get_appCPUPercentageMetrics
       summary: Get App CPU Percentage Metrics
-      description: >-
-        To retrieve cpu percentage metrics for a given app, send a GET request
-        to `/v2/monitoring/metrics/apps/cpu_percentage`.
+      description: To retrieve cpu percentage metrics for a given app, send a GET request to `/v2/monitoring/metrics/apps/cpu_percentage`.
       tags:
         - Monitoring
       responses:
@@ -1124,9 +858,7 @@ paths:
     get:
       operationId: monitoring_get_appRestartCountMetrics.yml
       summary: Get App Restart Count Metrics
-      description: >-
-        To retrieve restart count metrics for a given app, send a GET request to
-        `/v2/monitoring/metrics/apps/restart_count`.
+      description: To retrieve restart count metrics for a given app, send a GET request to `/v2/monitoring/metrics/apps/restart_count`.
       tags:
         - Monitoring
       responses:
@@ -1159,10 +891,7 @@ paths:
     get:
       operationId: monitoring_get_lb_frontend_connections_current
       summary: Get Load Balancer Frontend Total Current Active Connections Metrics
-      description: >-
-        To retrieve frontend total current active connections for a given load
-        balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/frontend_connections_current`.
+      description: To retrieve frontend total current active connections for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/frontend_connections_current`.
       tags:
         - Monitoring
       responses:
@@ -1194,10 +923,7 @@ paths:
     get:
       operationId: monitoring_get_lb_frontend_connections_limit
       summary: Get Load Balancer Frontend Max Connections Limit Metrics
-      description: >-
-        To retrieve frontend max connections limit for a given load balancer,
-        send a GET request to
-        `/v2/monitoring/metrics/load_balancer/frontend_connections_limit`.
+      description: To retrieve frontend max connections limit for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/frontend_connections_limit`.
       tags:
         - Monitoring
       responses:
@@ -1229,10 +955,7 @@ paths:
     get:
       operationId: monitoring_get_lb_frontend_cpu_utilization
       summary: Get Load Balancer Frontend Average Percentage CPU Utilization Metrics
-      description: >-
-        To retrieve frontend average percentage CPU utilization for a given load
-        balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/frontend_cpu_utilization`.
+      description: To retrieve frontend average percentage CPU utilization for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/frontend_cpu_utilization`.
       tags:
         - Monitoring
       responses:
@@ -1264,11 +987,7 @@ paths:
     get:
       operationId: monitoring_get_lb_frontend_firewall_dropped_bytes
       summary: Get Load Balancer Frontend Firewall Dropped Bytes Metrics
-      description: >-
-        To retrieve firewall dropped bytes for a given load balancer, send a GET
-        request to
-        `/v2/monitoring/metrics/load_balancer/frontend_firewall_dropped_bytes`.
-        This is currently only supported for network load balancers.
+      description: To retrieve firewall dropped bytes for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/frontend_firewall_dropped_bytes`. This is currently only supported for network load balancers.
       tags:
         - Monitoring
       responses:
@@ -1300,11 +1019,7 @@ paths:
     get:
       operationId: monitoring_get_lb_frontend_firewall_dropped_packets
       summary: Get Load Balancer Frontend Firewall Dropped Packets Metrics
-      description: >-
-        To retrieve firewall dropped packets per second for a given load
-        balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/frontend_firewall_dropped_packets`.
-        This is currently only supported for network load balancers.
+      description: To retrieve firewall dropped packets per second for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/frontend_firewall_dropped_packets`. This is currently only supported for network load balancers.
       tags:
         - Monitoring
       responses:
@@ -1336,10 +1051,7 @@ paths:
     get:
       operationId: monitoring_get_lb_frontend_http_responses
       summary: Get Load Balancer Frontend HTTP Rate Of Response Code Metrics
-      description: >-
-        To retrieve frontend HTTP rate of response code for a given load
-        balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/frontend_http_responses`.
+      description: To retrieve frontend HTTP rate of response code for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/frontend_http_responses`.
       tags:
         - Monitoring
       responses:
@@ -1371,10 +1083,7 @@ paths:
     get:
       operationId: monitoring_get_lb_frontend_http_requests_per_second
       summary: Get Load Balancer Frontend HTTP Requests Metrics
-      description: >-
-        To retrieve frontend HTTP requests per second for a given load balancer,
-        send a GET request to
-        `/v2/monitoring/metrics/load_balancer/frontend_http_requests_per_second`.
+      description: To retrieve frontend HTTP requests per second for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/frontend_http_requests_per_second`.
       tags:
         - Monitoring
       responses:
@@ -1406,10 +1115,7 @@ paths:
     get:
       operationId: monitoring_get_lb_frontend_network_throughput_http
       summary: Get Load Balancer Frontend HTTP Throughput Metrics
-      description: >-
-        To retrieve frontend HTTP throughput in bytes per second for a given
-        load balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/frontend_network_throughput_http`.
+      description: To retrieve frontend HTTP throughput in bytes per second for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/frontend_network_throughput_http`.
       tags:
         - Monitoring
       responses:
@@ -1441,10 +1147,7 @@ paths:
     get:
       operationId: monitoring_get_lb_frontend_network_throughput_udp
       summary: Get Load Balancer Frontend UDP Throughput Metrics
-      description: >-
-        To retrieve frontend UDP throughput in bytes per second for a given load
-        balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/frontend_network_throughput_udp`.
+      description: To retrieve frontend UDP throughput in bytes per second for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/frontend_network_throughput_udp`.
       tags:
         - Monitoring
       responses:
@@ -1476,10 +1179,7 @@ paths:
     get:
       operationId: monitoring_get_lb_frontend_network_throughput_tcp
       summary: Get Load Balancer Frontend TCP Throughput Metrics
-      description: >-
-        To retrieve frontend TCP throughput in bytes per second for a given load
-        balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/frontend_network_throughput_tcp`.
+      description: To retrieve frontend TCP throughput in bytes per second for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/frontend_network_throughput_tcp`.
       tags:
         - Monitoring
       responses:
@@ -1511,10 +1211,7 @@ paths:
     get:
       operationId: monitoring_get_lb_frontend_nlb_tcp_network_throughput
       summary: Get Network Load Balancer Frontend TCP Throughput Metrics
-      description: >-
-        To retrieve frontend TCP throughput in bytes per second for a given load
-        balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/frontend_nlb_tcp_network_throughput`.
+      description: To retrieve frontend TCP throughput in bytes per second for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/frontend_nlb_tcp_network_throughput`.
       tags:
         - Monitoring
       responses:
@@ -1546,10 +1243,7 @@ paths:
     get:
       operationId: monitoring_get_lb_frontend_nlb_udp_network_throughput
       summary: Get Network Load Balancer Frontend UDP Throughput Metrics
-      description: >-
-        To retrieve frontend UDP throughput in bytes per second for a given load
-        balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/frontend_nlb_udp_network_throughput`.
+      description: To retrieve frontend UDP throughput in bytes per second for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/frontend_nlb_udp_network_throughput`.
       tags:
         - Monitoring
       responses:
@@ -1581,10 +1275,7 @@ paths:
     get:
       operationId: monitoring_get_lb_frontend_tls_connections_current
       summary: Get Load Balancer Frontend Current TLS Connections Rate Metrics
-      description: >-
-        To retrieve frontend current TLS connections rate for a given load
-        balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/frontend_tls_connections_current`.
+      description: To retrieve frontend current TLS connections rate for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/frontend_tls_connections_current`.
       tags:
         - Monitoring
       responses:
@@ -1616,10 +1307,7 @@ paths:
     get:
       operationId: monitoring_get_lb_frontend_tls_connections_limit
       summary: Get Load Balancer Frontend Max TLS Connections Limit Metrics
-      description: >-
-        To retrieve frontend max TLS connections limit for a given load
-        balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/frontend_tls_connections_limit`.
+      description: To retrieve frontend max TLS connections limit for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/frontend_tls_connections_limit`.
       tags:
         - Monitoring
       responses:
@@ -1650,13 +1338,8 @@ paths:
   /v2/monitoring/metrics/load_balancer/frontend_tls_connections_exceeding_rate_limit:
     get:
       operationId: monitoring_get_lb_frontend_tls_connections_exceeding_rate_limit
-      summary: >-
-        Get Load Balancer Frontend Closed TLS Connections For Exceeded Rate
-        Limit Metrics
-      description: >-
-        To retrieve frontend closed TLS connections for exceeded rate limit for
-        a given load balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/frontend_tls_connections_exceeding_rate_limit`.
+      summary: Get Load Balancer Frontend Closed TLS Connections For Exceeded Rate Limit Metrics
+      description: To retrieve frontend closed TLS connections for exceeded rate limit for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/frontend_tls_connections_exceeding_rate_limit`.
       tags:
         - Monitoring
       responses:
@@ -1688,10 +1371,7 @@ paths:
     get:
       operationId: monitoring_get_lb_droplets_http_session_duration_avg
       summary: Get Load Balancer Droplets Average HTTP Session Duration Metrics
-      description: >-
-        To retrieve Droplets average HTTP session duration in seconds for a
-        given load balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/droplets_http_session_duration_avg`.
+      description: To retrieve Droplets average HTTP session duration in seconds for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/droplets_http_session_duration_avg`.
       tags:
         - Monitoring
       responses:
@@ -1723,10 +1403,7 @@ paths:
     get:
       operationId: monitoring_get_lb_droplets_http_session_duration_50p
       summary: Get Load Balancer Droplets 50th Percentile HTTP Session Duration Metrics
-      description: >-
-        To retrieve Droplets 50th percentile HTTP session duration in seconds
-        for a given load balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/droplets_http_session_duration_50p`.
+      description: To retrieve Droplets 50th percentile HTTP session duration in seconds for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/droplets_http_session_duration_50p`.
       tags:
         - Monitoring
       responses:
@@ -1758,10 +1435,7 @@ paths:
     get:
       operationId: monitoring_get_lb_droplets_http_session_duration_95p
       summary: Get Load Balancer Droplets 95th Percentile HTTP Session Duration Metrics
-      description: >-
-        To retrieve Droplets 95th percentile HTTP session duration in seconds
-        for a given load balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/droplets_http_session_duration_95p`.
+      description: To retrieve Droplets 95th percentile HTTP session duration in seconds for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/droplets_http_session_duration_95p`.
       tags:
         - Monitoring
       responses:
@@ -1793,10 +1467,7 @@ paths:
     get:
       operationId: monitoring_get_lb_droplets_http_response_time_avg
       summary: Get Load Balancer Droplets Average HTTP Response Time Metrics
-      description: >-
-        To retrieve Droplets average HTTP response time in seconds for a given
-        load balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/droplets_http_response_time_avg`.
+      description: To retrieve Droplets average HTTP response time in seconds for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/droplets_http_response_time_avg`.
       tags:
         - Monitoring
       responses:
@@ -1828,10 +1499,7 @@ paths:
     get:
       operationId: monitoring_get_lb_droplets_http_response_time_50p
       summary: Get Load Balancer Droplets 50th Percentile HTTP Response Time Metrics
-      description: >-
-        To retrieve Droplets 50th percentile HTTP response time in seconds for a
-        given load balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/droplets_http_response_time_50p`.
+      description: To retrieve Droplets 50th percentile HTTP response time in seconds for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/droplets_http_response_time_50p`.
       tags:
         - Monitoring
       responses:
@@ -1863,10 +1531,7 @@ paths:
     get:
       operationId: monitoring_get_lb_droplets_http_response_time_95p
       summary: Get Load Balancer Droplets 95th Percentile HTTP Response Time Metrics
-      description: >-
-        To retrieve Droplets 95th percentile HTTP response time in seconds for a
-        given load balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/droplets_http_response_time_95p`.
+      description: To retrieve Droplets 95th percentile HTTP response time in seconds for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/droplets_http_response_time_95p`.
       tags:
         - Monitoring
       responses:
@@ -1898,10 +1563,7 @@ paths:
     get:
       operationId: monitoring_get_lb_droplets_http_response_time_99p
       summary: Get Load Balancer Droplets 99th Percentile HTTP Response Time Metrics
-      description: >-
-        To retrieve Droplets 99th percentile HTTP response time in seconds for a
-        given load balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/droplets_http_response_time_99p`.
+      description: To retrieve Droplets 99th percentile HTTP response time in seconds for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/droplets_http_response_time_99p`.
       tags:
         - Monitoring
       responses:
@@ -1933,9 +1595,7 @@ paths:
     get:
       operationId: monitoring_get_lb_droplets_queue_size
       summary: Get Load Balancer Droplets Queue Size Metrics
-      description: >-
-        To retrieve Droplets queue size for a given load balancer, send a GET
-        request to `/v2/monitoring/metrics/load_balancer/droplets_queue_size`.
+      description: To retrieve Droplets queue size for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/droplets_queue_size`.
       tags:
         - Monitoring
       responses:
@@ -1967,10 +1627,7 @@ paths:
     get:
       operationId: monitoring_get_lb_droplets_http_responses
       summary: Get Load Balancer Droplets HTTP Rate Of Response Code Metrics
-      description: >-
-        To retrieve Droplets HTTP rate of response code for a given load
-        balancer, send a GET request to
-        `/v2/monitoring/metrics/load_balancer/droplets_http_responses`.
+      description: To retrieve Droplets HTTP rate of response code for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/droplets_http_responses`.
       tags:
         - Monitoring
       responses:
@@ -2002,10 +1659,7 @@ paths:
     get:
       operationId: monitoring_get_lb_droplets_connections
       summary: Get Load Balancer Droplets Active Connections Metrics
-      description: >-
-        To retrieve Droplets active connections for a given load balancer, send
-        a GET request to
-        `/v2/monitoring/metrics/load_balancer/droplets_connections`.
+      description: To retrieve Droplets active connections for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/droplets_connections`.
       tags:
         - Monitoring
       responses:
@@ -2037,10 +1691,7 @@ paths:
     get:
       operationId: monitoring_get_lb_droplets_health_checks
       summary: Get Load Balancer Droplets Health Check Status Metrics
-      description: >-
-        To retrieve Droplets health check status for a given load balancer, send
-        a GET request to
-        `/v2/monitoring/metrics/load_balancer/droplets_health_checks`.
+      description: To retrieve Droplets health check status for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/droplets_health_checks`.
       tags:
         - Monitoring
       responses:
@@ -2072,9 +1723,7 @@ paths:
     get:
       operationId: monitoring_get_lb_droplets_downtime
       summary: Get Load Balancer Droplets Downtime Status Metrics
-      description: >-
-        To retrieve Droplets downtime status for a given load balancer, send a
-        GET request to `/v2/monitoring/metrics/load_balancer/droplets_downtime`.
+      description: To retrieve Droplets downtime status for a given load balancer, send a GET request to `/v2/monitoring/metrics/load_balancer/droplets_downtime`.
       tags:
         - Monitoring
       responses:
@@ -2106,10 +1755,7 @@ paths:
     get:
       operationId: monitoring_get_droplet_autoscale_current_instances
       summary: Get Droplet Autoscale Pool Current Size
-      description: >-
-        To retrieve the current size for a given Droplet Autoscale Pool, send a
-        GET request to
-        `/v2/monitoring/metrics/droplet_autoscale/current_instances`.
+      description: To retrieve the current size for a given Droplet Autoscale Pool, send a GET request to `/v2/monitoring/metrics/droplet_autoscale/current_instances`.
       tags:
         - Monitoring
       responses:
@@ -2141,10 +1787,7 @@ paths:
     get:
       operationId: monitoring_get_droplet_autoscale_target_instances
       summary: Get Droplet Autoscale Pool Target Size
-      description: >-
-        To retrieve the target size for a given Droplet Autoscale Pool, send a
-        GET request to
-        `/v2/monitoring/metrics/droplet_autoscale/target_instances`.
+      description: To retrieve the target size for a given Droplet Autoscale Pool, send a GET request to `/v2/monitoring/metrics/droplet_autoscale/target_instances`.
       tags:
         - Monitoring
       responses:
@@ -2176,10 +1819,7 @@ paths:
     get:
       operationId: monitoring_get_droplet_autoscale_current_cpu_utilization.yml
       summary: Get Droplet Autoscale Pool Current Average CPU utilization
-      description: >-
-        To retrieve the current average CPU utilization for a given Droplet
-        Autoscale Pool, send a GET request to
-        `/v2/monitoring/metrics/droplet_autoscale/current_cpu_utilization`.
+      description: To retrieve the current average CPU utilization for a given Droplet Autoscale Pool, send a GET request to `/v2/monitoring/metrics/droplet_autoscale/current_cpu_utilization`.
       tags:
         - Monitoring
       responses:
@@ -2211,10 +1851,7 @@ paths:
     get:
       operationId: monitoring_get_droplet_autoscale_target_cpu_utilization
       summary: Get Droplet Autoscale Pool Target Average CPU utilization
-      description: >-
-        To retrieve the target average CPU utilization for a given Droplet
-        Autoscale Pool, send a GET request to
-        `/v2/monitoring/metrics/droplet_autoscale/target_cpu_utilization`.
+      description: To retrieve the target average CPU utilization for a given Droplet Autoscale Pool, send a GET request to `/v2/monitoring/metrics/droplet_autoscale/target_cpu_utilization`.
       tags:
         - Monitoring
       responses:
@@ -2246,10 +1883,7 @@ paths:
     get:
       operationId: monitoring_get_droplet_autoscale_current_memory_utilization
       summary: Get Droplet Autoscale Pool Current Average Memory utilization
-      description: >-
-        To retrieve the current average memory utilization for a given Droplet
-        Autoscale Pool, send a GET request to
-        `/v2/monitoring/metrics/droplet_autoscale/current_memory_utilization`.
+      description: To retrieve the current average memory utilization for a given Droplet Autoscale Pool, send a GET request to `/v2/monitoring/metrics/droplet_autoscale/current_memory_utilization`.
       tags:
         - Monitoring
       responses:
@@ -2281,10 +1915,7 @@ paths:
     get:
       operationId: monitoring_get_droplet_autoscale_target_memory_utilization
       summary: Get Droplet Autoscale Pool Target Average Memory utilization
-      description: >-
-        To retrieve the target average memory utilization for a given Droplet
-        Autoscale Pool, send a GET request to
-        `/v2/monitoring/metrics/droplet_autoscale/target_memory_utilization`.
+      description: To retrieve the target average memory utilization for a given Droplet Autoscale Pool, send a GET request to `/v2/monitoring/metrics/droplet_autoscale/target_memory_utilization`.
       tags:
         - Monitoring
       responses:
@@ -2312,13 +1943,318 @@ paths:
       security:
         - bearer_auth:
             - monitoring:read
+  /v2/monitoring/metrics/database/mysql/cpu_usage:
+    get:
+      operationId: monitoring_get_database_mysql_cpu_usage
+      summary: Get Database MySQL CPU Usage Metrics
+      description: Retrieve CPU usage (percent) for a MySQL cluster. Response is a time series of cluster-level CPU usage. Use **aggregate** to get avg, max, or min over the range.
+      tags:
+        - Monitoring
+      parameters:
+        - $ref: '#/components/parameters/db_id'
+        - $ref: '#/components/parameters/aggregate_avg_max_min'
+        - $ref: '#/components/parameters/metric_timestamp_start'
+        - $ref: '#/components/parameters/metric_timestamp_end'
+      responses:
+        '200':
+          $ref: '#/components/responses/metric_response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+        '500':
+          $ref: '#/components/responses/server_error'
+        default:
+          $ref: '#/components/responses/unexpected_error'
+      security:
+        - bearer_auth:
+            - monitoring:read
+  /v2/monitoring/metrics/database/mysql/load:
+    get:
+      operationId: monitoring_get_database_mysql_load
+      summary: Get Database MySQL Load Average Metrics
+      description: 'Retrieve load metrics for a MySQL cluster. Use **metric** for the window: **load1** (1-minute), **load5** (5-minute), or **load15** (15-minute). Use **aggregate** to get either the average (avg) or maximum (max) over that window over the time range.'
+      tags:
+        - Monitoring
+      parameters:
+        - $ref: '#/components/parameters/db_id'
+        - $ref: '#/components/parameters/metric_load'
+        - $ref: '#/components/parameters/aggregate_avg_max'
+        - $ref: '#/components/parameters/metric_timestamp_start'
+        - $ref: '#/components/parameters/metric_timestamp_end'
+      responses:
+        '200':
+          $ref: '#/components/responses/metric_response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+        '500':
+          $ref: '#/components/responses/server_error'
+        default:
+          $ref: '#/components/responses/unexpected_error'
+      security:
+        - bearer_auth:
+            - monitoring:read
+  /v2/monitoring/metrics/database/mysql/memory_usage:
+    get:
+      operationId: monitoring_get_database_mysql_memory_usage
+      summary: Get Database MySQL Memory Usage Metrics
+      description: Retrieve memory usage (percent) for a MySQL cluster. Use **aggregate** (avg, max, or min) over the time range.
+      tags:
+        - Monitoring
+      parameters:
+        - $ref: '#/components/parameters/db_id'
+        - $ref: '#/components/parameters/aggregate_avg_max_min'
+        - $ref: '#/components/parameters/metric_timestamp_start'
+        - $ref: '#/components/parameters/metric_timestamp_end'
+      responses:
+        '200':
+          $ref: '#/components/responses/metric_response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+        '500':
+          $ref: '#/components/responses/server_error'
+        default:
+          $ref: '#/components/responses/unexpected_error'
+      security:
+        - bearer_auth:
+            - monitoring:read
+  /v2/monitoring/metrics/database/mysql/disk_usage:
+    get:
+      operationId: monitoring_get_database_mysql_disk_usage
+      summary: Get Database MySQL Disk Usage Metrics
+      description: Retrieve disk usage (percent) for a MySQL cluster. Use **aggregate** (avg, max, or min) over the time range.
+      tags:
+        - Monitoring
+      parameters:
+        - $ref: '#/components/parameters/db_id'
+        - $ref: '#/components/parameters/aggregate_avg_max_min'
+        - $ref: '#/components/parameters/metric_timestamp_start'
+        - $ref: '#/components/parameters/metric_timestamp_end'
+      responses:
+        '200':
+          $ref: '#/components/responses/metric_response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+        '500':
+          $ref: '#/components/responses/server_error'
+        default:
+          $ref: '#/components/responses/unexpected_error'
+      security:
+        - bearer_auth:
+            - monitoring:read
+  /v2/monitoring/metrics/database/mysql/threads_connected:
+    get:
+      operationId: monitoring_get_database_mysql_threads_connected
+      summary: Get Database MySQL Threads Connected Metrics
+      description: Retrieve current threads connected for a MySQL service (gauge).
+      tags:
+        - Monitoring
+      parameters:
+        - $ref: '#/components/parameters/db_id'
+        - $ref: '#/components/parameters/metric_timestamp_start'
+        - $ref: '#/components/parameters/metric_timestamp_end'
+      responses:
+        '200':
+          $ref: '#/components/responses/metric_response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+        '500':
+          $ref: '#/components/responses/server_error'
+        default:
+          $ref: '#/components/responses/unexpected_error'
+      security:
+        - bearer_auth:
+            - monitoring:read
+  /v2/monitoring/metrics/database/mysql/threads_created_rate:
+    get:
+      operationId: monitoring_get_database_mysql_threads_created_rate
+      summary: Get Database MySQL Threads Created Rate Metrics
+      description: Retrieve threads created rate for a MySQL service (per second).
+      tags:
+        - Monitoring
+      parameters:
+        - $ref: '#/components/parameters/db_id'
+        - $ref: '#/components/parameters/metric_timestamp_start'
+        - $ref: '#/components/parameters/metric_timestamp_end'
+      responses:
+        '200':
+          $ref: '#/components/responses/metric_response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+        '500':
+          $ref: '#/components/responses/server_error'
+        default:
+          $ref: '#/components/responses/unexpected_error'
+      security:
+        - bearer_auth:
+            - monitoring:read
+  /v2/monitoring/metrics/database/mysql/threads_active:
+    get:
+      operationId: monitoring_get_database_mysql_threads_active
+      summary: Get Database MySQL Threads Active Metrics
+      description: Retrieve active (running) threads for a MySQL service.
+      tags:
+        - Monitoring
+      parameters:
+        - $ref: '#/components/parameters/db_id'
+        - $ref: '#/components/parameters/metric_timestamp_start'
+        - $ref: '#/components/parameters/metric_timestamp_end'
+      responses:
+        '200':
+          $ref: '#/components/responses/metric_response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+        '500':
+          $ref: '#/components/responses/server_error'
+        default:
+          $ref: '#/components/responses/unexpected_error'
+      security:
+        - bearer_auth:
+            - monitoring:read
+  /v2/monitoring/metrics/database/mysql/index_vs_sequential_reads:
+    get:
+      operationId: monitoring_get_database_mysql_index_vs_sequential_reads
+      summary: Get Database MySQL Index vs Sequential Reads Metrics
+      description: Retrieve index vs sequential reads ratio (percent) for a MySQL service — i.e. percentage of reads using an index.
+      tags:
+        - Monitoring
+      parameters:
+        - $ref: '#/components/parameters/db_id'
+        - $ref: '#/components/parameters/metric_timestamp_start'
+        - $ref: '#/components/parameters/metric_timestamp_end'
+      responses:
+        '200':
+          $ref: '#/components/responses/metric_response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+        '500':
+          $ref: '#/components/responses/server_error'
+        default:
+          $ref: '#/components/responses/unexpected_error'
+      security:
+        - bearer_auth:
+            - monitoring:read
+  /v2/monitoring/metrics/database/mysql/op_rates:
+    get:
+      operationId: monitoring_get_database_mysql_op_rates
+      summary: Get Database MySQL Operations Throughput Metrics
+      description: Retrieve operations rate (per second) for a MySQL service. Use **metric** to choose select, insert, update, or delete.
+      tags:
+        - Monitoring
+      parameters:
+        - $ref: '#/components/parameters/db_id'
+        - $ref: '#/components/parameters/metric_op_rates'
+        - $ref: '#/components/parameters/metric_timestamp_start'
+        - $ref: '#/components/parameters/metric_timestamp_end'
+      responses:
+        '200':
+          $ref: '#/components/responses/metric_response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+        '500':
+          $ref: '#/components/responses/server_error'
+        default:
+          $ref: '#/components/responses/unexpected_error'
+      security:
+        - bearer_auth:
+            - monitoring:read
+  /v2/monitoring/metrics/database/mysql/schema_throughput:
+    get:
+      operationId: monitoring_get_database_mysql_schema_throughput
+      summary: Get Database MySQL Schema Throughput Metrics
+      description: Retrieve table I/O throughput (rows per second) for a schema. Requires **schema** and **metric** (insert, fetch, update, delete).
+      tags:
+        - Monitoring
+      parameters:
+        - $ref: '#/components/parameters/db_id'
+        - $ref: '#/components/parameters/schema'
+        - $ref: '#/components/parameters/metric_schema_io'
+        - $ref: '#/components/parameters/metric_timestamp_start'
+        - $ref: '#/components/parameters/metric_timestamp_end'
+      responses:
+        '200':
+          $ref: '#/components/responses/metric_response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+        '500':
+          $ref: '#/components/responses/server_error'
+        default:
+          $ref: '#/components/responses/unexpected_error'
+      security:
+        - bearer_auth:
+            - monitoring:read
+  /v2/monitoring/metrics/database/mysql/schema_latency:
+    get:
+      operationId: monitoring_get_database_mysql_schema_latency
+      summary: Get Database MySQL Schema Latency Metrics
+      description: Retrieve table I/O latency (seconds) for a schema. Requires **schema** and **metric** (insert, fetch, update, delete).
+      tags:
+        - Monitoring
+      parameters:
+        - $ref: '#/components/parameters/db_id'
+        - $ref: '#/components/parameters/schema'
+        - $ref: '#/components/parameters/metric_schema_io'
+        - $ref: '#/components/parameters/metric_timestamp_start'
+        - $ref: '#/components/parameters/metric_timestamp_end'
+      responses:
+        '200':
+          $ref: '#/components/responses/metric_response'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+        '500':
+          $ref: '#/components/responses/server_error'
+        default:
+          $ref: '#/components/responses/unexpected_error'
+      security:
+        - bearer_auth:
+            - monitoring:read
   /v2/monitoring/sinks/destinations:
     post:
       operationId: monitoring_create_destination
       summary: Create Logging Destination
-      description: >-
-        To create a new destination, send a POST request to
-        `/v2/monitoring/sinks/destinations`.
+      description: To create a new destination, send a POST request to `/v2/monitoring/sinks/destinations`.
       tags:
         - Monitoring
       requestBody:
@@ -2333,8 +2269,7 @@ paths:
                   name: managed_opensearch_cluster
                   type: opensearch_dbaas
                   config:
-                    endpoint: >-
-                      db-opensearch-nyc3-123456-do-user-123456-0.g.db.ondigitalocean.com
+                    endpoint: db-opensearch-nyc3-123456-do-user-123456-0.g.db.ondigitalocean.com
                     cluster_uuid: 85148069-7e35-4999-80bd-6fa1637ca385
                     cluster_name: managed_dbaas_cluster
                     index_name: logs
@@ -2377,9 +2312,7 @@ paths:
     get:
       operationId: monitoring_list_destinations
       summary: List Logging Destinations
-      description: >-
-        To list all logging destinations, send a GET request to
-        `/v2/monitoring/sinks/destinations`.
+      description: To list all logging destinations, send a GET request to `/v2/monitoring/sinks/destinations`.
       tags:
         - Monitoring
       responses:
@@ -2409,9 +2342,7 @@ paths:
     get:
       operationId: monitoring_get_destination
       summary: Get Logging Destination
-      description: >-
-        To get the details of a destination, send a GET request to
-        `/v2/monitoring/sinks/destinations/${destination_uuid}`.
+      description: To get the details of a destination, send a GET request to `/v2/monitoring/sinks/destinations/${destination_uuid}`.
       tags:
         - Monitoring
       parameters:
@@ -2442,9 +2373,7 @@ paths:
     post:
       operationId: monitoring_update_destination
       summary: Update Logging Destination
-      description: >-
-        To update the details of a destination, send a PATCH request to
-        `/v2/monitoring/sinks/destinations/${destination_uuid}`.
+      description: To update the details of a destination, send a PATCH request to `/v2/monitoring/sinks/destinations/${destination_uuid}`.
       tags:
         - Monitoring
       parameters:
@@ -2482,9 +2411,7 @@ paths:
     delete:
       operationId: monitoring_delete_destination
       summary: Delete Logging Destination
-      description: >-
-        To delete a destination and all associated sinks, send a DELETE request
-        to `/v2/monitoring/sinks/destinations/${destination_uuid}`.
+      description: To delete a destination and all associated sinks, send a DELETE request to `/v2/monitoring/sinks/destinations/${destination_uuid}`.
       tags:
         - Monitoring
       parameters:
@@ -2516,12 +2443,9 @@ paths:
     post:
       operationId: monitoring_create_sink
       summary: Create Sink
-      description: >
-        To create a new sink, send a POST request to `/v2/monitoring/sinks`.
-        Forwards logs from the 
-
-        resources identified in `resources` to the specified pre-existing
-        destination.
+      description: |
+        To create a new sink, send a POST request to `/v2/monitoring/sinks`. Forwards logs from the 
+        resources identified in `resources` to the specified pre-existing destination.
       tags:
         - Monitoring
       responses:
@@ -2599,9 +2523,7 @@ paths:
     get:
       operationId: monitoring_get_sink
       summary: Get Sink
-      description: >-
-        To get the details of a sink (resources and destination), send a GET
-        request to `/v2/monitoring/sinks/${sink_uuid}`.
+      description: To get the details of a sink (resources and destination), send a GET request to `/v2/monitoring/sinks/${sink_uuid}`.
       tags:
         - Monitoring
       parameters:
@@ -2632,9 +2554,7 @@ paths:
     delete:
       operationId: monitoring_delete_sink
       summary: Delete Sink
-      description: >-
-        To delete a sink, send a DELETE request to
-        `/v2/monitoring/sinks/${sink_uuid}`.
+      description: To delete a sink, send a DELETE request to `/v2/monitoring/sinks/${sink_uuid}`.
       tags:
         - Monitoring
       parameters:
@@ -2666,9 +2586,7 @@ paths:
     get:
       operationId: uptime_list_checks
       summary: List All Checks
-      description: >-
-        To list all of the Uptime checks on your account, send a GET request to
-        `/v2/uptime/checks`.
+      description: To list all of the Uptime checks on your account, send a GET request to `/v2/uptime/checks`.
       tags:
         - Uptime
       parameters:
@@ -2708,10 +2626,8 @@ paths:
     post:
       operationId: uptime_create_check
       summary: Create a New Check
-      description: >
-        To create an Uptime check, send a POST request to `/v2/uptime/checks`
-        specifying the attributes
-
+      description: |
+        To create an Uptime check, send a POST request to `/v2/uptime/checks` specifying the attributes
         in the table below in the JSON body.
       tags:
         - Uptime
@@ -2721,8 +2637,6 @@ paths:
           application/json:
             schema:
               type: object
-              allOf:
-                - $ref: '#/components/schemas/check_updatable'
               required:
                 - name
                 - method
@@ -2730,6 +2644,42 @@ paths:
                 - regions
                 - type
                 - enabled
+              properties:
+                name:
+                  type: string
+                  example: Landing page check
+                  description: A human-friendly display name.
+                type:
+                  type: string
+                  example: https
+                  enum:
+                    - ping
+                    - http
+                    - https
+                  description: The type of health check to perform.
+                target:
+                  type: string
+                  format: url
+                  example: https://www.landingpage.com
+                  description: The endpoint to perform healthchecks on.
+                regions:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - us_east
+                      - us_west
+                      - eu_west
+                      - se_asia
+                  example:
+                    - us_east
+                    - eu_west
+                  description: An array containing the selected regions to perform healthchecks from.
+                enabled:
+                  type: boolean
+                  example: true
+                  default: true
+                  description: A boolean value indicating whether the check is enabled/disabled.
       responses:
         '201':
           $ref: '#/components/responses/existing_check'
@@ -2775,9 +2725,7 @@ paths:
     get:
       operationId: uptime_get_check
       summary: Retrieve an Existing Check
-      description: >-
-        To show information about an existing check, send a GET request to
-        `/v2/uptime/checks/$CHECK_ID`.
+      description: To show information about an existing check, send a GET request to `/v2/uptime/checks/$CHECK_ID`.
       tags:
         - Uptime
       parameters:
@@ -2816,9 +2764,8 @@ paths:
     put:
       operationId: uptime_update_check
       summary: Update a Check
-      description: >
-        To update the settings of an Uptime check, send a PUT request to
-        `/v2/uptime/checks/$CHECK_ID`.
+      description: |
+        To update the settings of an Uptime check, send a PUT request to `/v2/uptime/checks/$CHECK_ID`.
       tags:
         - Uptime
       parameters:
@@ -2829,8 +2776,42 @@ paths:
           application/json:
             schema:
               type: object
-              allOf:
-                - $ref: '#/components/schemas/check_updatable'
+              properties:
+                name:
+                  type: string
+                  example: Landing page check
+                  description: A human-friendly display name.
+                type:
+                  type: string
+                  example: https
+                  enum:
+                    - ping
+                    - http
+                    - https
+                  description: The type of health check to perform.
+                target:
+                  type: string
+                  format: url
+                  example: https://www.landingpage.com
+                  description: The endpoint to perform healthchecks on.
+                regions:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - us_east
+                      - us_west
+                      - eu_west
+                      - se_asia
+                  example:
+                    - us_east
+                    - eu_west
+                  description: An array containing the selected regions to perform healthchecks from.
+                enabled:
+                  type: boolean
+                  example: true
+                  default: true
+                  description: A boolean value indicating whether the check is enabled/disabled.
       responses:
         '200':
           $ref: '#/components/responses/existing_check'
@@ -2877,12 +2858,9 @@ paths:
     delete:
       operationId: uptime_delete_check
       summary: Delete a Check
-      description: >
-        To delete an Uptime check, send a DELETE request to
-        `/v2/uptime/checks/$CHECK_ID`. A 204 status
-
+      description: |
+        To delete an Uptime check, send a DELETE request to `/v2/uptime/checks/$CHECK_ID`. A 204 status
         code with no body will be returned in response to a successful request.
-
 
 
         Deleting a check will also delete alerts associated with the check.
@@ -2925,9 +2903,7 @@ paths:
     get:
       operationId: uptime_get_checkState
       summary: Retrieve Check State
-      description: >-
-        To show information about an existing check's state, send a GET request
-        to `/v2/uptime/checks/$CHECK_ID/state`.
+      description: To show information about an existing check's state, send a GET request to `/v2/uptime/checks/$CHECK_ID/state`.
       tags:
         - Uptime
       parameters:
@@ -2967,9 +2943,7 @@ paths:
     get:
       operationId: uptime_list_alerts
       summary: List All Alerts
-      description: >-
-        To list all of the alerts for an Uptime check, send a GET request to
-        `/v2/uptime/checks/$CHECK_ID/alerts`.
+      description: To list all of the alerts for an Uptime check, send a GET request to `/v2/uptime/checks/$CHECK_ID/alerts`.
       tags:
         - Uptime
       parameters:
@@ -3010,10 +2984,8 @@ paths:
     post:
       operationId: uptime_create_alert
       summary: Create a New Alert
-      description: >
-        To create an Uptime alert, send a POST request to
-        `/v2/uptime/checks/$CHECK_ID/alerts` specifying the attributes
-
+      description: |
+        To create an Uptime alert, send a POST request to `/v2/uptime/checks/$CHECK_ID/alerts` specifying the attributes
         in the table below in the JSON body.
       tags:
         - Uptime
@@ -3021,35 +2993,68 @@ paths:
         - $ref: '#/components/parameters/check_id'
       requestBody:
         required: true
-        description: >
-          The ''type'' field dictates the type of alert, and hence what type of
-          value to pass into the threshold property.
-
+        description: |
+          The ''type'' field dictates the type of alert, and hence what type of value to pass into the threshold property.
           Type | Description | Threshold Value
-
           -----|-------------|--------------------
-
           `latency` | alerts on the response latency | milliseconds
-
-          `down` | alerts on a target registering as down in any region | N/A
-          (Not required)
-
-          `down_global` | alerts on a target registering as down globally | N/A
-          (Not required)
-
-          `ssl_expiry` | alerts on a SSL certificate expiring within $threshold
-          days | days
+          `down` | alerts on a target registering as down in any region | N/A (Not required)
+          `down_global` | alerts on a target registering as down globally | N/A (Not required)
+          `ssl_expiry` | alerts on a SSL certificate expiring within $threshold days | days
         content:
           application/json:
             schema:
               type: object
-              allOf:
-                - $ref: '#/components/schemas/alert'
               required:
                 - name
                 - type
                 - notifications
                 - period
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  readOnly: true
+                  example: 5a4981aa-9653-4bd1-bef5-d6bff52042e4
+                  description: A unique ID that can be used to identify and reference the alert.
+                name:
+                  type: string
+                  example: Landing page degraded performance
+                  description: A human-friendly display name.
+                type:
+                  type: string
+                  example: latency
+                  enum:
+                    - latency
+                    - down
+                    - down_global
+                    - ssl_expiry
+                  description: The type of alert.
+                threshold:
+                  type: integer
+                  example: 300
+                  description: The threshold at which the alert will enter a trigger state. The specific threshold is dependent on the alert type.
+                comparison:
+                  type: string
+                  example: greater_than
+                  description: The comparison operator used against the alert's threshold.
+                  enum:
+                    - greater_than
+                    - less_than
+                notifications:
+                  $ref: '#/components/schemas/notification'
+                period:
+                  type: string
+                  example: 2m
+                  description: Period of time the threshold must be exceeded to trigger the alert.
+                  enum:
+                    - 2m
+                    - 3m
+                    - 5m
+                    - 10m
+                    - 15m
+                    - 30m
+                    - 1h
       responses:
         '201':
           $ref: '#/components/responses/existing_alert'
@@ -3106,9 +3111,7 @@ paths:
     get:
       operationId: uptime_get_alert
       summary: Retrieve an Existing Alert
-      description: >-
-        To show information about an existing alert, send a GET request to
-        `/v2/uptime/checks/$CHECK_ID/alerts/$ALERT_ID`.
+      description: To show information about an existing alert, send a GET request to `/v2/uptime/checks/$CHECK_ID/alerts/$ALERT_ID`.
       tags:
         - Uptime
       parameters:
@@ -3135,26 +3138,21 @@ paths:
               -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
               "https://api.digitalocean.com/v2/uptime/checks/{check_id}/alerts/{alert_id}"
         - lang: Python
-          source: >-
+          source: |-
             import os
-
             from pydo import Client
-
 
             client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
 
-
-            resp = client.uptime.alert_get(check_id="4de7ac8b",
-            alert_id="da9da9")
+            resp = client.uptime.alert_get(check_id="4de7ac8b", alert_id="da9da9")
       security:
         - bearer_auth:
             - uptime:read
     put:
       operationId: uptime_update_alert
       summary: Update an Alert
-      description: >
-        To update the settings of an Uptime alert, send a PUT request to
-        `/v2/uptime/checks/$CHECK_ID/alerts/$ALERT_ID`.
+      description: |
+        To update the settings of an Uptime alert, send a PUT request to `/v2/uptime/checks/$CHECK_ID/alerts/$ALERT_ID`.
       tags:
         - Uptime
       parameters:
@@ -3166,13 +3164,50 @@ paths:
           application/json:
             schema:
               type: object
-              allOf:
-                - $ref: '#/components/schemas/alert_updatable'
               required:
                 - name
                 - type
                 - notifications
                 - period
+              properties:
+                name:
+                  type: string
+                  example: Landing page degraded performance
+                  description: A human-friendly display name.
+                type:
+                  type: string
+                  example: latency
+                  enum:
+                    - latency
+                    - down
+                    - down_global
+                    - ssl_expiry
+                  description: The type of alert.
+                threshold:
+                  type: integer
+                  example: 300
+                  description: The threshold at which the alert will enter a trigger state. The specific threshold is dependent on the alert type.
+                comparison:
+                  type: string
+                  example: greater_than
+                  description: The comparison operator used against the alert's threshold.
+                  enum:
+                    - greater_than
+                    - less_than
+                notifications:
+                  $ref: '#/components/schemas/notification'
+                period:
+                  type: string
+                  example: 2m
+                  description: Period of time the threshold must be exceeded to trigger the alert.
+                  enum:
+                    - 2m
+                    - 3m
+                    - 5m
+                    - 10m
+                    - 15m
+                    - 30m
+                    - 1h
       responses:
         '200':
           $ref: '#/components/responses/existing_alert'
@@ -3195,14 +3230,11 @@ paths:
               -d '{"name":"Landing page down globally","type":"down_global","notifications":{"email":["bob@example.com"],"slack":[{"channel":"Production Alerts","url":"https://hooks.slack.com/services/T1234567/AAAAAAAA/ZZZZZZ"}]},"period":"2m"}' \
               "https://api.digitalocean.com/v2/uptime/checks/{check_id}/alerts/{alert_id}"
         - lang: Python
-          source: >-
+          source: |-
             import os
-
             from pydo import Client
 
-
             client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
-
 
             req = {
               "name": "Landing page degraded performance",
@@ -3223,19 +3255,15 @@ paths:
               "period": "2m"
             }
 
-
-            resp = client.uptime.alert_update(check_id="4de7ac8b",
-            alert_id="da9da9", body=req)
+            resp = client.uptime.alert_update(check_id="4de7ac8b", alert_id="da9da9", body=req)
       security:
         - bearer_auth:
             - uptime:update
     delete:
       operationId: uptime_delete_alert
       summary: Delete an Alert
-      description: >
-        To delete an Uptime alert, send a DELETE request to
-        `/v2/uptime/checks/$CHECK_ID/alerts/$ALERT_ID`. A 204 status
-
+      description: |
+        To delete an Uptime alert, send a DELETE request to `/v2/uptime/checks/$CHECK_ID/alerts/$ALERT_ID`. A 204 status
         code with no body will be returned in response to a successful request.
       tags:
         - Uptime
@@ -3263,17 +3291,13 @@ paths:
               -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
               "https://api.digitalocean.com/v2/uptime/checks/{check_id}/alerts/{alert_id}"
         - lang: Python
-          source: >-
+          source: |-
             import os
-
             from pydo import Client
-
 
             client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
 
-
-            resp = client.uptime.alert_delete(check_id="4de7ac8b",
-            alert_id="da9da9")
+            resp = client.uptime.alert_delete(check_id="4de7ac8b", alert_id="da9da9")
       security:
         - bearer_auth:
             - uptime:delete
@@ -3386,10 +3410,8 @@ components:
           enum:
             - opensearch_dbaas
             - opensearch_ext
-          description: >
-            The destination type. `opensearch_dbaas` for a DigitalOcean managed
-            OpenSearch
-
+          description: |
+            The destination type. `opensearch_dbaas` for a DigitalOcean managed OpenSearch
             cluster or `opensearch_ext` for an externally managed one.
         config:
           $ref: '#/components/schemas/opensearch_config_request'
@@ -3402,9 +3424,7 @@ components:
           type: string
           pattern: ^do:kubernetes:.*
           example: do:kubernetes:f453aa14-646e-4cf8-8c62-75a19fb24ec2
-          description: >-
-            The uniform resource name (URN) for the resource in the format
-            do:resource_type:resource_id.
+          description: The uniform resource name (URN) for the resource in the format do:resource_type:resource_id.
         name:
           type: string
           description: resource name
@@ -3441,9 +3461,7 @@ components:
           example:
             - us_east
             - eu_west
-          description: >-
-            An array containing the selected regions to perform healthchecks
-            from.
+          description: An array containing the selected regions to perform healthchecks from.
         enabled:
           type: boolean
           example: true
@@ -3451,9 +3469,51 @@ components:
           description: A boolean value indicating whether the check is enabled/disabled.
     alert:
       type: object
-      allOf:
-        - $ref: '#/components/schemas/alert_base'
-        - $ref: '#/components/schemas/alert_updatable'
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+          example: 5a4981aa-9653-4bd1-bef5-d6bff52042e4
+          description: A unique ID that can be used to identify and reference the alert.
+        name:
+          type: string
+          example: Landing page degraded performance
+          description: A human-friendly display name.
+        type:
+          type: string
+          example: latency
+          enum:
+            - latency
+            - down
+            - down_global
+            - ssl_expiry
+          description: The type of alert.
+        threshold:
+          type: integer
+          example: 300
+          description: The threshold at which the alert will enter a trigger state. The specific threshold is dependent on the alert type.
+        comparison:
+          type: string
+          example: greater_than
+          description: The comparison operator used against the alert's threshold.
+          enum:
+            - greater_than
+            - less_than
+        notifications:
+          $ref: '#/components/schemas/notification'
+        period:
+          type: string
+          example: 2m
+          description: Period of time the threshold must be exceeded to trigger the alert.
+          enum:
+            - 2m
+            - 3m
+            - 5m
+            - 10m
+            - 15m
+            - 30m
+            - 1h
     alert_updatable:
       type: object
       properties:
@@ -3473,9 +3533,7 @@ components:
         threshold:
           type: integer
           example: 300
-          description: >-
-            The threshold at which the alert will enter a trigger state. The
-            specific threshold is dependent on the alert type.
+          description: The threshold at which the alert will enter a trigger state. The specific threshold is dependent on the alert type.
         comparison:
           type: string
           example: greater_than
@@ -3515,33 +3573,30 @@ components:
       type: object
       properties:
         meta:
-          allOf:
-            - $ref: '#/components/schemas/meta_properties'
-            - required:
-                - total
+          type: object
+          description: Information about the response itself.
+          properties:
+            total:
+              description: Number of objects returned by the request.
+              type: integer
+              example: 1
+          required:
+            - total
       required:
         - meta
     error:
       type: object
       properties:
         id:
-          description: >-
-            A short identifier corresponding to the HTTP status code returned.
-            For  example, the ID for a response returning a 404 status code
-            would be "not_found."
+          description: A short identifier corresponding to the HTTP status code returned. For  example, the ID for a response returning a 404 status code would be "not_found."
           type: string
           example: not_found
         message:
-          description: >-
-            A message providing additional information about the error,
-            including  details to help resolve it when possible.
+          description: A message providing additional information about the error, including  details to help resolve it when possible.
           type: string
           example: The resource you were accessing could not be found.
         request_id:
-          description: >-
-            Optionally, some endpoints may include a request ID that should be 
-            provided when reporting bugs or opening support tickets to help 
-            identify the issue.
+          description: Optionally, some endpoints may include a request ID that should be  provided when reporting bugs or opening support tickets to help  identify the issue.
           type: string
           example: 4d9d8375-3c56-4925-a3e7-eb137fed17e9
       required:
@@ -3681,9 +3736,7 @@ components:
       properties:
         credentials:
           type: object
-          description: >-
-            Credentials for an OpenSearch cluster user. Optional if
-            `cluster_uuid` is passed.
+          description: Credentials for an OpenSearch cluster user. Optional if `cluster_uuid` is passed.
           properties:
             username:
               type: string
@@ -3728,22 +3781,17 @@ components:
           enum:
             - opensearch_dbaas
             - opensearch_ext
-          description: >
-            The destination type. `opensearch_dbaas` for a DigitalOcean managed
-            OpenSearch
-
+          description: |
+            The destination type. `opensearch_dbaas` for a DigitalOcean managed OpenSearch
             cluster or `opensearch_ext` for an externally managed one.
           example: opensearch_dbaas
         config:
           $ref: '#/components/schemas/opensearch_config_omit_credentials'
     urn:
       type: string
-      pattern: >-
-        ^do:(dbaas|domain|droplet|floatingip|loadbalancer|space|volume|kubernetes|vpc):.*
+      pattern: ^do:(dbaas|domain|droplet|floatingip|loadbalancer|space|volume|kubernetes|vpc):.*
       example: do:droplet:13457723
-      description: >-
-        The uniform resource name (URN) for the resource in the format
-        do:resource_type:resource_id.
+      description: The uniform resource name (URN) for the resource in the format do:resource_type:resource_id.
     sinks_response:
       type: object
       required:
@@ -3758,9 +3806,48 @@ components:
             $ref: '#/components/schemas/sink_resource'
     check:
       type: object
-      allOf:
-        - $ref: '#/components/schemas/check_base'
-        - $ref: '#/components/schemas/check_updatable'
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+          example: 5a4981aa-9653-4bd1-bef5-d6bff52042e4
+          description: A unique ID that can be used to identify and reference the check.
+        name:
+          type: string
+          example: Landing page check
+          description: A human-friendly display name.
+        type:
+          type: string
+          example: https
+          enum:
+            - ping
+            - http
+            - https
+          description: The type of health check to perform.
+        target:
+          type: string
+          format: url
+          example: https://www.landingpage.com
+          description: The endpoint to perform healthchecks on.
+        regions:
+          type: array
+          items:
+            type: string
+            enum:
+              - us_east
+              - us_west
+              - eu_west
+              - se_asia
+          example:
+            - us_east
+            - eu_west
+          description: An array containing the selected regions to perform healthchecks from.
+        enabled:
+          type: boolean
+          example: true
+          default: true
+          description: A boolean value indicating whether the check is enabled/disabled.
     state:
       type: object
       properties:
@@ -3785,9 +3872,7 @@ components:
         - email
       properties:
         email:
-          description: >-
-            An email to notify on an alert trigger. The Email has to be one that
-            is verified on that DigitalOcean account.
+          description: An email to notify on an alert trigger. The Email has to be one that is verified on that DigitalOcean account.
           example:
             - bob@example.com
           type: array
@@ -3816,14 +3901,28 @@ components:
       type: object
       properties:
         pages:
-          anyOf:
-            - $ref: '#/components/schemas/forward_links'
-            - $ref: '#/components/schemas/backward_links'
-            - {}
           example:
             pages:
               first: https://api.digitalocean.com/v2/account/keys?page=1
               prev: https://api.digitalocean.com/v2/account/keys?page=2
+          type: object
+          properties:
+            last:
+              description: URI of the last page of the results.
+              type: string
+              example: https://api.digitalocean.com/v2/images?page=2
+            next:
+              description: URI of the next page of the results.
+              type: string
+              example: https://api.digitalocean.com/v2/images?page=2
+            first:
+              description: URI of the first page of the results.
+              type: string
+              example: https://api.digitalocean.com/v2/images?page=1
+            prev:
+              description: URI of the previous page of the results.
+              type: string
+              example: https://api.digitalocean.com/v2/images?page=1
     meta_properties:
       type: object
       description: Information about the response itself.
@@ -3909,10 +4008,8 @@ components:
           enum:
             - opensearch_dbaas
             - opensearch_ext
-          description: >
-            The destination type. `opensearch_dbaas` for a DigitalOcean managed
-            OpenSearch
-
+          description: |
+            The destination type. `opensearch_dbaas` for a DigitalOcean managed OpenSearch
             cluster or `opensearch_ext` for an externally managed one.
           example: opensearch_dbaas
         config:
@@ -3950,13 +4047,27 @@ components:
           type: integer
           example: 120
     forward_links:
-      allOf:
-        - $ref: '#/components/schemas/link_to_last_page'
-        - $ref: '#/components/schemas/link_to_next_page'
+      type: object
+      properties:
+        last:
+          description: URI of the last page of the results.
+          type: string
+          example: https://api.digitalocean.com/v2/images?page=2
+        next:
+          description: URI of the next page of the results.
+          type: string
+          example: https://api.digitalocean.com/v2/images?page=2
     backward_links:
-      allOf:
-        - $ref: '#/components/schemas/link_to_first_page'
-        - $ref: '#/components/schemas/link_to_prev_page'
+      type: object
+      properties:
+        first:
+          description: URI of the first page of the results.
+          type: string
+          example: https://api.digitalocean.com/v2/images?page=1
+        prev:
+          description: URI of the previous page of the results.
+          type: string
+          example: https://api.digitalocean.com/v2/images?page=1
     metrics_result:
       type: object
       required:
@@ -3965,12 +4076,7 @@ components:
       properties:
         metric:
           type: object
-          description: >-
-            An object containing the metric's labels. These labels are key/value
-            pairs that vary depending on the metric being queried. For example,
-            load balancer metrics contain a `lb_id` label, while Droplet metrics
-            contain a `host_id` label, and App Platform metrics contain a
-            `app_component` label.
+          description: An object containing the metric's labels. These labels are key/value pairs that vary depending on the metric being queried. For example, load balancer metrics contain a `lb_id` label, while Droplet metrics contain a `host_id` label, and App Platform metrics contain a `app_component` label.
           additionalProperties:
             type: string
           example:
@@ -4000,9 +4106,7 @@ components:
           example: 41078d41-165c-4cff-9f0a-19536e3e3d49
         credentials:
           type: object
-          description: >-
-            Credentials for an OpenSearch cluster user. Optional if
-            `cluster_uuid` is passed.
+          description: Credentials for an OpenSearch cluster user. Optional if `cluster_uuid` is passed.
           properties:
             username:
               type: string
@@ -4087,10 +4191,6 @@ components:
       content:
         application/json:
           schema:
-            allOf:
-              - $ref: '#/components/schemas/list_alert_policy'
-              - $ref: '#/components/schemas/pagination'
-              - $ref: '#/components/schemas/meta'
             example:
               policies:
                 - alerts:
@@ -4098,8 +4198,7 @@ components:
                       - bob@example.com
                     slack:
                       - channel: Production Alerts
-                        url: >-
-                          https://hooks.slack.com/services/T1234567/AAAAAAAA/ZZZZZZ"
+                        url: https://hooks.slack.com/services/T1234567/AAAAAAAA/ZZZZZZ"
                   compare: GreaterThan
                   description: CPU Alert
                   enabled: true
@@ -4112,16 +4211,33 @@ components:
                   value: 80
                   window: 5m
               links:
-                first: >-
-                  https//api.digitalocean.com/v2/monitoring/alerts?page=1&per_page=10
-                prev: >-
-                  https//api.digitalocean.com/v2/monitoring/alerts?page=2&per_page=10
-                next: >-
-                  https//api.digitalocean.com/v2/monitoring/alerts?page=4&per_page=10
-                last: >-
-                  https//api.digitalocean.com/v2/monitoring/alerts?page=5&per_page=10
+                first: https//api.digitalocean.com/v2/monitoring/alerts?page=1&per_page=10
+                prev: https//api.digitalocean.com/v2/monitoring/alerts?page=2&per_page=10
+                next: https//api.digitalocean.com/v2/monitoring/alerts?page=4&per_page=10
+                last: https//api.digitalocean.com/v2/monitoring/alerts?page=5&per_page=10
               meta:
                 total: 50
+            type: object
+            required:
+              - policies
+              - meta
+            properties:
+              policies:
+                type: array
+                items:
+                  $ref: '#/components/schemas/alert_policy'
+              links:
+                $ref: '#/components/schemas/page_links'
+              meta:
+                type: object
+                description: Information about the response itself.
+                properties:
+                  total:
+                    description: Number of objects returned by the request.
+                    type: integer
+                    example: 1
+                required:
+                  - total
     unauthorized:
       description: Authentication failed due to invalid credentials.
       headers:
@@ -4228,9 +4344,7 @@ components:
         ratelimit-reset:
           $ref: '#/components/headers/ratelimit-reset'
     droplet_bandwidth_metric_response:
-      description: >-
-        The response will be a JSON object with a key called `data` and
-        `status`.
+      description: The response will be a JSON object with a key called `data` and `status`.
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -4252,9 +4366,7 @@ components:
             Outbound Public Bandwidth:
               $ref: '#/components/examples/outbound_public_droplet_bandwidth'
     droplet_cpu_metric_response:
-      description: >-
-        The response will be a JSON object with a key called `data` and
-        `status`.
+      description: The response will be a JSON object with a key called `data` and `status`.
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -4270,9 +4382,7 @@ components:
             CPU:
               $ref: '#/components/examples/droplet_cpu'
     droplet_filesystem_metric_response:
-      description: >-
-        The response will be a JSON object with a key called `data` and
-        `status`.
+      description: The response will be a JSON object with a key called `data` and `status`.
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -4288,9 +4398,7 @@ components:
             Filesystem:
               $ref: '#/components/examples/droplet_filesystem'
     metric_response:
-      description: >-
-        The response will be a JSON object with a key called `data` and
-        `status`.
+      description: The response will be a JSON object with a key called `data` and `status`.
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -4303,9 +4411,7 @@ components:
           schema:
             $ref: '#/components/schemas/metrics'
     app_metric_response:
-      description: >-
-        The response will be a JSON object with a key called `data` and
-        `status`.
+      description: The response will be a JSON object with a key called `data` and `status`.
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -4355,9 +4461,7 @@ components:
                   $ref: '#/components/schemas/destination_omit_credentials'
             type: object
     accepted:
-      description: >-
-        This does not indicate the success or failure of any operation, just
-        that the request has been accepted for processing.
+      description: This does not indicate the success or failure of any operation, just that the request has been accepted for processing.
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -4401,10 +4505,7 @@ components:
                 $ref: '#/components/schemas/sinks_response'
             type: object
     all_checks:
-      description: >-
-        The response will be a JSON object with a key called `checks`. This will
-        be set to an array of objects, each of which will contain the standard
-        attributes associated with an uptime check
+      description: The response will be a JSON object with a key called `checks`. This will be set to an array of objects, each of which will contain the standard attributes associated with an uptime check
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -4415,20 +4516,28 @@ components:
       content:
         application/json:
           schema:
-            allOf:
-              - type: object
+            type: object
+            properties:
+              checks:
+                type: array
+                items:
+                  $ref: '#/components/schemas/check'
+              links:
+                $ref: '#/components/schemas/page_links'
+              meta:
+                type: object
+                description: Information about the response itself.
                 properties:
-                  checks:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/check'
-              - $ref: '#/components/schemas/pagination'
-              - $ref: '#/components/schemas/meta'
+                  total:
+                    description: Number of objects returned by the request.
+                    type: integer
+                    example: 1
+                required:
+                  - total
+            required:
+              - meta
     existing_check:
-      description: >-
-        The response will be a JSON object with a key called `check`. The value
-        of this will be an object that contains the standard attributes
-        associated with an uptime check.
+      description: The response will be a JSON object with a key called `check`. The value of this will be an object that contains the standard attributes associated with an uptime check.
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -4444,10 +4553,7 @@ components:
               check:
                 $ref: '#/components/schemas/check'
     existing_check_state:
-      description: >-
-        The response will be a JSON object with a key called `state`. The value
-        of this will be an object that contains the standard attributes
-        associated with an uptime check's state.
+      description: The response will be a JSON object with a key called `state`. The value of this will be an object that contains the standard attributes associated with an uptime check's state.
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -4463,10 +4569,7 @@ components:
               state:
                 $ref: '#/components/schemas/state'
     all_alerts:
-      description: >-
-        The response will be a JSON object with a key called `alerts`. This will
-        be set to an array of objects, each of which will contain the standard
-        attributes associated with an uptime alert.
+      description: The response will be a JSON object with a key called `alerts`. This will be set to an array of objects, each of which will contain the standard attributes associated with an uptime alert.
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -4477,20 +4580,28 @@ components:
       content:
         application/json:
           schema:
-            allOf:
-              - type: object
+            type: object
+            properties:
+              alerts:
+                type: array
+                items:
+                  $ref: '#/components/schemas/alert'
+              links:
+                $ref: '#/components/schemas/page_links'
+              meta:
+                type: object
+                description: Information about the response itself.
                 properties:
-                  alerts:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/alert'
-              - $ref: '#/components/schemas/pagination'
-              - $ref: '#/components/schemas/meta'
+                  total:
+                    description: Number of objects returned by the request.
+                    type: integer
+                    example: 1
+                required:
+                  - total
+            required:
+              - meta
     existing_alert:
-      description: >-
-        The response will be a JSON object with a key called `alert`. The value
-        of this will be an object that contains the standard attributes
-        associated with an uptime alert.
+      description: The response will be a JSON object with a key called `alert`. The value of this will be an object that contains the standard attributes associated with an uptime alert.
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -4613,6 +4724,84 @@ components:
       schema:
         type: string
       example: 0d3db13e-a604-4944-9827-7ec2642d32ac
+    db_id:
+      in: query
+      name: db_id
+      required: true
+      description: The DBaaS cluster UUID (database ID).
+      schema:
+        type: string
+        format: uuid
+      example: 9cc10173-e9ea-4176-9dbc-a4cee4c4ff30
+    aggregate_avg_max_min:
+      in: query
+      name: aggregate
+      required: true
+      description: Aggregation over the time range (avg, max, or min).
+      schema:
+        type: string
+        enum:
+          - avg
+          - max
+          - min
+      example: avg
+    metric_load:
+      in: query
+      name: metric
+      required: true
+      description: 'Load window: **load1** (1-minute), **load5** (5-minute), **load15** (15-minute). The value is either average or max over that window, depending on the **aggregate** parameter (avg or max).'
+      schema:
+        type: string
+        enum:
+          - load1
+          - load5
+          - load15
+      example: load1
+    aggregate_avg_max:
+      in: query
+      name: aggregate
+      required: true
+      description: Aggregation over the time range (avg or max).
+      schema:
+        type: string
+        enum:
+          - avg
+          - max
+      example: avg
+    metric_op_rates:
+      in: query
+      name: metric
+      required: true
+      description: Operation type (select, insert, update, or delete).
+      schema:
+        type: string
+        enum:
+          - select
+          - insert
+          - update
+          - delete
+      example: select
+    schema:
+      in: query
+      name: schema
+      required: true
+      description: The schema (database) name.
+      schema:
+        type: string
+      example: defaultdb
+    metric_schema_io:
+      in: query
+      name: metric
+      required: true
+      description: Table I/O operation (insert, fetch, update, or delete).
+      schema:
+        type: string
+        enum:
+          - insert
+          - fetch
+          - update
+          - delete
+      example: insert
     destination_uuid:
       in: path
       name: destination_uuid
@@ -4859,28 +5048,17 @@ components:
       schema:
         type: integer
       example: 5000
-      description: >-
-        The default limit on number of requests that can be made per hour and
-        per minute. Current rate limits are 5000 requests per hour and 250
-        requests per minute.
+      description: The default limit on number of requests that can be made per hour and per minute. Current rate limits are 5000 requests per hour and 250 requests per minute.
     ratelimit-remaining:
       schema:
         type: integer
       example: 4816
-      description: >-
-        The number of requests in your hourly quota that remain before you hit
-        your request limit. See
-        https://developers.digitalocean.com/documentation/v2/#rate-limit for
-        information about how requests expire.
+      description: The number of requests in your hourly quota that remain before you hit your request limit. See https://developers.digitalocean.com/documentation/v2/#rate-limit for information about how requests expire.
     ratelimit-reset:
       schema:
         type: integer
       example: 1444931833
-      description: >-
-        The time when the oldest request will expire. The value is given in Unix
-        epoch time. See
-        https://developers.digitalocean.com/documentation/v2/#rate-limit for
-        information about how requests expire.
+      description: The time when the oldest request will expire. The value is given in Unix epoch time. See https://developers.digitalocean.com/documentation/v2/#rate-limit for information about how requests expire.
 servers:
   - url: https://api.digitalocean.com
     description: production

@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>connection_pools</code> resourc
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>connection_pools</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="connection_pools" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.connection_pools" /></td></tr>
 </tbody></table>
@@ -194,14 +195,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#databases_add_connection_pool"><CopyableCode code="databases_add_connection_pool" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__mode"><code>data__mode</code></a>, <a href="#parameter-data__size"><code>data__size</code></a>, <a href="#parameter-data__db"><code>data__db</code></a></td>
+    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-mode"><code>mode</code></a>, <a href="#parameter-size"><code>size</code></a>, <a href="#parameter-db"><code>db</code></a></td>
     <td></td>
     <td>For PostgreSQL database clusters, connection pools can be used to allow a<br />database to share its idle connections. The popular PostgreSQL connection<br />pooling utility PgBouncer is used to provide this service. [See here for more information](https://docs.digitalocean.com/products/databases/postgresql/how-to/manage-connection-pools/)<br />about how and why to use PgBouncer connection pooling including<br />details about the available transaction modes.<br /><br />To add a new connection pool to a PostgreSQL database cluster, send a POST<br />request to `/v2/databases/$DATABASE_ID/pools` specifying a name for the pool,<br />the user to connect with, the database to connect to, as well as its desired<br />size and transaction mode.<br /></td>
 </tr>
 <tr>
     <td><a href="#databases_update_connection_pool"><CopyableCode code="databases_update_connection_pool" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-pool_name"><code>pool_name</code></a>, <a href="#parameter-data__mode"><code>data__mode</code></a>, <a href="#parameter-data__size"><code>data__size</code></a>, <a href="#parameter-data__db"><code>data__db</code></a></td>
+    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-pool_name"><code>pool_name</code></a>, <a href="#parameter-mode"><code>mode</code></a>, <a href="#parameter-size"><code>size</code></a>, <a href="#parameter-db"><code>db</code></a></td>
     <td></td>
     <td>To update a connection pool for a PostgreSQL database cluster, send a PUT request to  `/v2/databases/$DATABASE_ID/pools/$POOL_NAME`.</td>
 </tr>
@@ -309,11 +310,11 @@ For PostgreSQL database clusters, connection pools can be used to allow a<br />d
 
 ```sql
 INSERT INTO digitalocean.databases.connection_pools (
-data__name,
-data__mode,
-data__size,
-data__db,
-data__user,
+name,
+mode,
+size,
+db,
+user,
 database_cluster_uuid
 )
 SELECT 
@@ -330,39 +331,34 @@ pool
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: connection_pools
   props:
     - name: database_cluster_uuid
-      value: string (uuid)
+      value: "{{ database_cluster_uuid }}"
       description: Required parameter for the connection_pools resource.
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         A unique name for the connection pool. Must be between 3 and 60 characters.
-        
     - name: mode
-      value: string
-      description: >
+      value: "{{ mode }}"
+      description: |
         The PGBouncer transaction mode for the connection pool. The allowed values are session, transaction, and statement.
-        
     - name: size
-      value: integer
-      description: >
+      value: {{ size }}
+      description: |
         The desired size of the PGBouncer connection pool. The maximum allowed size is determined by the size of the cluster's primary node. 25 backend server connections are allowed for every 1GB of RAM. Three are reserved for maintenance. For example, a primary node with 1 GB of RAM allows for a maximum of 22 backend server connections while one with 4 GB would allow for 97. Note that these are shared across all connection pools in a cluster.
-        
     - name: db
-      value: string
-      description: >
+      value: "{{ db }}"
+      description: |
         The database for use with the connection pool.
-        
     - name: user
-      value: string
-      description: >
+      value: "{{ user }}"
+      description: |
         The name of the user for use with the connection pool. When excluded, all sessions connect to the database as the inbound user.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -382,16 +378,16 @@ To update a connection pool for a PostgreSQL database cluster, send a PUT reques
 ```sql
 REPLACE digitalocean.databases.connection_pools
 SET 
-data__mode = '{{ mode }}',
-data__size = {{ size }},
-data__db = '{{ db }}',
-data__user = '{{ user }}'
+mode = '{{ mode }}',
+size = {{ size }},
+db = '{{ db }}',
+user = '{{ user }}'
 WHERE 
 database_cluster_uuid = '{{ database_cluster_uuid }}' --required
 AND pool_name = '{{ pool_name }}' --required
-AND data__mode = '{{ mode }}' --required
-AND data__size = '{{ size }}' --required
-AND data__db = '{{ db }}' --required;
+AND mode = '{{ mode }}' --required
+AND size = '{{ size }}' --required
+AND db = '{{ db }}' --required;
 ```
 </TabItem>
 </Tabs>

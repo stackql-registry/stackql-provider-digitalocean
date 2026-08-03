@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>agent_routes</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>agent_routes</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="agent_routes" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.genai.agent_routes" /></td></tr>
 </tbody></table>
@@ -161,9 +162,24 @@ A successful response.
     <td></td>
 </tr>
 <tr>
+    <td><CopyableCode code="mcp_servers" /></td>
+    <td><code>array</code></td>
+    <td>MCP (Model Context Protocol) servers attached to this agent</td>
+</tr>
+<tr>
     <td><CopyableCode code="model" /></td>
     <td><code>object</code></td>
     <td>Description of a Model</td>
+</tr>
+<tr>
+    <td><CopyableCode code="model_provider_key" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="model_router" /></td>
+    <td><code>object</code></td>
+    <td>Model router</td>
 </tr>
 <tr>
     <td><CopyableCode code="openai_api_key" /></td>
@@ -181,6 +197,11 @@ A successful response.
     <td>Whether the agent should provide in-response citations</td>
 </tr>
 <tr>
+    <td><CopyableCode code="reasoning_effort" /></td>
+    <td><code>string</code></td>
+    <td>The reasoning effort for the agent (example: example string)</td>
+</tr>
+<tr>
     <td><CopyableCode code="region" /></td>
     <td><code>string</code></td>
     <td>Region code (example: example string)</td>
@@ -188,7 +209,7 @@ A successful response.
 <tr>
     <td><CopyableCode code="retrieval_method" /></td>
     <td><code>string</code></td>
-    <td>- RETRIEVAL_METHOD_UNKNOWN: The retrieval method is unknown  - RETRIEVAL_METHOD_REWRITE: The retrieval method is rewrite  - RETRIEVAL_METHOD_STEP_BACK: The retrieval method is step back  - RETRIEVAL_METHOD_SUB_QUERIES: The retrieval method is sub queries  - RETRIEVAL_METHOD_NONE: The retrieval method is none (default: RETRIEVAL_METHOD_UNKNOWN, example: RETRIEVAL_METHOD_UNKNOWN)</td>
+    <td>- RETRIEVAL_METHOD_UNKNOWN: The retrieval method is unknown  - RETRIEVAL_METHOD_REWRITE: The retrieval method is rewrite  - RETRIEVAL_METHOD_STEP_BACK: The retrieval method is step back  - RETRIEVAL_METHOD_SUB_QUERIES: The retrieval method is sub queries  - RETRIEVAL_METHOD_NONE: The retrieval method is none (RETRIEVAL_METHOD_UNKNOWN, RETRIEVAL_METHOD_REWRITE, RETRIEVAL_METHOD_STEP_BACK, RETRIEVAL_METHOD_SUB_QUERIES, RETRIEVAL_METHOD_NONE) (default: RETRIEVAL_METHOD_UNKNOWN, example: RETRIEVAL_METHOD_UNKNOWN)</td>
 </tr>
 <tr>
     <td><CopyableCode code="route_created_at" /></td>
@@ -221,6 +242,11 @@ A successful response.
     <td>Represents an AgentTemplate entity</td>
 </tr>
 <tr>
+    <td><CopyableCode code="thinking_token_budget" /></td>
+    <td><code>integer (int64)</code></td>
+    <td>The thinking token budget for Anthropic extended thinking (0 = disabled)</td>
+</tr>
+<tr>
     <td><CopyableCode code="top_p" /></td>
     <td><code>number (float)</code></td>
     <td></td>
@@ -244,6 +270,26 @@ A successful response.
     <td><CopyableCode code="version_hash" /></td>
     <td><code>string</code></td>
     <td>The latest version of the agent (example: example string)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="vpc_egress_ips" /></td>
+    <td><code>array</code></td>
+    <td>VPC Egress IPs</td>
+</tr>
+<tr>
+    <td><CopyableCode code="vpc_uuid" /></td>
+    <td><code>string</code></td>
+    <td> (example: "12345678-1234-1234-1234-123456789012")</td>
+</tr>
+<tr>
+    <td><CopyableCode code="web_fetch_enabled" /></td>
+    <td><code>boolean</code></td>
+    <td>Whether this agent can use the built-in web_fetch tool.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="web_search_enabled" /></td>
+    <td><code>boolean</code></td>
+    <td>Whether this agent can use the built-in web_search tool.</td>
 </tr>
 <tr>
     <td><CopyableCode code="workspace" /></td>
@@ -337,10 +383,14 @@ k,
 knowledge_bases,
 logging_config,
 max_tokens,
+mcp_servers,
 model,
+model_provider_key,
+model_router,
 openai_api_key,
 parent_agents,
 provide_citations,
+reasoning_effort,
 region,
 retrieval_method,
 route_created_at,
@@ -349,11 +399,16 @@ route_uuid,
 tags,
 temperature,
 template,
+thinking_token_budget,
 top_p,
 updated_at,
 url,
 uuid,
 version_hash,
+vpc_egress_ips,
+vpc_uuid,
+web_fetch_enabled,
+web_search_enabled,
 workspace
 FROM digitalocean.genai.agent_routes
 WHERE uuid = '{{ uuid }}' -- required

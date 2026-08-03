@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>docker_credentials</code> resou
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>docker_credentials</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="docker_credentials" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.container_registry.docker_credentials" /></td></tr>
 </tbody></table>
@@ -87,7 +88,7 @@ The following methods are available for this resource:
     <td><CopyableCode code="exec" /></td>
     <td></td>
     <td><a href="#parameter-expiry_seconds"><code>expiry_seconds</code></a>, <a href="#parameter-read_write"><code>read_write</code></a></td>
-    <td>In order to access your container registry with the Docker client or from a<br />Kubernetes cluster, you will need to configure authentication. The necessary<br />JSON configuration can be retrieved by sending a GET request to<br />`/v2/registry/docker-credentials`.<br /><br />The response will be in the format of a Docker `config.json` file. To use the<br />config in your Kubernetes cluster, create a Secret with:<br /><br />    kubectl create secret generic docr \<br />      --from-file=.dockerconfigjson=config.json \<br />      --type=kubernetes.io/dockerconfigjson<br /><br />By default, the returned credentials have read-only access to your registry<br />and cannot be used to push images. This is appropriate for most Kubernetes<br />clusters. To retrieve read/write credentials, suitable for use with the Docker<br />client or in a CI system, read_write may be provided as query parameter. For<br />example: `/v2/registry/docker-credentials?read_write=true`<br /><br />By default, the returned credentials will not expire. To retrieve credentials<br />with an expiry set, expiry_seconds may be provided as a query parameter. For<br />example: `/v2/registry/docker-credentials?expiry_seconds=3600` will return<br />credentials that expire after one hour.<br /></td>
+    <td>**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />In order to access your container registry with the Docker client or from a<br />Kubernetes cluster, you will need to configure authentication. The necessary<br />JSON configuration can be retrieved by sending a GET request to<br />`/v2/registry/docker-credentials`.<br /><br />The response will be in the format of a Docker `config.json` file. To use the<br />config in your Kubernetes cluster, create a Secret with:<br /><br />    kubectl create secret generic docr \<br />      --from-file=.dockerconfigjson=config.json \<br />      --type=kubernetes.io/dockerconfigjson<br /><br />By default, the returned credentials have read-only access to your registry<br />and cannot be used to push images. This is appropriate for most Kubernetes<br />clusters. To retrieve read/write credentials, suitable for use with the Docker<br />client or in a CI system, read_write may be provided as query parameter. For<br />example: `/v2/registry/docker-credentials?read_write=true`<br /><br />By default, the returned credentials will not expire. To retrieve credentials<br />with an expiry set, expiry_seconds may be provided as a query parameter. For<br />example: `/v2/registry/docker-credentials?expiry_seconds=3600` will return<br />credentials that expire after one hour.<br /></td>
 </tr>
 </tbody>
 </table>
@@ -156,7 +157,7 @@ WHERE registry_name = '{{ registry_name }}' -- required
 >
 <TabItem value="registry_get_docker_credentials_legacy">
 
-In order to access your container registry with the Docker client or from a<br />Kubernetes cluster, you will need to configure authentication. The necessary<br />JSON configuration can be retrieved by sending a GET request to<br />`/v2/registry/docker-credentials`.<br /><br />The response will be in the format of a Docker `config.json` file. To use the<br />config in your Kubernetes cluster, create a Secret with:<br /><br />    kubectl create secret generic docr \<br />      --from-file=.dockerconfigjson=config.json \<br />      --type=kubernetes.io/dockerconfigjson<br /><br />By default, the returned credentials have read-only access to your registry<br />and cannot be used to push images. This is appropriate for most Kubernetes<br />clusters. To retrieve read/write credentials, suitable for use with the Docker<br />client or in a CI system, read_write may be provided as query parameter. For<br />example: `/v2/registry/docker-credentials?read_write=true`<br /><br />By default, the returned credentials will not expire. To retrieve credentials<br />with an expiry set, expiry_seconds may be provided as a query parameter. For<br />example: `/v2/registry/docker-credentials?expiry_seconds=3600` will return<br />credentials that expire after one hour.<br />
+**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />In order to access your container registry with the Docker client or from a<br />Kubernetes cluster, you will need to configure authentication. The necessary<br />JSON configuration can be retrieved by sending a GET request to<br />`/v2/registry/docker-credentials`.<br /><br />The response will be in the format of a Docker `config.json` file. To use the<br />config in your Kubernetes cluster, create a Secret with:<br /><br />    kubectl create secret generic docr \<br />      --from-file=.dockerconfigjson=config.json \<br />      --type=kubernetes.io/dockerconfigjson<br /><br />By default, the returned credentials have read-only access to your registry<br />and cannot be used to push images. This is appropriate for most Kubernetes<br />clusters. To retrieve read/write credentials, suitable for use with the Docker<br />client or in a CI system, read_write may be provided as query parameter. For<br />example: `/v2/registry/docker-credentials?read_write=true`<br /><br />By default, the returned credentials will not expire. To retrieve credentials<br />with an expiry set, expiry_seconds may be provided as a query parameter. For<br />example: `/v2/registry/docker-credentials?expiry_seconds=3600` will return<br />credentials that expire after one hour.<br />
 
 ```sql
 EXEC digitalocean.container_registry.docker_credentials.registry_get_docker_credentials_legacy 

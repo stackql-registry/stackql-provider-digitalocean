@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>droplet_autoscale_pool_history<
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>droplet_autoscale_pool_history</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="droplet_autoscale_pool_history" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.droplet_autoscale_pool_history" /></td></tr>
 </tbody></table>
@@ -73,12 +74,12 @@ A JSON object with a key of `history`.
 <tr>
     <td><CopyableCode code="reason" /></td>
     <td><code>string</code></td>
-    <td>The reason for the scaling event. (example: CONFIGURATION_CHANGE)</td>
+    <td>The reason for the scaling event. (CONFIGURATION_CHANGE, SCALE_UP, SCALE_DOWN) (example: CONFIGURATION_CHANGE)</td>
 </tr>
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>The status of the scaling event. (example: success)</td>
+    <td>The status of the scaling event. (in_progress, success, error) (example: success)</td>
 </tr>
 <tr>
     <td><CopyableCode code="updated_at" /></td>

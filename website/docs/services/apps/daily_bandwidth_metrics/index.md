@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>daily_bandwidth_metrics</code> 
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>daily_bandwidth_metrics</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="daily_bandwidth_metrics" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.apps.daily_bandwidth_metrics" /></td></tr>
 </tbody></table>
@@ -90,7 +91,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#apps_list_metrics_bandwidth_daily"><CopyableCode code="apps_list_metrics_bandwidth_daily" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__app_ids"><code>data__app_ids</code></a></td>
+    <td><a href="#parameter-app_ids"><code>app_ids</code></a></td>
     <td></td>
     <td>Retrieve daily bandwidth usage metrics for multiple apps.</td>
 </tr>
@@ -163,8 +164,8 @@ Retrieve daily bandwidth usage metrics for multiple apps.
 
 ```sql
 INSERT INTO digitalocean.apps.daily_bandwidth_metrics (
-data__app_ids,
-data__date
+app_ids,
+date
 )
 SELECT 
 '{{ app_ids }}' /* required */,
@@ -177,20 +178,19 @@ date
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: daily_bandwidth_metrics
   props:
     - name: app_ids
-      value: array
-      description: >
+      value:
+        - "{{ app_ids }}"
+      description: |
         A list of app IDs to query bandwidth metrics for.
-        
     - name: date
-      value: string
-      description: >
+      value: "{{ date }}"
+      description: |
         Optional day to query. Only the date component of the timestamp will be considered. Default: yesterday.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>

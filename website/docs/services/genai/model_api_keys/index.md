@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>model_api_keys</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>model_api_keys</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="model_api_keys" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.genai.model_api_keys" /></td></tr>
 </tbody></table>
@@ -91,13 +92,6 @@ The following methods are available for this resource:
     <td></td>
     <td><a href="#parameter-page"><code>page</code></a>, <a href="#parameter-per_page"><code>per_page</code></a></td>
     <td>To list all model API keys, send a GET request to `/v2/gen-ai/models/api_keys`.</td>
-</tr>
-<tr>
-    <td><a href="#genai_create_model_api_key"><CopyableCode code="genai_create_model_api_key" /></a></td>
-    <td><CopyableCode code="insert" /></td>
-    <td></td>
-    <td></td>
-    <td>To create a model API key, send a POST request to `/v2/gen-ai/models/api_keys`.</td>
 </tr>
 <tr>
     <td><a href="#genai_update_model_api_key"><CopyableCode code="genai_update_model_api_key" /></a></td>
@@ -180,46 +174,6 @@ AND per_page = '{{ per_page }}'
 </Tabs>
 
 
-## `INSERT` examples
-
-<Tabs
-    defaultValue="genai_create_model_api_key"
-    values={[
-        { label: 'genai_create_model_api_key', value: 'genai_create_model_api_key' },
-        { label: 'Manifest', value: 'manifest' }
-    ]}
->
-<TabItem value="genai_create_model_api_key">
-
-To create a model API key, send a POST request to `/v2/gen-ai/models/api_keys`.
-
-```sql
-INSERT INTO digitalocean.genai.model_api_keys (
-data__name
-)
-SELECT 
-'{{ name }}'
-RETURNING
-api_key_info
-;
-```
-</TabItem>
-<TabItem value="manifest">
-
-```yaml
-# Description fields are for documentation purposes
-- name: model_api_keys
-  props:
-    - name: name
-      value: string
-      description: >
-        A human friendly name to identify the key
-        
-```
-</TabItem>
-</Tabs>
-
-
 ## `REPLACE` examples
 
 <Tabs
@@ -235,8 +189,8 @@ To update a model API key, send a PUT request to `/v2/gen-ai/models/api_keys/&#1
 ```sql
 REPLACE digitalocean.genai.model_api_keys
 SET 
-data__api_key_uuid = '{{ api_key_uuid }}',
-data__name = '{{ name }}'
+api_key_uuid = '{{ api_key_uuid }}',
+name = '{{ name }}'
 WHERE 
 api_key_uuid = '{{ api_key_uuid }}' --required
 RETURNING

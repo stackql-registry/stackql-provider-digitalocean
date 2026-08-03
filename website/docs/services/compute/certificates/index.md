@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>certificates</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>certificates</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="certificates" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.certificates" /></td></tr>
 </tbody></table>
@@ -84,12 +85,12 @@ The response will be a JSON object with a `certificate` key. This will be set to
 <tr>
     <td><CopyableCode code="state" /></td>
     <td><code>string</code></td>
-    <td>A string representing the current state of the certificate. It may be `pending`, `verified`, or `error`. (example: verified)</td>
+    <td>A string representing the current state of the certificate. It may be `pending`, `verified`, or `error`. (pending, verified, error) (example: verified)</td>
 </tr>
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>A string representing the type of the certificate. The value will be `custom` for a user-uploaded certificate or `lets_encrypt` for one automatically generated with Let's Encrypt. (example: lets_encrypt)</td>
+    <td>A string representing the type of the certificate. The value will be `custom` for a user-uploaded certificate or `lets_encrypt` for one automatically generated with Let's Encrypt. (custom, lets_encrypt) (example: lets_encrypt)</td>
 </tr>
 </tbody>
 </table>
@@ -140,12 +141,12 @@ The result will be a JSON object with a `certificates` key. This will be set to 
 <tr>
     <td><CopyableCode code="state" /></td>
     <td><code>string</code></td>
-    <td>A string representing the current state of the certificate. It may be `pending`, `verified`, or `error`. (example: verified)</td>
+    <td>A string representing the current state of the certificate. It may be `pending`, `verified`, or `error`. (pending, verified, error) (example: verified)</td>
 </tr>
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>A string representing the type of the certificate. The value will be `custom` for a user-uploaded certificate or `lets_encrypt` for one automatically generated with Let's Encrypt. (example: lets_encrypt)</td>
+    <td>A string representing the type of the certificate. The value will be `custom` for a user-uploaded certificate or `lets_encrypt` for one automatically generated with Let's Encrypt. (custom, lets_encrypt) (example: lets_encrypt)</td>
 </tr>
 </tbody>
 </table>
@@ -184,7 +185,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#certificates_create"><CopyableCode code="certificates_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__name"><code>data__name</code></a></td>
+    <td><a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>To upload new SSL certificate which you have previously generated, send a POST<br />request to `/v2/certificates`.<br /><br />When uploading a user-generated certificate, the `private_key`,<br />`leaf_certificate`, and optionally the `certificate_chain` attributes should<br />be provided. The type must be set to `custom`.<br /><br />When using Let's Encrypt to create a certificate, the `dns_names` attribute<br />must be provided, and the type must be set to `lets_encrypt`.<br /></td>
 </tr>
@@ -301,14 +302,20 @@ To upload new SSL certificate which you have previously generated, send a POST<b
 
 ```sql
 INSERT INTO digitalocean.compute.certificates (
-data__name,
-data__type,
-data__dns_names
+name,
+type,
+dns_names,
+private_key,
+leaf_certificate,
+certificate_chain
 )
 SELECT 
 '{{ name }}' /* required */,
 '{{ type }}',
-'{{ dns_names }}'
+'{{ dns_names }}',
+'{{ private_key }}',
+'{{ leaf_certificate }}',
+'{{ certificate_chain }}'
 RETURNING
 certificate
 ;
@@ -316,27 +323,37 @@ certificate
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: certificates
   props:
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         A unique human-readable name referring to a certificate.
-        
     - name: type
-      value: string
-      description: >
-        A string representing the type of the certificate. The value will be `custom` for a user-uploaded certificate or `lets_encrypt` for one automatically generated with Let's Encrypt.
-        
+      value: "{{ type }}"
+      description: |
+        A string representing the type of the certificate. The value will be \`custom\` for a user-uploaded certificate or \`lets_encrypt\` for one automatically generated with Let's Encrypt.
       valid_values: ['custom', 'lets_encrypt']
     - name: dns_names
-      value: array
-      description: >
-        An array of fully qualified domain names (FQDNs) for which the certificate was issued. A certificate covering all subdomains can be issued using a wildcard (e.g. `*.example.com`).
-        
-```
+      value:
+        - "{{ dns_names }}"
+      description: |
+        An array of fully qualified domain names (FQDNs) for which the certificate was issued. A certificate covering all subdomains can be issued using a wildcard (e.g. \`*.example.com\`).
+    - name: private_key
+      value: "{{ private_key }}"
+      description: |
+        The contents of a PEM-formatted private-key corresponding to the SSL certificate.
+    - name: leaf_certificate
+      value: "{{ leaf_certificate }}"
+      description: |
+        The contents of a PEM-formatted public SSL certificate.
+    - name: certificate_chain
+      value: "{{ certificate_chain }}"
+      description: |
+        The full PEM-formatted trust chain between the certificate authority's certificate and your domain's SSL certificate.
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 

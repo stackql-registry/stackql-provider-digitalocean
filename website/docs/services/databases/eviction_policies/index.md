@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>eviction_policies</code> resou
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>eviction_policies</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="eviction_policies" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.eviction_policies" /></td></tr>
 </tbody></table>
@@ -80,7 +81,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#databases_update_eviction_policy"><CopyableCode code="databases_update_eviction_policy" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-data__eviction_policy"><code>data__eviction_policy</code></a></td>
+    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-eviction_policy"><code>eviction_policy</code></a></td>
     <td></td>
     <td>To configure an eviction policy for an existing Caching or Valkey cluster, send a PUT request to `/v2/databases/$DATABASE_ID/eviction_policy` specifying the desired policy.</td>
 </tr>
@@ -146,10 +147,10 @@ To configure an eviction policy for an existing Caching or Valkey cluster, send 
 ```sql
 REPLACE digitalocean.databases.eviction_policies
 SET 
-data__eviction_policy = '{{ eviction_policy }}'
+eviction_policy = '{{ eviction_policy }}'
 WHERE 
 database_cluster_uuid = '{{ database_cluster_uuid }}' --required
-AND data__eviction_policy = '{{ eviction_policy }}' --required;
+AND eviction_policy = '{{ eviction_policy }}' --required;
 ```
 </TabItem>
 </Tabs>

@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>snapshots</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>snapshots</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="snapshots" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.snapshots" /></td></tr>
 </tbody></table>
@@ -84,7 +85,7 @@ A JSON object with a key called `snapshot`.<br />
 <tr>
     <td><CopyableCode code="resource_type" /></td>
     <td><code>string</code></td>
-    <td>The type of resource that the snapshot originated from. (example: droplet)</td>
+    <td>The type of resource that the snapshot originated from. (droplet, volume) (example: droplet)</td>
 </tr>
 <tr>
     <td><CopyableCode code="size_gigabytes" /></td>
@@ -145,7 +146,7 @@ A JSON object with a key of `snapshots`.
 <tr>
     <td><CopyableCode code="resource_type" /></td>
     <td><code>string</code></td>
-    <td>The type of resource that the snapshot originated from. (example: droplet)</td>
+    <td>The type of resource that the snapshot originated from. (droplet, volume) (example: droplet)</td>
 </tr>
 <tr>
     <td><CopyableCode code="size_gigabytes" /></td>

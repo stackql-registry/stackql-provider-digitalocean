@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>floating_ip_actions</code> reso
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>floating_ip_actions</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="floating_ip_actions" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.network.floating_ip_actions" /></td></tr>
 </tbody></table>
@@ -110,7 +111,7 @@ The results will be returned as a JSON object with an `actions` key. This will b
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>The current status of the action. This can be "in-progress", "completed", or "errored". (example: completed, default: in-progress)</td>
+    <td>The current status of the action. This can be "in-progress", "completed", or "errored". (in-progress, completed, errored) (example: completed, default: in-progress)</td>
 </tr>
 <tr>
     <td><CopyableCode code="type" /></td>
@@ -249,7 +250,8 @@ EXEC digitalocean.network.floating_ip_actions.floating_ips_action_post
 @floating_ip='{{ floating_ip }}' --required 
 @@json=
 '{
-"type": "{{ type }}"
+"type": "{{ type }}", 
+"droplet_id": {{ droplet_id }}
 }'
 ;
 ```

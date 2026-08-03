@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>billing_history</code> resource
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>billing_history</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="billing_history" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.billing.billing_history" /></td></tr>
 </tbody></table>
@@ -78,7 +79,7 @@ The response will be a JSON object that contains the following attributes
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>Type of billing history entry. (example: Invoice)</td>
+    <td>Type of billing history entry. (ACHFailure, Adjustment, AttemptFailed, Chargeback, Credit, CreditExpiration, Invoice, Payment, Refund, Reversal) (example: Invoice)</td>
 </tr>
 </tbody>
 </table>

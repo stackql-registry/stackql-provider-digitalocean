@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>node_pools</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>node_pools</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="node_pools" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.kubernetes.node_pools" /></td></tr>
 </tbody></table>
@@ -73,8 +74,8 @@ The response will be a JSON object with a key called `node_pool`. The value<br /
 </tr>
 <tr>
     <td><CopyableCode code="labels" /></td>
-    <td><code>object</code></td>
-    <td>An object of key/value mappings specifying labels to apply to all nodes in a pool. Labels will automatically be applied to all existing nodes and any subsequent nodes added to the pool. Note that when a label is removed, it is not deleted from the nodes in the pool.</td>
+    <td><code>string</code></td>
+    <td>An object of key/value mappings specifying labels to apply to all nodes in a pool. Labels will automatically be applied to all existing nodes and any subsequent nodes added to the pool. Note that when a label is removed, it is not deleted from the nodes in the pool. (opaque JSON object)</td>
 </tr>
 <tr>
     <td><CopyableCode code="max_nodes" /></td>
@@ -144,8 +145,8 @@ The response will be a JSON object with a key called `node_pools`. This will<br 
 </tr>
 <tr>
     <td><CopyableCode code="labels" /></td>
-    <td><code>object</code></td>
-    <td>An object of key/value mappings specifying labels to apply to all nodes in a pool. Labels will automatically be applied to all existing nodes and any subsequent nodes added to the pool. Note that when a label is removed, it is not deleted from the nodes in the pool.</td>
+    <td><code>string</code></td>
+    <td>An object of key/value mappings specifying labels to apply to all nodes in a pool. Labels will automatically be applied to all existing nodes and any subsequent nodes added to the pool. Note that when a label is removed, it is not deleted from the nodes in the pool. (opaque JSON object)</td>
 </tr>
 <tr>
     <td><CopyableCode code="max_nodes" /></td>
@@ -214,14 +215,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#kubernetes_add_node_pool"><CopyableCode code="kubernetes_add_node_pool" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__size"><code>data__size</code></a>, <a href="#parameter-data__count"><code>data__count</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-size"><code>size</code></a>, <a href="#parameter-count"><code>count</code></a></td>
     <td></td>
     <td>To add an additional node pool to a Kubernetes clusters, send a POST request<br />to `/v2/kubernetes/clusters/$K8S_CLUSTER_ID/node_pools` with the following<br />attributes.<br /></td>
 </tr>
 <tr>
     <td><a href="#kubernetes_update_node_pool"><CopyableCode code="kubernetes_update_node_pool" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-node_pool_id"><code>node_pool_id</code></a>, <a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__count"><code>data__count</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-node_pool_id"><code>node_pool_id</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-count"><code>count</code></a></td>
     <td></td>
     <td>To update the name of a node pool, edit the tags applied to it, or adjust its<br />number of nodes, send a PUT request to<br />`/v2/kubernetes/clusters/$K8S_CLUSTER_ID/node_pools/$NODE_POOL_ID` with the<br />following attributes.<br /></td>
 </tr>
@@ -340,15 +341,15 @@ To add an additional node pool to a Kubernetes clusters, send a POST request<br 
 
 ```sql
 INSERT INTO digitalocean.kubernetes.node_pools (
-data__size,
-data__name,
-data__count,
-data__tags,
-data__labels,
-data__taints,
-data__auto_scale,
-data__min_nodes,
-data__max_nodes,
+size,
+name,
+count,
+tags,
+labels,
+taints,
+auto_scale,
+min_nodes,
+max_nodes,
 cluster_id
 )
 SELECT 
@@ -369,59 +370,54 @@ node_pool
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: node_pools
   props:
     - name: cluster_id
-      value: string (uuid)
+      value: "{{ cluster_id }}"
       description: Required parameter for the node_pools resource.
     - name: size
-      value: string
-      description: >
+      value: "{{ size }}"
+      description: |
         The slug identifier for the type of Droplet used as workers in the node pool.
-        
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         A human-readable name for the node pool.
-        
     - name: count
-      value: integer
-      description: >
+      value: {{ count }}
+      description: |
         The number of Droplet instances in the node pool.
-        
     - name: tags
-      value: array
-      description: >
-        An array containing the tags applied to the node pool. All node pools are automatically tagged `k8s`, `k8s-worker`, and `k8s:$K8S_CLUSTER_ID`. <br><br>Requires `tag:read` scope.
-        
+      value:
+        - "{{ tags }}"
+      description: |
+        An array containing the tags applied to the node pool. All node pools are automatically tagged \`k8s\`, \`k8s-worker\`, and \`k8s:$K8S_CLUSTER_ID\`. <br><br>Requires \`tag:read\` scope.
     - name: labels
-      value: object
-      description: >
-        An object of key/value mappings specifying labels to apply to all nodes in a pool. Labels will automatically be applied to all existing nodes and any subsequent nodes added to the pool. Note that when a label is removed, it is not deleted from the nodes in the pool.
-        
+      value: "{{ labels }}"
+      description: |
+        An object of key/value mappings specifying labels to apply to all nodes in a pool. Labels will automatically be applied to all existing nodes and any subsequent nodes added to the pool. Note that when a label is removed, it is not deleted from the nodes in the pool. (opaque JSON object)
     - name: taints
-      value: array
-      description: >
+      description: |
         An array of taints to apply to all nodes in a pool. Taints will automatically be applied to all existing nodes and any subsequent nodes added to the pool. When a taint is removed, it is deleted from all nodes in the pool.
-        
+      value:
+        - key: "{{ key }}"
+          value: "{{ value }}"
+          effect: "{{ effect }}"
     - name: auto_scale
-      value: boolean
-      description: >
+      value: {{ auto_scale }}
+      description: |
         A boolean value indicating whether auto-scaling is enabled for this node pool.
-        
     - name: min_nodes
-      value: integer
-      description: >
-        The minimum number of nodes that this node pool can be auto-scaled to. The value will be `0` if `auto_scale` is set to `false`.
-        
+      value: {{ min_nodes }}
+      description: |
+        The minimum number of nodes that this node pool can be auto-scaled to. The value will be \`0\` if \`auto_scale\` is set to \`false\`.
     - name: max_nodes
-      value: integer
-      description: >
-        The maximum number of nodes that this node pool can be auto-scaled to. The value will be `0` if `auto_scale` is set to `false`.
-        
-```
+      value: {{ max_nodes }}
+      description: |
+        The maximum number of nodes that this node pool can be auto-scaled to. The value will be \`0\` if \`auto_scale\` is set to \`false\`.
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -441,19 +437,19 @@ To update the name of a node pool, edit the tags applied to it, or adjust its<br
 ```sql
 REPLACE digitalocean.kubernetes.node_pools
 SET 
-data__name = '{{ name }}',
-data__count = {{ count }},
-data__tags = '{{ tags }}',
-data__labels = '{{ labels }}',
-data__taints = '{{ taints }}',
-data__auto_scale = {{ auto_scale }},
-data__min_nodes = {{ min_nodes }},
-data__max_nodes = {{ max_nodes }}
+name = '{{ name }}',
+count = {{ count }},
+tags = '{{ tags }}',
+labels = '{{ labels }}',
+taints = '{{ taints }}',
+auto_scale = {{ auto_scale }},
+min_nodes = {{ min_nodes }},
+max_nodes = {{ max_nodes }}
 WHERE 
 cluster_id = '{{ cluster_id }}' --required
 AND node_pool_id = '{{ node_pool_id }}' --required
-AND data__name = '{{ name }}' --required
-AND data__count = '{{ count }}' --required
+AND name = '{{ name }}' --required
+AND count = '{{ count }}' --required
 RETURNING
 node_pool;
 ```

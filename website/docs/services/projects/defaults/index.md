@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>defaults</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>defaults</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="defaults" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.projects.defaults" /></td></tr>
 </tbody></table>
@@ -78,7 +79,7 @@ The response will be a JSON object with a key called `project`. The value of thi
 <tr>
     <td><CopyableCode code="environment" /></td>
     <td><code>string</code></td>
-    <td>The environment of the project's resources. (example: Production)</td>
+    <td>The environment of the project's resources. (Development, Staging, Production) (example: Production)</td>
 </tr>
 <tr>
     <td><CopyableCode code="is_default" /></td>
@@ -137,7 +138,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#projects_update_default"><CopyableCode code="projects_update_default" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__description"><code>data__description</code></a>, <a href="#parameter-data__purpose"><code>data__purpose</code></a>, <a href="#parameter-data__environment"><code>data__environment</code></a>, <a href="#parameter-data__is_default"><code>data__is_default</code></a></td>
+    <td><a href="#parameter-name"><code>name</code></a>, <a href="#parameter-description"><code>description</code></a>, <a href="#parameter-purpose"><code>purpose</code></a>, <a href="#parameter-environment"><code>environment</code></a>, <a href="#parameter-is_default"><code>is_default</code></a></td>
     <td></td>
     <td>To update you default project, send a PUT request to `/v2/projects/default`. All of the following attributes must be sent.</td>
 </tr>
@@ -206,11 +207,11 @@ To update only specific attributes of your default project, send a PATCH request
 ```sql
 UPDATE digitalocean.projects.defaults
 SET 
-data__name = '{{ name }}',
-data__description = '{{ description }}',
-data__purpose = '{{ purpose }}',
-data__environment = '{{ environment }}',
-data__is_default = {{ is_default }}
+name = '{{ name }}',
+description = '{{ description }}',
+purpose = '{{ purpose }}',
+environment = '{{ environment }}',
+is_default = {{ is_default }}
 RETURNING
 project;
 ```
@@ -233,17 +234,17 @@ To update you default project, send a PUT request to `/v2/projects/default`. All
 ```sql
 REPLACE digitalocean.projects.defaults
 SET 
-data__name = '{{ name }}',
-data__description = '{{ description }}',
-data__purpose = '{{ purpose }}',
-data__environment = '{{ environment }}',
-data__is_default = {{ is_default }}
+name = '{{ name }}',
+description = '{{ description }}',
+purpose = '{{ purpose }}',
+environment = '{{ environment }}',
+is_default = {{ is_default }}
 WHERE 
-data__name = '{{ name }}' --required
-AND data__description = '{{ description }}' --required
-AND data__purpose = '{{ purpose }}' --required
-AND data__environment = '{{ environment }}' --required
-AND data__is_default = {{ is_default }} --required
+name = '{{ name }}' --required
+AND description = '{{ description }}' --required
+AND purpose = '{{ purpose }}' --required
+AND environment = '{{ environment }}' --required
+AND is_default = {{ is_default }} --required
 RETURNING
 project;
 ```

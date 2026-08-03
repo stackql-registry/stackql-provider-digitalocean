@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>evaluation_runs</code> resourc
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>evaluation_runs</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="evaluation_runs" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.genai.evaluation_runs" /></td></tr>
 </tbody></table>
@@ -54,6 +55,11 @@ A successful response.
     <td><CopyableCode code="created_by_user_id" /></td>
     <td><code>string (uint64)</code></td>
     <td> (example: 12345)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="agent_deployment_name" /></td>
+    <td><code>string</code></td>
+    <td>The agent deployment name (example: example name)</td>
 </tr>
 <tr>
     <td><CopyableCode code="agent_name" /></td>
@@ -143,7 +149,7 @@ A successful response.
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>Evaluation Run Statuses (default: EVALUATION_RUN_STATUS_UNSPECIFIED, example: EVALUATION_RUN_STATUS_UNSPECIFIED)</td>
+    <td>Evaluation Run Statuses (EVALUATION_RUN_STATUS_UNSPECIFIED, EVALUATION_RUN_QUEUED, EVALUATION_RUN_RUNNING_DATASET, EVALUATION_RUN_EVALUATING_RESULTS, EVALUATION_RUN_CANCELLING, EVALUATION_RUN_CANCELLED, EVALUATION_RUN_SUCCESSFUL, EVALUATION_RUN_PARTIALLY_SUCCESSFUL, EVALUATION_RUN_FAILED) (default: EVALUATION_RUN_STATUS_UNSPECIFIED, example: EVALUATION_RUN_STATUS_UNSPECIFIED)</td>
 </tr>
 <tr>
     <td><CopyableCode code="test_case_description" /></td>
@@ -233,6 +239,7 @@ To retrive information about an existing evaluation run, send a GET request to `
 ```sql
 SELECT
 created_by_user_id,
+agent_deployment_name,
 agent_name,
 run_name,
 test_case_name,
@@ -277,11 +284,13 @@ To run an evaluation test case, send a POST request to `/v2/gen-ai/evaluation_ru
 
 ```sql
 INSERT INTO digitalocean.genai.evaluation_runs (
-data__agent_uuids,
-data__run_name,
-data__test_case_uuid
+agent_deployment_names,
+agent_uuids,
+run_name,
+test_case_uuid
 )
 SELECT 
+'{{ agent_deployment_names }}',
 '{{ agent_uuids }}',
 '{{ run_name }}',
 '{{ test_case_uuid }}'
@@ -292,25 +301,28 @@ evaluation_run_uuids
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: evaluation_runs
   props:
+    - name: agent_deployment_names
+      value:
+        - "{{ agent_deployment_names }}"
+      description: |
+        Agent deployment names to run the test case against (ADK agent workspaces).
     - name: agent_uuids
-      value: array
-      description: >
-        Agent UUIDs to run the test case against.
-        
+      value:
+        - "{{ agent_uuids }}"
+      description: |
+        Agent UUIDs to run the test case against (legacy agents).
     - name: run_name
-      value: string
-      description: >
+      value: "{{ run_name }}"
+      description: |
         The name of the run.
-        
     - name: test_case_uuid
-      value: string
-      description: >
+      value: "{{ test_case_uuid }}"
+      description: |
         Test-case UUID to run
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>

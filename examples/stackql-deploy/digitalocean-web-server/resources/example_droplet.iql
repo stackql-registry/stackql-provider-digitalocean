@@ -1,0 +1,39 @@
+/*+ exists */
+SELECT id
+FROM digitalocean.compute.droplets
+WHERE name = '{{ droplet_name }}'
+
+/*+ create */
+INSERT INTO digitalocean.compute.droplets (
+ name,
+ region,
+ size,
+ image,
+ vpc_uuid,
+ user_data,
+ tags
+)
+SELECT
+ '{{ droplet_name }}',
+ '{{ region }}',
+ '{{ droplet_size }}',
+ '{{ droplet_image }}',
+ '{{ vpc_id }}',
+ '{{ droplet_user_data }}',
+ '["stackql-deploy", "{{ stack_name }}", "{{ stack_env }}"]'
+
+/*+ statecheck, retries=20, retry_delay=10 */
+SELECT COUNT(*) as count
+FROM digitalocean.compute.droplets
+WHERE name = '{{ droplet_name }}'
+AND status = 'active'
+
+/*+ exports, retries=3, retry_delay=5 */
+SELECT id as droplet_id,
+'{{ droplet_name }}' as droplet_name
+FROM digitalocean.compute.droplets
+WHERE name = '{{ droplet_name }}'
+
+/*+ delete, retries=10, retry_delay=10 */
+DELETE FROM digitalocean.compute.droplets
+WHERE droplet_id = '{{ this.id }}'

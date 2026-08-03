@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>instance_sizes</code> resource
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>instance_sizes</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="instance_sizes" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.apps.instance_sizes" /></td></tr>
 </tbody></table>
@@ -64,7 +65,7 @@ A JSON with key `instance_size`
 <tr>
     <td><CopyableCode code="cpu_type" /></td>
     <td><code>string</code></td>
-    <td> (default: UNSPECIFIED, title: - SHARED: Shared vCPU cores<br /> - DEDICATED: Dedicated vCPU cores, example: SHARED)</td>
+    <td> (UNSPECIFIED, SHARED, DEDICATED) (default: UNSPECIFIED, title: - SHARED: Shared vCPU cores<br /> - DEDICATED: Dedicated vCPU cores, example: SHARED)</td>
 </tr>
 <tr>
     <td><CopyableCode code="cpus" /></td>

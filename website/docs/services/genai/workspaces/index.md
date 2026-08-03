@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>workspaces</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>workspaces</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="workspaces" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.genai.workspaces" /></td></tr>
 </tbody></table>
@@ -314,9 +315,9 @@ To create a new workspace, send a POST request to `/v2/gen-ai/workspaces`. The r
 
 ```sql
 INSERT INTO digitalocean.genai.workspaces (
-data__agent_uuids,
-data__description,
-data__name
+agent_uuids,
+description,
+name
 )
 SELECT 
 '{{ agent_uuids }}',
@@ -329,26 +330,24 @@ workspace
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: workspaces
   props:
     - name: agent_uuids
-      value: array
-      description: >
+      value:
+        - "{{ agent_uuids }}"
+      description: |
         Ids of the agents(s) to attach to the workspace
-        
     - name: description
-      value: string
-      description: >
+      value: "{{ description }}"
+      description: |
         Description of the workspace
-        
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         Name of the workspace
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -368,9 +367,9 @@ To update a workspace, send a PUT request to `/v2/gen-ai/workspaces/&#123;worksp
 ```sql
 REPLACE digitalocean.genai.workspaces
 SET 
-data__description = '{{ description }}',
-data__name = '{{ name }}',
-data__workspace_uuid = '{{ workspace_uuid }}'
+description = '{{ description }}',
+name = '{{ name }}',
+workspace_uuid = '{{ workspace_uuid }}'
 WHERE 
 workspace_uuid = '{{ workspace_uuid }}' --required
 RETURNING

@@ -8,9 +8,7 @@ paths:
     get:
       operationId: balance_get
       summary: Get Customer Balance
-      description: >-
-        To retrieve the balances on a customer's account, send a GET request to
-        `/v2/customers/my/balance`.
+      description: To retrieve the balances on a customer's account, send a GET request to `/v2/customers/my/balance`.
       tags:
         - Billing
       responses:
@@ -48,9 +46,7 @@ paths:
     get:
       operationId: billingHistory_list
       summary: List Billing History
-      description: >-
-        To retrieve a list of all billing history entries, send a GET request to
-        `/v2/customers/my/billing_history`.
+      description: To retrieve a list of all billing history entries, send a GET request to `/v2/customers/my/billing_history`.
       tags:
         - Billing
       responses:
@@ -88,9 +84,7 @@ paths:
     get:
       operationId: invoices_list
       summary: List All Invoices
-      description: >-
-        To retrieve a list of all invoices, send a GET request to
-        `/v2/customers/my/invoices`.
+      description: To retrieve a list of all invoices, send a GET request to `/v2/customers/my/invoices`.
       tags:
         - Billing
       parameters:
@@ -129,9 +123,7 @@ paths:
     get:
       operationId: invoices_get_byUUID
       summary: Retrieve an Invoice by UUID
-      description: >-
-        To retrieve the invoice items for an invoice, send a GET request to
-        `/v2/customers/my/invoices/$INVOICE_UUID`.
+      description: To retrieve the invoice items for an invoice, send a GET request to `/v2/customers/my/invoices/$INVOICE_UUID`.
       tags:
         - Billing
       parameters:
@@ -173,9 +165,7 @@ paths:
     get:
       operationId: invoices_get_csvByUUID
       summary: Retrieve an Invoice CSV by UUID
-      description: >-
-        To retrieve a CSV for an invoice, send a GET request to
-        `/v2/customers/my/invoices/$INVOICE_UUID/csv`.
+      description: To retrieve a CSV for an invoice, send a GET request to `/v2/customers/my/invoices/$INVOICE_UUID/csv`.
       tags:
         - Billing
       parameters:
@@ -215,9 +205,7 @@ paths:
     get:
       operationId: invoices_get_pdfByUUID
       summary: Retrieve an Invoice PDF by UUID
-      description: >-
-        To retrieve a PDF for an invoice, send a GET request to
-        `/v2/customers/my/invoices/$INVOICE_UUID/pdf`.
+      description: To retrieve a PDF for an invoice, send a GET request to `/v2/customers/my/invoices/$INVOICE_UUID/pdf`.
       tags:
         - Billing
       parameters:
@@ -257,9 +245,7 @@ paths:
     get:
       operationId: invoices_get_summaryByUUID
       summary: Retrieve an Invoice Summary by UUID
-      description: >-
-        To retrieve a summary for an invoice, send a GET request to
-        `/v2/customers/my/invoices/$INVOICE_UUID/summary`.
+      description: To retrieve a summary for an invoice, send a GET request to `/v2/customers/my/invoices/$INVOICE_UUID/summary`.
       tags:
         - Billing
       parameters:
@@ -295,6 +281,58 @@ paths:
       security:
         - bearer_auth:
             - billing:read
+  /v2/billing/{account_urn}/insights/{start_date}/{end_date}:
+    get:
+      operationId: billingInsights_list
+      summary: List Billing Insights
+      description: |-
+
+        This endpoint returns day-over-day changes in billing resource usage based on nightly invoice items, including total amount, region, SKU, and description for a specified date range. It is important to note that the daily resource usage may not reflect month-end billing totals when totaled for a given month as nightly invoice item estimates do not necessarily encompass all invoicing factors for the entire month.
+      tags:
+        - Billing
+      parameters:
+        - $ref: '#/components/parameters/account_urn'
+        - $ref: '#/components/parameters/start_date'
+        - $ref: '#/components/parameters/end_date'
+        - $ref: '#/components/parameters/per_page'
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          $ref: '#/components/responses/billing_insights'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+        '500':
+          $ref: '#/components/responses/server_error'
+        default:
+          $ref: '#/components/responses/unexpected_error'
+      x-codeSamples:
+        - lang: cURL
+          source: |-
+            curl -X GET \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" \
+              "https://api.digitalocean.com/v2/billing/do:team:12345678-1234-1234-1234-123456789012/insights/2025-01-01/2025-01-31?per_page=20&page=1"
+        - lang: Python
+          source: |-
+            import os
+            from pydo import Client
+
+            client = Client(token=os.environ.get("DIGITALOCEAN_TOKEN"))
+
+            insights = client.billing.list_insights(
+                account_urn="do:team:12345678-1234-1234-1234-123456789012",
+                start_date="2025-01-01",
+                end_date="2025-01-31",
+                per_page=100,
+                page=1
+            )
+      security:
+        - bearer_auth:
+            - billing:read
 components:
   schemas:
     balance:
@@ -302,21 +340,15 @@ components:
       properties:
         month_to_date_balance:
           type: string
-          description: >-
-            Balance as of the `generated_at` time.  This value includes the
-            `account_balance` and `month_to_date_usage`.
+          description: Balance as of the `generated_at` time.  This value includes the `account_balance` and `month_to_date_usage`.
           example: '23.44'
         account_balance:
           type: string
-          description: >-
-            Current balance of the customer's most recent billing activity. 
-            Does not reflect `month_to_date_usage`.
+          description: Current balance of the customer's most recent billing activity.  Does not reflect `month_to_date_usage`.
           example: '12.23'
         month_to_date_usage:
           type: string
-          description: >-
-            Amount used in the current billing period as of the `generated_at`
-            time.
+          description: Amount used in the current billing period as of the `generated_at` time.
           example: '11.21'
         generated_at:
           type: string
@@ -327,23 +359,15 @@ components:
       type: object
       properties:
         id:
-          description: >-
-            A short identifier corresponding to the HTTP status code returned.
-            For  example, the ID for a response returning a 404 status code
-            would be "not_found."
+          description: A short identifier corresponding to the HTTP status code returned. For  example, the ID for a response returning a 404 status code would be "not_found."
           type: string
           example: not_found
         message:
-          description: >-
-            A message providing additional information about the error,
-            including  details to help resolve it when possible.
+          description: A message providing additional information about the error, including  details to help resolve it when possible.
           type: string
           example: The resource you were accessing could not be found.
         request_id:
-          description: >-
-            Optionally, some endpoints may include a request ID that should be 
-            provided when reporting bugs or opening support tickets to help 
-            identify the issue.
+          description: Optionally, some endpoints may include a request ID that should be  provided when reporting bugs or opening support tickets to help  identify the issue.
           type: string
           example: 4d9d8375-3c56-4925-a3e7-eb137fed17e9
       required:
@@ -362,15 +386,11 @@ components:
           example: '12.34'
         invoice_id:
           type: string
-          description: >-
-            ID of the invoice associated with the billing history entry, if 
-            applicable.
+          description: ID of the invoice associated with the billing history entry, if  applicable.
           example: '123'
         invoice_uuid:
           type: string
-          description: >-
-            UUID of the invoice associated with the billing history entry, if 
-            applicable.
+          description: UUID of the invoice associated with the billing history entry, if  applicable.
           example: example-uuid
         date:
           type: string
@@ -414,36 +434,33 @@ components:
           example: fdabb512-6faf-443c-ba2e-665452332a9e
         invoice_id:
           type: string
-          description: >-
-            ID of the invoice. Listed on the face of the invoice PDF as the
-            "Invoice number".
+          description: ID of the invoice. Listed on the face of the invoice PDF as the "Invoice number".
           example: '123456789'
         amount:
           type: string
-          description: >-
-            Total amount of the invoice, in USD.  This will reflect
-            month-to-date usage in the invoice preview.
+          description: Total amount of the invoice, in USD.  This will reflect month-to-date usage in the invoice preview.
           example: '23.45'
         invoice_period:
           type: string
-          description: >-
-            Billing period of usage for which the invoice is issued, in
-            `YYYY-MM`  format.
+          description: Billing period of usage for which the invoice is issued, in `YYYY-MM`  format.
           example: 2020-01
         updated_at:
           type: string
-          description: >-
-            Time the invoice was last updated.  This is only included with the
-            invoice preview.
+          description: Time the invoice was last updated.  This is only included with the invoice preview.
           example: '2020-01-23T06:31:50Z'
     meta:
       type: object
       properties:
         meta:
-          allOf:
-            - $ref: '#/components/schemas/meta_properties'
-            - required:
-                - total
+          type: object
+          description: Information about the response itself.
+          properties:
+            total:
+              description: Number of objects returned by the request.
+              type: integer
+              example: 1
+          required:
+            - total
       required:
         - meta
     invoice_item:
@@ -463,9 +480,7 @@ components:
           example: '2353624'
         group_description:
           type: string
-          description: >-
-            Description of the invoice item when it is a grouped set of usage,
-            such  as DOKS or databases.
+          description: Description of the invoice item when it is a grouped set of usage, such  as DOKS or databases.
           example: my-doks-cluster
         description:
           type: string
@@ -508,24 +523,52 @@ components:
           example: '123456789'
         billing_period:
           type: string
-          description: >-
-            Billing period of usage for which the invoice is issued, in
-            `YYYY-MM`  format.
+          description: Billing period of usage for which the invoice is issued, in `YYYY-MM`  format.
           example: 2020-01
         amount:
           type: string
-          description: >-
-            Total amount of the invoice, in USD.  This will reflect
-            month-to-date usage in the invoice preview.
+          description: Total amount of the invoice, in USD.  This will reflect month-to-date usage in the invoice preview.
           example: '27.13'
         user_name:
           type: string
           description: Name of the DigitalOcean customer being invoiced.
           example: Sammy Shark
         user_billing_address:
-          allOf:
-            - description: The billing address of the customer being invoiced.
-            - $ref: '#/components/schemas/billing_address'
+          description: The billing address of the customer being invoiced.
+          type: object
+          properties:
+            address_line1:
+              type: string
+              description: Street address line 1
+              example: 101 Shark Row
+            address_line2:
+              type: string
+              description: Street address line 2
+              example: ' '
+            city:
+              type: string
+              description: City
+              example: Atlantis
+            region:
+              type: string
+              description: Region
+              example: OC
+            postal_code:
+              type: string
+              description: Postal code
+              example: '12345'
+            country_iso2_code:
+              type: string
+              description: Country (ISO2) code
+              example: US
+            created_at:
+              type: string
+              description: Timestamp billing address was created
+              example: '2019-09-03T16:34:46.000+00:00'
+            updated_at:
+              type: string
+              description: Timestamp billing address was updated
+              example: '2019-09-03T16:34:46.000+00:00'
         user_company:
           type: string
           description: Company of the DigitalOcean customer being invoiced, if set.
@@ -535,38 +578,123 @@ components:
           description: Email of the DigitalOcean customer being invoiced.
           example: sammy@digitalocean.com
         product_charges:
-          allOf:
-            - description: >-
-                A summary of the product usage charges contributing to the
-                invoice.  This will include an amount, and grouped aggregates by
-                resource type  under the `items` key.
-            - $ref: '#/components/schemas/product_usage_charges'
+          description: A summary of the product usage charges contributing to the invoice.  This will include an amount, and grouped aggregates by resource type  under the `items` key.
+          type: object
+          properties:
+            name:
+              type: string
+              description: Description of usage charges
+              example: Product usage charges
+            amount:
+              type: string
+              description: Total amount charged
+              example: '12.34'
+            items:
+              type: array
+              description: List of amount, and grouped aggregates by resource type.
+              items:
+                $ref: '#/components/schemas/product_charge_item'
+              example:
+                - amount: '10.00'
+                  name: Spaces Subscription
+                  count: '1'
+                - amount: '2.34'
+                  name: Database Clusters
+                  count: '1'
         overages:
-          allOf:
-            - description: A summary of the overages contributing to the invoice.
-            - $ref: '#/components/schemas/simple_charge'
+          description: A summary of the overages contributing to the invoice.
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the charge
+              example: Overages
+            amount:
+              type: string
+              description: Total amount charged in USD
+              example: '3.45'
         taxes:
-          allOf:
-            - description: A summary of the taxes contributing to the invoice.
-            - $ref: '#/components/schemas/simple_charge'
+          description: A summary of the taxes contributing to the invoice.
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the charge
+              example: Overages
+            amount:
+              type: string
+              description: Total amount charged in USD
+              example: '3.45'
         credits_and_adjustments:
-          allOf:
-            - description: >-
-                A summary of the credits and adjustments contributing to the
-                invoice.
-            - $ref: '#/components/schemas/simple_charge'
+          description: A summary of the credits and adjustments contributing to the invoice.
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the charge
+              example: Overages
+            amount:
+              type: string
+              description: Total amount charged in USD
+              example: '3.45'
+    billing_data_point:
+      type: object
+      properties:
+        usage_team_urn:
+          type: string
+          description: URN of the team that incurred the usage
+          example: do:team:12345678-1234-1234-1234-123456789012
+        start_date:
+          type: string
+          format: date
+          description: Start date of the billing data point in YYYY-MM-DD format
+          example: '2025-01-15'
+        total_amount:
+          type: string
+          description: Total amount for this data point in USD
+          example: '12.45'
+        region:
+          type: string
+          description: Region where the usage occurred
+          example: nyc3
+        sku:
+          type: string
+          description: Unique SKU identifier for the billed resource
+          example: 1-DO-DROP-0109
+        description:
+          type: string
+          description: Description of the billed resource or service as shown on an invoice item
+          example: droplet name (c-2-4GiB)
+        group_description:
+          type: string
+          description: Optional invoice item group name of the billed resource or service, blank when not part an invoice item group
+          example: kubernetes cluster name
     page_links:
       type: object
       properties:
         pages:
-          anyOf:
-            - $ref: '#/components/schemas/forward_links'
-            - $ref: '#/components/schemas/backward_links'
-            - {}
           example:
             pages:
               first: https://api.digitalocean.com/v2/account/keys?page=1
               prev: https://api.digitalocean.com/v2/account/keys?page=2
+          type: object
+          properties:
+            last:
+              description: URI of the last page of the results.
+              type: string
+              example: https://api.digitalocean.com/v2/images?page=2
+            next:
+              description: URI of the next page of the results.
+              type: string
+              example: https://api.digitalocean.com/v2/images?page=2
+            first:
+              description: URI of the first page of the results.
+              type: string
+              example: https://api.digitalocean.com/v2/images?page=1
+            prev:
+              description: URI of the previous page of the results.
+              type: string
+              example: https://api.digitalocean.com/v2/images?page=1
     meta_properties:
       type: object
       description: Information about the response itself.
@@ -645,13 +773,27 @@ components:
           description: Total amount charged in USD
           example: '3.45'
     forward_links:
-      allOf:
-        - $ref: '#/components/schemas/link_to_last_page'
-        - $ref: '#/components/schemas/link_to_next_page'
+      type: object
+      properties:
+        last:
+          description: URI of the last page of the results.
+          type: string
+          example: https://api.digitalocean.com/v2/images?page=2
+        next:
+          description: URI of the next page of the results.
+          type: string
+          example: https://api.digitalocean.com/v2/images?page=2
     backward_links:
-      allOf:
-        - $ref: '#/components/schemas/link_to_first_page'
-        - $ref: '#/components/schemas/link_to_prev_page'
+      type: object
+      properties:
+        first:
+          description: URI of the first page of the results.
+          type: string
+          example: https://api.digitalocean.com/v2/images?page=1
+        prev:
+          description: URI of the previous page of the results.
+          type: string
+          example: https://api.digitalocean.com/v2/images?page=1
     product_charge_item:
       type: object
       properties:
@@ -697,9 +839,7 @@ components:
           example: https://api.digitalocean.com/v2/images?page=1
   responses:
     balance:
-      description: >-
-        The response will be a JSON object that contains the following
-        attributes
+      description: The response will be a JSON object that contains the following attributes
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -797,9 +937,7 @@ components:
             id: example_error
             message: some error message
     billing_history:
-      description: >-
-        The response will be a JSON object that contains the following
-        attributes
+      description: The response will be a JSON object that contains the following attributes
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -810,15 +948,6 @@ components:
       content:
         application/json:
           schema:
-            allOf:
-              - type: object
-                properties:
-                  billing_history:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/billing_history'
-              - $ref: '#/components/schemas/pagination'
-              - $ref: '#/components/schemas/meta_optional_total'
             example:
               billing_history:
                 - description: Invoice for May 2018
@@ -833,18 +962,25 @@ components:
                   type: Payment
               links:
                 pages:
-                  next: >-
-                    https://api.digitalocean.com/v2/customers/my/billing_history?page=2&per_page=2
-                  last: >-
-                    https://api.digitalocean.com/v2/customers/my/billing_history?page=3&per_page=2
+                  next: https://api.digitalocean.com/v2/customers/my/billing_history?page=2&per_page=2
+                  last: https://api.digitalocean.com/v2/customers/my/billing_history?page=3&per_page=2
               meta:
                 total: 5
+            type: object
+            properties:
+              billing_history:
+                type: array
+                items:
+                  $ref: '#/components/schemas/billing_history'
+              links:
+                $ref: '#/components/schemas/page_links'
+              meta:
+                $ref: '#/components/schemas/meta_properties'
+            required:
+              - meta
     invoices:
-      description: >-
-        The response will be a JSON object contains that contains a list of
-        invoices under the `invoices` key, and the invoice preview under the
-        `invoice_preview` key.
-
+      description: |-
+        The response will be a JSON object contains that contains a list of invoices under the `invoices` key, and the invoice preview under the `invoice_preview` key.
         Each element contains the invoice summary attributes.
       headers:
         ratelimit-limit:
@@ -856,17 +992,6 @@ components:
       content:
         application/json:
           schema:
-            allOf:
-              - type: object
-                properties:
-                  invoices:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/invoice_preview'
-                  invoice_preview:
-                    $ref: '#/components/schemas/invoice_preview'
-              - $ref: '#/components/schemas/pagination'
-              - $ref: '#/components/schemas/meta'
             example:
               invoices:
                 - invoice_uuid: 22737513-0ea7-4206-8ceb-98a575af7681
@@ -885,17 +1010,34 @@ components:
                 updated_at: '2020-02-23T06:31:50Z'
               links:
                 pages:
-                  next: >-
-                    https://api.digitalocean.com/v2/customers/my/invoices?page=2&per_page=2
-                  last: >-
-                    https://api.digitalocean.com/v2/customers/my/invoices?page=35&per_page=2
+                  next: https://api.digitalocean.com/v2/customers/my/invoices?page=2&per_page=2
+                  last: https://api.digitalocean.com/v2/customers/my/invoices?page=35&per_page=2
               meta:
                 total: 70
+            type: object
+            properties:
+              invoices:
+                type: array
+                items:
+                  $ref: '#/components/schemas/invoice_preview'
+              invoice_preview:
+                $ref: '#/components/schemas/invoice_preview'
+              links:
+                $ref: '#/components/schemas/page_links'
+              meta:
+                type: object
+                description: Information about the response itself.
+                properties:
+                  total:
+                    description: Number of objects returned by the request.
+                    type: integer
+                    example: 1
+                required:
+                  - total
+            required:
+              - meta
     invoice:
-      description: >-
-        The response will be a JSON object with a key called `invoice_items`.
-        This will be set to an array of invoice item objects. All resources will
-        be shown on invoices, regardless of permissions.
+      description: The response will be a JSON object with a key called `invoice_items`. This will be set to an array of invoice item objects. All resources will be shown on invoices, regardless of permissions.
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -906,15 +1048,6 @@ components:
       content:
         application/json:
           schema:
-            allOf:
-              - type: object
-                properties:
-                  invoice_items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/invoice_item'
-              - $ref: '#/components/schemas/pagination'
-              - $ref: '#/components/schemas/meta'
             example:
               invoice_items:
                 - product: Kubernetes Clusters
@@ -935,12 +1068,30 @@ components:
                   end_time: '2020-02-01T00:00:00Z'
               links:
                 pages:
-                  next: >-
-                    https://api.digitalocean.com/v2/customers/my/invoices/22737513-0ea7-4206-8ceb-98a575af7681?page=2&per_page=2
-                  last: >-
-                    https://api.digitalocean.com/v2/customers/my/invoices/22737513-0ea7-4206-8ceb-98a575af7681?page=3&per_page=2
+                  next: https://api.digitalocean.com/v2/customers/my/invoices/22737513-0ea7-4206-8ceb-98a575af7681?page=2&per_page=2
+                  last: https://api.digitalocean.com/v2/customers/my/invoices/22737513-0ea7-4206-8ceb-98a575af7681?page=3&per_page=2
               meta:
                 total: 6
+            type: object
+            properties:
+              invoice_items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/invoice_item'
+              links:
+                $ref: '#/components/schemas/page_links'
+              meta:
+                type: object
+                description: Information about the response itself.
+                properties:
+                  total:
+                    description: Number of objects returned by the request.
+                    type: integer
+                    example: 1
+                required:
+                  - total
+            required:
+              - meta
     invoice_csv:
       description: The response will be a CSV file.
       headers:
@@ -956,14 +1107,10 @@ components:
         text/csv:
           schema:
             type: string
-          example: >
+          example: |
             product,group_description,description,hours,start,end,USD,project_name,category
-
-            Floating IPs,,Unused Floating IP - 1.1.1.1,100,2020-07-01 00:00:00
-            +0000,2020-07-22 18:14:39 +0000,$3.11,,iaas
-
-            Taxes,,STATE SALES TAX (6.25%),,2020-07-01 00:00:00 +0000,2020-07-31
-            23:59:59 +0000,$0.16,,iaas
+            Floating IPs,,Unused Floating IP - 1.1.1.1,100,2020-07-01 00:00:00 +0000,2020-07-22 18:14:39 +0000,$3.11,,iaas
+            Taxes,,STATE SALES TAX (6.25%),,2020-07-01 00:00:00 +0000,2020-07-31 23:59:59 +0000,$0.16,,iaas
     invoice_pdf:
       description: The response will be a PDF file.
       headers:
@@ -981,9 +1128,7 @@ components:
             type: string
             format: binary
     invoice_summary:
-      description: >-
-        To retrieve a summary for an invoice, send a GET request to 
-        `/v2/customers/my/invoices/$INVOICE_UUID/summary`.
+      description: To retrieve a summary for an invoice, send a GET request to  `/v2/customers/my/invoices/$INVOICE_UUID/summary`.
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -1030,6 +1175,61 @@ components:
             credits_and_adjustments:
               name: Credits & adjustments
               amount: '6.78'
+    billing_insights:
+      description: The response will be a JSON object that contains a list of billing data points under the `data_points` key, along with pagination metadata including `total_items`, `total_pages`, and `current_page`.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data_points:
+                type: array
+                description: Array of billing data points, which are day-over-day changes in billing resource usage based on nightly invoice item estimates, for the requested period
+                items:
+                  $ref: '#/components/schemas/billing_data_point'
+              total_items:
+                type: integer
+                description: Total number of items available across all pages
+                example: 250
+              total_pages:
+                type: integer
+                description: Total number of pages available
+                example: 3
+              current_page:
+                type: integer
+                description: Current page number
+                example: 1
+            required:
+              - data_points
+              - total_items
+              - total_pages
+              - current_page
+          example:
+            data_points:
+              - usage_team_urn: do:team:12345678-1234-1234-1234-123456789012
+                start_date: '2025-01-01'
+                total_amount: '0.86'
+                region: nyc3
+                sku: 1-DO-DROP-0109
+                description: droplet name (c-2-4GiB)
+                group_description: ''
+              - usage_team_urn: do:team:12345678-1234-1234-1234-123456789012
+                start_date: '2025-01-01'
+                total_amount: '2.57'
+                region: nyc3
+                sku: 1-KS-K8SWN-00109
+                description: 3 nodes - 4 GB / 2 vCPU / 80 GB SSD
+                group_description: kubernetes cluster name
+            total_items: 2
+            total_pages: 1
+            current_page: 1
   parameters:
     per_page:
       in: query
@@ -1060,43 +1260,53 @@ components:
         type: string
       example: 22737513-0ea7-4206-8ceb-98a575af7681
       required: true
+    account_urn:
+      name: account_urn
+      description: URN of the customer account, can be a team (do:team:uuid) or an organization (do:teamgroup:uuid)
+      in: path
+      schema:
+        type: string
+      example: do:team:12345678-1234-1234-1234-123456789012
+      required: true
+    start_date:
+      name: start_date
+      description: Start date for billing insights in YYYY-MM-DD format
+      in: path
+      schema:
+        type: string
+        format: date
+      example: '2025-01-01'
+      required: true
+    end_date:
+      name: end_date
+      description: End date for billing insights in YYYY-MM-DD format. Must be within 31 days of start_date
+      in: path
+      schema:
+        type: string
+        format: date
+      example: '2025-01-31'
+      required: true
   headers:
     ratelimit-limit:
       schema:
         type: integer
       example: 5000
-      description: >-
-        The default limit on number of requests that can be made per hour and
-        per minute. Current rate limits are 5000 requests per hour and 250
-        requests per minute.
+      description: The default limit on number of requests that can be made per hour and per minute. Current rate limits are 5000 requests per hour and 250 requests per minute.
     ratelimit-remaining:
       schema:
         type: integer
       example: 4816
-      description: >-
-        The number of requests in your hourly quota that remain before you hit
-        your request limit. See
-        https://developers.digitalocean.com/documentation/v2/#rate-limit for
-        information about how requests expire.
+      description: The number of requests in your hourly quota that remain before you hit your request limit. See https://developers.digitalocean.com/documentation/v2/#rate-limit for information about how requests expire.
     ratelimit-reset:
       schema:
         type: integer
       example: 1444931833
-      description: >-
-        The time when the oldest request will expire. The value is given in Unix
-        epoch time. See
-        https://developers.digitalocean.com/documentation/v2/#rate-limit for
-        information about how requests expire.
+      description: The time when the oldest request will expire. The value is given in Unix epoch time. See https://developers.digitalocean.com/documentation/v2/#rate-limit for information about how requests expire.
     content-disposition:
-      description: >-
-        Indicates if the content is expected to be displayed *inline* in the 
-        browser, that is, as a Web page or as part of a Web page, or as an 
-        *attachment*, that is downloaded and saved locally.
+      description: Indicates if the content is expected to be displayed *inline* in the  browser, that is, as a Web page or as part of a Web page, or as an  *attachment*, that is downloaded and saved locally.
       schema:
         type: string
-      example: >-
-        attachment; filename="DigitalOcean Invoice 2020 Jul
-        (6173678-418071234).csv"
+      example: attachment; filename="DigitalOcean Invoice 2020 Jul (6173678-418071234).csv"
 servers:
   - url: https://api.digitalocean.com
     description: production

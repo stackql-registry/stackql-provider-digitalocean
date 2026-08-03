@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>droplets_firewalls</code> resou
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>droplets_firewalls</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="droplets_firewalls" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.droplets_firewalls" /></td></tr>
 </tbody></table>
@@ -58,7 +59,7 @@ A JSON object that has a key called `firewalls`.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>A human-readable name for a firewall. The name must begin with an alphanumeric character. Subsequent characters must either be alphanumeric characters, a period (.), or a dash (-). (pattern: <code>^[a-zA-Z0-9][a-zA-Z0-9\.-]+$</code>, example: firewall)</td>
+    <td>A human-readable name for a firewall. The name must begin with an alphanumeric character. Subsequent characters must either be alphanumeric characters, a period (.), or a dash (-). (pattern: <code>^&#91;a-zA-Z0-9&#93;&#91;a-zA-Z0-9\.-&#93;+$</code>, example: firewall)</td>
 </tr>
 <tr>
     <td><CopyableCode code="created_at" /></td>
@@ -88,7 +89,7 @@ A JSON object that has a key called `firewalls`.
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>A status string indicating the current state of the firewall. This can be "waiting", "succeeded", or "failed". (example: waiting)</td>
+    <td>A status string indicating the current state of the firewall. This can be "waiting", "succeeded", or "failed". (waiting, succeeded, failed) (example: waiting)</td>
 </tr>
 <tr>
     <td><CopyableCode code="tags" /></td>

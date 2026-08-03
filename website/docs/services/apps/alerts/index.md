@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>alerts</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>alerts</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="alerts" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.apps.alerts" /></td></tr>
 </tbody></table>
@@ -68,7 +69,7 @@ A JSON object with a `alerts` key. This is list of object `alerts`.
 <tr>
     <td><CopyableCode code="phase" /></td>
     <td><code>string</code></td>
-    <td> (default: UNKNOWN, example: ACTIVE)</td>
+    <td> (UNKNOWN, PENDING, CONFIGURING, ACTIVE, ERROR) (default: UNKNOWN, example: ACTIVE)</td>
 </tr>
 <tr>
     <td><CopyableCode code="progress" /></td>

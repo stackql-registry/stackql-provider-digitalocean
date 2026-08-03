@@ -1,0 +1,50 @@
+version: 1
+name: "digitalocean-web-server"
+description: Provisions a DigitalOcean VPC with an Ubuntu droplet running a web server, using the smallest droplet size available.
+providers:
+  - digitalocean
+globals:
+  - name: region
+    description: DigitalOcean region slug for all resources
+    value: syd1
+  - name: droplet_size
+    description: droplet size slug (smallest available)
+    value: s-1vcpu-512mb-10gb
+  - name: droplet_image
+    description: droplet base image slug
+    value: ubuntu-24-04-x64
+resources:
+  - name: example_vpc
+    props:
+      - name: vpc_name
+        value: "{{ stack_name }}-{{ stack_env }}-vpc"
+      - name: vpc_ip_range
+        values:
+          prd:
+            value: "10.10.0.0/24"
+          sit:
+            value: "10.11.0.0/24"
+          dev:
+            value: "10.12.0.0/24"
+    exports:
+      - vpc_id
+      - vpc_name
+  - name: example_droplet
+    props:
+      - name: droplet_name
+        value: "{{ stack_name }}-{{ stack_env }}-web"
+      - name: droplet_user_data
+        value: |
+          #!/bin/bash
+          apt-get update
+          apt-get install -y nginx
+          echo "<h1>deployed with stackql-deploy</h1>" > /var/www/html/index.html
+    exports:
+      - droplet_id
+      - droplet_name
+  - name: get_droplet_public_ip
+    type: query
+    props: []
+    exports:
+      - droplet_public_ip
+      - web_server_url

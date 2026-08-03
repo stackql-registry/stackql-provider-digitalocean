@@ -18,7 +18,7 @@ billing service documentation.
 
 :::info[Service Summary]
 
-total resources: __4__  
+total resources: __5__  
 
 :::
 
@@ -26,7 +26,8 @@ total resources: __4__
 <div class="row">
 <div class="providerDocColumn">
 <a href="/services/billing/balances/">balances</a><br />
-<a href="/services/billing/billing_history/">billing_history</a>
+<a href="/services/billing/billing_history/">billing_history</a><br />
+<a href="/services/billing/insights/">insights</a>
 </div>
 <div class="providerDocColumn">
 <a href="/services/billing/invoice_summary/">invoice_summary</a><br />

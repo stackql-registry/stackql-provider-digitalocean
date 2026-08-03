@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>droplet_actions</code> resource
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>droplet_actions</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="droplet_actions" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.droplet_actions" /></td></tr>
 </tbody></table>
@@ -89,7 +90,7 @@ The result will be a JSON object with an action key.  This will be set to an act
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>The current status of the action. This can be "in-progress", "completed", or "errored". (example: completed, default: in-progress)</td>
+    <td>The current status of the action. This can be "in-progress", "completed", or "errored". (in-progress, completed, errored) (example: completed, default: in-progress)</td>
 </tr>
 <tr>
     <td><CopyableCode code="type" /></td>
@@ -150,7 +151,7 @@ A JSON object with an `actions` key.
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>The current status of the action. This can be "in-progress", "completed", or "errored". (example: completed, default: in-progress)</td>
+    <td>The current status of the action. This can be "in-progress", "completed", or "errored". (in-progress, completed, errored) (example: completed, default: in-progress)</td>
 </tr>
 <tr>
     <td><CopyableCode code="type" /></td>
@@ -191,20 +192,6 @@ The following methods are available for this resource:
     <td><a href="#parameter-per_page"><code>per_page</code></a>, <a href="#parameter-page"><code>page</code></a></td>
     <td>To retrieve a list of all actions that have been executed for a Droplet, send<br />a GET request to `/v2/droplets/$DROPLET_ID/actions`.<br /><br />The results will be returned as a JSON object with an `actions` key. This will<br />be set to an array filled with `action` objects containing the standard<br />`action` attributes.<br /></td>
 </tr>
-<tr>
-    <td><a href="#droplet_actions_post"><CopyableCode code="droplet_actions_post" /></a></td>
-    <td><CopyableCode code="exec" /></td>
-    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a>, <a href="#parameter-type"><code>type</code></a></td>
-    <td></td>
-    <td>To initiate an action on a Droplet send a POST request to<br />`/v2/droplets/$DROPLET_ID/actions`. In the JSON body to the request,<br />set the `type` attribute to on of the supported action types:<br /><br />| Action                                   | Details | Additionally Required Permission |<br />| ---------------------------------------- | ----------- | ----------- |<br />| `enable_backups`            | Enables backups for a Droplet | |<br />| `disable_backups`           | Disables backups for a Droplet | |<br />| `change_backup_policy`      | Update the backup policy for a Droplet | |<br />| `reboot`                    | Reboots a Droplet. A `reboot` action is an attempt to reboot the Droplet in a graceful way, similar to using the `reboot` command from the console. | |<br />| `power_cycle`               | Power cycles a Droplet. A `powercycle` action is similar to pushing the reset button on a physical machine, it's similar to booting from scratch. | |<br />| `shutdown`                  | Shutsdown a Droplet. A shutdown action is an attempt to shutdown the Droplet in a graceful way, similar to using the `shutdown` command from the console. Since a `shutdown` command can fail, this action guarantees that the command is issued, not that it succeeds. The preferred way to turn off a Droplet is to attempt a shutdown, with a reasonable timeout, followed by a `power_off` action to ensure the Droplet is off. | |<br />| `power_off`                 | Powers off a Droplet. A `power_off` event is a hard shutdown and should only be used if the `shutdown` action is not successful. It is similar to cutting the power on a server and could lead to complications. | |<br />| `power_on`                  | Powers on a Droplet. | |<br />| `restore`                   | Restore a Droplet using a backup image. The image ID that is passed in must be a backup of the current Droplet instance. The operation will leave any embedded SSH keys intact. | droplet:admin |<br />| `password_reset`            | Resets the root password for a Droplet. A new password will be provided via email. It must be changed after first use. | droplet:admin |<br />| `resize`                    | Resizes a Droplet. Set the `size` attribute to a size slug. If a permanent resize with disk changes included is desired, set the `disk` attribute to `true`. | droplet:create |<br />| `rebuild`                   | Rebuilds a Droplet from a new base image. Set the `image` attribute to an image ID or slug. | droplet:admin |<br />| `rename`                    | Renames a Droplet. | |<br />| `change_kernel`             | Changes a Droplet's kernel. Only applies to Droplets with externally managed kernels. All Droplets created after March 2017 use internal kernels by default. | |<br />| `enable_ipv6`               | Enables IPv6 for a Droplet. Once enabled for a Droplet, IPv6 can not be disabled. When enabling IPv6 on an existing Droplet, [additional OS-level configuration](https://docs.digitalocean.com/products/networking/ipv6/how-to/enable/#on-existing-droplets) is required. | |<br />| `snapshot`                  | Takes a snapshot of a Droplet. | image:create |<br /></td>
-</tr>
-<tr>
-    <td><a href="#droplet_actions_post_by_tag"><CopyableCode code="droplet_actions_post_by_tag" /></a></td>
-    <td><CopyableCode code="exec" /></td>
-    <td><a href="#parameter-type"><code>type</code></a></td>
-    <td><a href="#parameter-tag_name"><code>tag_name</code></a></td>
-    <td>Some actions can be performed in bulk on tagged Droplets. The actions can be<br />initiated by sending a POST to `/v2/droplets/actions?tag_name=$TAG_NAME` with<br />the action arguments.<br /><br />Only a sub-set of action types are supported:<br /><br />- `power_cycle`<br />- `power_on`<br />- `power_off`<br />- `shutdown`<br />- `enable_ipv6`<br />- `enable_backups`<br />- `disable_backups`<br />- `snapshot` (also requires `image:create` permission)<br /></td>
-</tr>
 </tbody>
 </table>
 
@@ -240,11 +227,6 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     <td><CopyableCode code="per_page" /></td>
     <td><code>integer</code></td>
     <td>Number of items returned per page (example: 2)</td>
-</tr>
-<tr id="parameter-tag_name">
-    <td><CopyableCode code="tag_name" /></td>
-    <td><code>string</code></td>
-    <td>Used to filter Droplets by a specific tag. Can not be combined with `name` or `type`.<br />Requires `tag:read` scope. (example: env:prod)</td>
 </tr>
 </tbody>
 </table>
@@ -298,46 +280,6 @@ FROM digitalocean.compute.droplet_actions
 WHERE droplet_id = '{{ droplet_id }}' -- required
 AND per_page = '{{ per_page }}'
 AND page = '{{ page }}'
-;
-```
-</TabItem>
-</Tabs>
-
-
-## Lifecycle Methods
-
-<Tabs
-    defaultValue="droplet_actions_post"
-    values={[
-        { label: 'droplet_actions_post', value: 'droplet_actions_post' },
-        { label: 'droplet_actions_post_by_tag', value: 'droplet_actions_post_by_tag' }
-    ]}
->
-<TabItem value="droplet_actions_post">
-
-To initiate an action on a Droplet send a POST request to<br />`/v2/droplets/$DROPLET_ID/actions`. In the JSON body to the request,<br />set the `type` attribute to on of the supported action types:<br /><br />| Action                                   | Details | Additionally Required Permission |<br />| ---------------------------------------- | ----------- | ----------- |<br />| `enable_backups`            | Enables backups for a Droplet | |<br />| `disable_backups`           | Disables backups for a Droplet | |<br />| `change_backup_policy`      | Update the backup policy for a Droplet | |<br />| `reboot`                    | Reboots a Droplet. A `reboot` action is an attempt to reboot the Droplet in a graceful way, similar to using the `reboot` command from the console. | |<br />| `power_cycle`               | Power cycles a Droplet. A `powercycle` action is similar to pushing the reset button on a physical machine, it's similar to booting from scratch. | |<br />| `shutdown`                  | Shutsdown a Droplet. A shutdown action is an attempt to shutdown the Droplet in a graceful way, similar to using the `shutdown` command from the console. Since a `shutdown` command can fail, this action guarantees that the command is issued, not that it succeeds. The preferred way to turn off a Droplet is to attempt a shutdown, with a reasonable timeout, followed by a `power_off` action to ensure the Droplet is off. | |<br />| `power_off`                 | Powers off a Droplet. A `power_off` event is a hard shutdown and should only be used if the `shutdown` action is not successful. It is similar to cutting the power on a server and could lead to complications. | |<br />| `power_on`                  | Powers on a Droplet. | |<br />| `restore`                   | Restore a Droplet using a backup image. The image ID that is passed in must be a backup of the current Droplet instance. The operation will leave any embedded SSH keys intact. | droplet:admin |<br />| `password_reset`            | Resets the root password for a Droplet. A new password will be provided via email. It must be changed after first use. | droplet:admin |<br />| `resize`                    | Resizes a Droplet. Set the `size` attribute to a size slug. If a permanent resize with disk changes included is desired, set the `disk` attribute to `true`. | droplet:create |<br />| `rebuild`                   | Rebuilds a Droplet from a new base image. Set the `image` attribute to an image ID or slug. | droplet:admin |<br />| `rename`                    | Renames a Droplet. | |<br />| `change_kernel`             | Changes a Droplet's kernel. Only applies to Droplets with externally managed kernels. All Droplets created after March 2017 use internal kernels by default. | |<br />| `enable_ipv6`               | Enables IPv6 for a Droplet. Once enabled for a Droplet, IPv6 can not be disabled. When enabling IPv6 on an existing Droplet, [additional OS-level configuration](https://docs.digitalocean.com/products/networking/ipv6/how-to/enable/#on-existing-droplets) is required. | |<br />| `snapshot`                  | Takes a snapshot of a Droplet. | image:create |<br />
-
-```sql
-EXEC digitalocean.compute.droplet_actions.droplet_actions_post 
-@droplet_id='{{ droplet_id }}' --required 
-@@json=
-'{
-"type": "{{ type }}"
-}'
-;
-```
-</TabItem>
-<TabItem value="droplet_actions_post_by_tag">
-
-Some actions can be performed in bulk on tagged Droplets. The actions can be<br />initiated by sending a POST to `/v2/droplets/actions?tag_name=$TAG_NAME` with<br />the action arguments.<br /><br />Only a sub-set of action types are supported:<br /><br />- `power_cycle`<br />- `power_on`<br />- `power_off`<br />- `shutdown`<br />- `enable_ipv6`<br />- `enable_backups`<br />- `disable_backups`<br />- `snapshot` (also requires `image:create` permission)<br />
-
-```sql
-EXEC digitalocean.compute.droplet_actions.droplet_actions_post_by_tag 
-@tag_name='{{ tag_name }}' 
-@@json=
-'{
-"type": "{{ type }}"
-}'
 ;
 ```
 </TabItem>

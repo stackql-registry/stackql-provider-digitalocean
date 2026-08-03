@@ -1,0 +1,32 @@
+/*+ exists */
+SELECT id
+FROM digitalocean.vpcs.vpcs
+WHERE name = '{{ vpc_name }}'
+
+/*+ create */
+INSERT INTO digitalocean.vpcs.vpcs (
+ name,
+ region,
+ ip_range
+)
+SELECT
+ '{{ vpc_name }}',
+ '{{ region }}',
+ '{{ vpc_ip_range }}'
+
+/*+ statecheck, retries=5, retry_delay=5 */
+SELECT COUNT(*) as count
+FROM digitalocean.vpcs.vpcs
+WHERE name = '{{ vpc_name }}'
+AND region = '{{ region }}'
+AND ip_range = '{{ vpc_ip_range }}'
+
+/*+ exports, retries=3, retry_delay=5 */
+SELECT id as vpc_id,
+'{{ vpc_name }}' as vpc_name
+FROM digitalocean.vpcs.vpcs
+WHERE name = '{{ vpc_name }}'
+
+/*+ delete, retries=10, retry_delay=10 */
+DELETE FROM digitalocean.vpcs.vpcs
+WHERE vpc_id = '{{ this.id }}'

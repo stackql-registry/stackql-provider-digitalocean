@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>kafka_schema_version</code> res
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>kafka_schema_version</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="kafka_schema_version" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.kafka_schema_version" /></td></tr>
 </tbody></table>
@@ -68,7 +69,7 @@ A JSON object.
 <tr>
     <td><CopyableCode code="schema_type" /></td>
     <td><code>string</code></td>
-    <td>The type of the schema. (example: AVRO)</td>
+    <td>The type of the schema. (AVRO, JSON, PROTOBUF) (example: AVRO)</td>
 </tr>
 <tr>
     <td><CopyableCode code="version" /></td>

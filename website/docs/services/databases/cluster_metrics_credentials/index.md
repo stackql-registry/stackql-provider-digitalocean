@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>cluster_metrics_credentials</co
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>cluster_metrics_credentials</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="cluster_metrics_credentials" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.cluster_metrics_credentials" /></td></tr>
 </tbody></table>
@@ -145,7 +146,7 @@ To update the credentials for all database clusters' metrics endpoints, send a P
 ```sql
 REPLACE digitalocean.databases.cluster_metrics_credentials
 SET 
-data__credentials = '{{ credentials }}';
+credentials = '{{ credentials }}';
 ```
 </TabItem>
 </Tabs>

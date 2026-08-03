@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>volume_snapshots</code> resourc
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>volume_snapshots</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="volume_snapshots" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.volume_snapshots" /></td></tr>
 </tbody></table>
@@ -84,7 +85,7 @@ You will get back a JSON object that has a `snapshot` key. This will contain the
 <tr>
     <td><CopyableCode code="resource_type" /></td>
     <td><code>string</code></td>
-    <td>The type of resource that the snapshot originated from. (example: droplet)</td>
+    <td>The type of resource that the snapshot originated from. (droplet, volume) (example: droplet)</td>
 </tr>
 <tr>
     <td><CopyableCode code="size_gigabytes" /></td>
@@ -145,7 +146,7 @@ You will get back a JSON object that has a `snapshots` key. This will be set to 
 <tr>
     <td><CopyableCode code="resource_type" /></td>
     <td><code>string</code></td>
-    <td>The type of resource that the snapshot originated from. (example: droplet)</td>
+    <td>The type of resource that the snapshot originated from. (droplet, volume) (example: droplet)</td>
 </tr>
 <tr>
     <td><CopyableCode code="size_gigabytes" /></td>
@@ -194,7 +195,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#volume_snapshots_create"><CopyableCode code="volume_snapshots_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-volume_id"><code>volume_id</code></a>, <a href="#parameter-data__name"><code>data__name</code></a></td>
+    <td><a href="#parameter-volume_id"><code>volume_id</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>To create a snapshot from a volume, sent a POST request to `/v2/volumes/$VOLUME_ID/snapshots`.</td>
 </tr>
@@ -313,8 +314,8 @@ To create a snapshot from a volume, sent a POST request to `/v2/volumes/$VOLUME_
 
 ```sql
 INSERT INTO digitalocean.compute.volume_snapshots (
-data__name,
-data__tags,
+name,
+tags,
 volume_id
 )
 SELECT 
@@ -328,24 +329,23 @@ snapshot
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: volume_snapshots
   props:
     - name: volume_id
-      value: string (uuid)
+      value: "{{ volume_id }}"
       description: Required parameter for the volume_snapshots resource.
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         A human-readable name for the volume snapshot.
-        
     - name: tags
-      value: array
-      description: >
-        A flat array of tag names as strings to be applied to the resource. Tag names may be for either existing or new tags. <br><br>Requires `tag:create` scope.
-        
-```
+      value:
+        - "{{ tags }}"
+      description: |
+        A flat array of tag names as strings to be applied to the resource. Tag names may be for either existing or new tags. <br><br>Requires \`tag:create\` scope.
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 

@@ -18,7 +18,7 @@ compute service documentation.
 
 :::info[Service Summary]
 
-total resources: __36__  
+total resources: __37__  
 
 :::
 
@@ -42,12 +42,13 @@ total resources: __36__
 <a href="/services/compute/droplets/">droplets</a><br />
 <a href="/services/compute/droplets_associated_resources/">droplets_associated_resources</a><br />
 <a href="/services/compute/droplets_firewalls/">droplets_firewalls</a><br />
-<a href="/services/compute/droplets_neighbors/">droplets_neighbors</a>
+<a href="/services/compute/droplets_neighbors/">droplets_neighbors</a><br />
+<a href="/services/compute/firewall_rules/">firewall_rules</a>
 </div>
 <div class="providerDocColumn">
-<a href="/services/compute/firewall_rules/">firewall_rules</a><br />
 <a href="/services/compute/firewall_tags/">firewall_tags</a><br />
 <a href="/services/compute/firewalls/">firewalls</a><br />
+<a href="/services/compute/image_account_transfers/">image_account_transfers</a><br />
 <a href="/services/compute/image_actions/">image_actions</a><br />
 <a href="/services/compute/images/">images</a><br />
 <a href="/services/compute/load_balancers/">load_balancers</a><br />

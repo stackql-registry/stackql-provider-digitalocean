@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>droplet_autoscale_pools</code> 
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>droplet_autoscale_pools</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="droplet_autoscale_pools" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.droplet_autoscale_pools" /></td></tr>
 </tbody></table>
@@ -89,7 +90,7 @@ The response will be a JSON object with a key called `autoscale_pool`. This will
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>The current status of the autoscale pool. (example: active)</td>
+    <td>The current status of the autoscale pool. (active, deleting, error) (example: active)</td>
 </tr>
 <tr>
     <td><CopyableCode code="updated_at" /></td>
@@ -150,7 +151,7 @@ A JSON object with a key of `autoscale_pools`.
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>The current status of the autoscale pool. (example: active)</td>
+    <td>The current status of the autoscale pool. (active, deleting, error) (example: active)</td>
 </tr>
 <tr>
     <td><CopyableCode code="updated_at" /></td>
@@ -194,14 +195,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#autoscalepools_create"><CopyableCode code="autoscalepools_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__config"><code>data__config</code></a>, <a href="#parameter-data__droplet_template"><code>data__droplet_template</code></a></td>
+    <td><a href="#parameter-name"><code>name</code></a>, <a href="#parameter-config"><code>config</code></a>, <a href="#parameter-droplet_template"><code>droplet_template</code></a></td>
     <td></td>
     <td>To create a new autoscale pool, send a POST request to `/v2/droplets/autoscale` setting the required attributes.<br /><br />The response body will contain a JSON object with a key called `autoscale_pool` containing the standard attributes for the new autoscale pool.<br /></td>
 </tr>
 <tr>
     <td><a href="#autoscalepools_update"><CopyableCode code="autoscalepools_update" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-autoscale_pool_id"><code>autoscale_pool_id</code></a>, <a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__config"><code>data__config</code></a>, <a href="#parameter-data__droplet_template"><code>data__droplet_template</code></a></td>
+    <td><a href="#parameter-autoscale_pool_id"><code>autoscale_pool_id</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-config"><code>config</code></a>, <a href="#parameter-droplet_template"><code>droplet_template</code></a></td>
     <td></td>
     <td>To update the configuration of an existing autoscale pool, send a PUT request to<br />`/v2/droplets/autoscale/$AUTOSCALE_POOL_ID`. The request must contain a full representation<br />of the autoscale pool including existing attributes. <br /></td>
 </tr>
@@ -332,9 +333,9 @@ To create a new autoscale pool, send a POST request to `/v2/droplets/autoscale` 
 
 ```sql
 INSERT INTO digitalocean.compute.droplet_autoscale_pools (
-data__name,
-data__config,
-data__droplet_template
+name,
+config,
+droplet_template
 )
 SELECT 
 '{{ name }}' /* required */,
@@ -347,23 +348,41 @@ autoscale_pool
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: droplet_autoscale_pools
   props:
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The human-readable name of the autoscale pool. This field cannot be updated
-        
     - name: config
-      value: object
-      description: >
+      description: |
         The scaling configuration for an autoscale pool, which is how the pool scales up and down (either by resource utilization or static configuration).
-        
+      value:
+        target_number_instances: {{ target_number_instances }}
+        min_instances: {{ min_instances }}
+        max_instances: {{ max_instances }}
+        target_cpu_utilization: {{ target_cpu_utilization }}
+        target_memory_utilization: {{ target_memory_utilization }}
+        cooldown_minutes: {{ cooldown_minutes }}
     - name: droplet_template
-      value: object
-```
+      value:
+        name: "{{ name }}"
+        region: "{{ region }}"
+        size: "{{ size }}"
+        image: "{{ image }}"
+        ssh_keys:
+          - "{{ ssh_keys }}"
+        tags:
+          - "{{ tags }}"
+        vpc_uuid: "{{ vpc_uuid }}"
+        with_droplet_agent: {{ with_droplet_agent }}
+        project_id: "{{ project_id }}"
+        ipv6: {{ ipv6 }}
+        user_data: "{{ user_data }}"
+        public_networking: {{ public_networking }}
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -383,14 +402,14 @@ To update the configuration of an existing autoscale pool, send a PUT request to
 ```sql
 REPLACE digitalocean.compute.droplet_autoscale_pools
 SET 
-data__name = '{{ name }}',
-data__config = '{{ config }}',
-data__droplet_template = '{{ droplet_template }}'
+name = '{{ name }}',
+config = '{{ config }}',
+droplet_template = '{{ droplet_template }}'
 WHERE 
 autoscale_pool_id = '{{ autoscale_pool_id }}' --required
-AND data__name = '{{ name }}' --required
-AND data__config = '{{ config }}' --required
-AND data__droplet_template = '{{ droplet_template }}' --required
+AND name = '{{ name }}' --required
+AND config = '{{ config }}' --required
+AND droplet_template = '{{ droplet_template }}' --required
 RETURNING
 autoscale_pool;
 ```

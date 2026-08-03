@@ -18,13 +18,14 @@ serverless service documentation.
 
 :::info[Service Summary]
 
-total resources: __2__  
+total resources: __3__  
 
 :::
 
 ## Resources
 <div class="row">
 <div class="providerDocColumn">
+<a href="/services/serverless/namespace_access_keys/">namespace_access_keys</a><br />
 <a href="/services/serverless/namespaces/">namespaces</a>
 </div>
 <div class="providerDocColumn">
