@@ -163,14 +163,14 @@ The following methods are available for this resource:
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-reserved_ipv6"><code>reserved_ipv6</code></a></td>
     <td></td>
-    <td>Invokes the `assign` action. Fabricated lifecycle operation over `POST /v2/reserved_ipv6/&#123;reserved_ipv6&#125;/actions`.</td>
+    <td>Alias for the `assign` action.</td>
 </tr>
 <tr>
     <td><a href="#unassign"><CopyableCode code="unassign" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-reserved_ipv6"><code>reserved_ipv6</code></a></td>
     <td></td>
-    <td>Invokes the `unassign` action. Fabricated lifecycle operation over `POST /v2/reserved_ipv6/&#123;reserved_ipv6&#125;/actions`.</td>
+    <td>Alias for the `unassign` action.</td>
 </tr>
 </tbody>
 </table>
@@ -335,7 +335,7 @@ EXEC digitalocean.compute.reserved_ipv6.reserved_ipv6_actions_post
 </TabItem>
 <TabItem value="assign">
 
-Invokes the `assign` action. Fabricated lifecycle operation over `POST /v2/reserved_ipv6/&#123;reserved_ipv6&#125;/actions`.
+Alias for the `assign` action.
 
 ```sql
 EXEC digitalocean.compute.reserved_ipv6.assign 
@@ -349,7 +349,7 @@ EXEC digitalocean.compute.reserved_ipv6.assign
 </TabItem>
 <TabItem value="unassign">
 
-Invokes the `unassign` action. Fabricated lifecycle operation over `POST /v2/reserved_ipv6/&#123;reserved_ipv6&#125;/actions`.
+Alias for the `unassign` action.
 
 ```sql
 EXEC digitalocean.compute.reserved_ipv6.unassign 

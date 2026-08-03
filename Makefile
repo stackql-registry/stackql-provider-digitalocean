@@ -94,6 +94,7 @@ docs:
 	  --provider-dir ./$(PROVIDER_DIR) \
 	  --output-dir ./website \
 	  --provider-data-dir ./provider-dev/docgen/provider-data
+	node provider-dev/scripts/fix-webdocs.mjs
 
 website:
 	cd website && yarn build

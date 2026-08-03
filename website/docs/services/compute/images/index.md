@@ -268,14 +268,14 @@ The following methods are available for this resource:
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-image_id"><code>image_id</code></a></td>
     <td></td>
-    <td>Invokes the `convert` action. Fabricated lifecycle operation over `POST /v2/images/&#123;image_id&#125;/actions`.</td>
+    <td>Alias for the `convert` action.</td>
 </tr>
 <tr>
     <td><a href="#transfer"><CopyableCode code="transfer" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-image_id"><code>image_id</code></a></td>
     <td></td>
-    <td>Invokes the `transfer` action. Fabricated lifecycle operation over `POST /v2/images/&#123;image_id&#125;/actions`.</td>
+    <td>Alias for the `transfer` action.</td>
 </tr>
 </tbody>
 </table>
@@ -523,7 +523,7 @@ WHERE image_id = '{{ image_id }}' --required
 >
 <TabItem value="convert">
 
-Invokes the `convert` action. Fabricated lifecycle operation over `POST /v2/images/&#123;image_id&#125;/actions`.
+Alias for the `convert` action.
 
 ```sql
 EXEC digitalocean.compute.images.convert 
@@ -533,7 +533,7 @@ EXEC digitalocean.compute.images.convert
 </TabItem>
 <TabItem value="transfer">
 
-Invokes the `transfer` action. Fabricated lifecycle operation over `POST /v2/images/&#123;image_id&#125;/actions`.
+Alias for the `transfer` action.
 
 ```sql
 EXEC digitalocean.compute.images.transfer 

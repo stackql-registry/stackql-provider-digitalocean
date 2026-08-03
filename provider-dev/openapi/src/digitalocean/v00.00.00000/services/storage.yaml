@@ -553,7 +553,7 @@ paths:
     post:
       operationId: shares_resize_lifecycle
       summary: 'Initiate an NFS action: resize'
-      description: Invokes the `resize` action. Fabricated lifecycle operation over `POST /v2/nfs/{nfs_id}/actions`.
+      description: Alias for the `resize` action.
       tags:
         - NFS Actions
       parameters:
@@ -597,7 +597,7 @@ paths:
     post:
       operationId: shares_snapshot_lifecycle
       summary: 'Initiate an NFS action: snapshot'
-      description: Invokes the `snapshot` action. Fabricated lifecycle operation over `POST /v2/nfs/{nfs_id}/actions`.
+      description: Alias for the `snapshot` action.
       tags:
         - NFS Actions
       parameters:
@@ -641,7 +641,7 @@ paths:
     post:
       operationId: shares_attach_lifecycle
       summary: 'Initiate an NFS action: attach'
-      description: Invokes the `attach` action. Fabricated lifecycle operation over `POST /v2/nfs/{nfs_id}/actions`.
+      description: Alias for the `attach` action.
       tags:
         - NFS Actions
       parameters:
@@ -685,7 +685,7 @@ paths:
     post:
       operationId: shares_detach_lifecycle
       summary: 'Initiate an NFS action: detach'
-      description: Invokes the `detach` action. Fabricated lifecycle operation over `POST /v2/nfs/{nfs_id}/actions`.
+      description: Alias for the `detach` action.
       tags:
         - NFS Actions
       parameters:
@@ -729,7 +729,7 @@ paths:
     post:
       operationId: shares_reassign_lifecycle
       summary: 'Initiate an NFS action: reassign'
-      description: Invokes the `reassign` action. Fabricated lifecycle operation over `POST /v2/nfs/{nfs_id}/actions`.
+      description: Alias for the `reassign` action.
       tags:
         - NFS Actions
       parameters:
@@ -773,7 +773,7 @@ paths:
     post:
       operationId: shares_switch_performance_tier_lifecycle
       summary: 'Initiate an NFS action: switch_performance_tier'
-      description: Invokes the `switch_performance_tier` action. Fabricated lifecycle operation over `POST /v2/nfs/{nfs_id}/actions`.
+      description: Alias for the `switch_performance_tier` action.
       tags:
         - NFS Actions
       parameters:
