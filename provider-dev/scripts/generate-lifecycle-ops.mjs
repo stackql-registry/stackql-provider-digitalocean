@@ -210,7 +210,7 @@ for (const [file, resources] of Object.entries(LIFECYCLE)) {
         const fauxOp = {
           operationId: `${resourceName}_${methodName}_lifecycle`,
           summary: (realOp.summary ? `${realOp.summary}: ` : '') + type,
-          description: `Invokes the \`${type}\` action. Fabricated lifecycle operation over \`POST ${realPath}\`.`,
+          description: `Alias for the \`${type}\` action.`,
           tags: realOp.tags,
           parameters,
           requestBody: {

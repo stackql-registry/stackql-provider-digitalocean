@@ -231,42 +231,42 @@ The following methods are available for this resource:
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-nfs_id"><code>nfs_id</code></a></td>
     <td></td>
-    <td>Invokes the `resize` action. Fabricated lifecycle operation over `POST /v2/nfs/&#123;nfs_id&#125;/actions`.</td>
+    <td>Alias for the `resize` action.</td>
 </tr>
 <tr>
     <td><a href="#snapshot"><CopyableCode code="snapshot" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-nfs_id"><code>nfs_id</code></a></td>
     <td></td>
-    <td>Invokes the `snapshot` action. Fabricated lifecycle operation over `POST /v2/nfs/&#123;nfs_id&#125;/actions`.</td>
+    <td>Alias for the `snapshot` action.</td>
 </tr>
 <tr>
     <td><a href="#attach"><CopyableCode code="attach" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-nfs_id"><code>nfs_id</code></a></td>
     <td></td>
-    <td>Invokes the `attach` action. Fabricated lifecycle operation over `POST /v2/nfs/&#123;nfs_id&#125;/actions`.</td>
+    <td>Alias for the `attach` action.</td>
 </tr>
 <tr>
     <td><a href="#detach"><CopyableCode code="detach" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-nfs_id"><code>nfs_id</code></a></td>
     <td></td>
-    <td>Invokes the `detach` action. Fabricated lifecycle operation over `POST /v2/nfs/&#123;nfs_id&#125;/actions`.</td>
+    <td>Alias for the `detach` action.</td>
 </tr>
 <tr>
     <td><a href="#reassign"><CopyableCode code="reassign" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-nfs_id"><code>nfs_id</code></a></td>
     <td></td>
-    <td>Invokes the `reassign` action. Fabricated lifecycle operation over `POST /v2/nfs/&#123;nfs_id&#125;/actions`.</td>
+    <td>Alias for the `reassign` action.</td>
 </tr>
 <tr>
     <td><a href="#switch_performance_tier"><CopyableCode code="switch_performance_tier" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-nfs_id"><code>nfs_id</code></a></td>
     <td></td>
-    <td>Invokes the `switch_performance_tier` action. Fabricated lifecycle operation over `POST /v2/nfs/&#123;nfs_id&#125;/actions`.</td>
+    <td>Alias for the `switch_performance_tier` action.</td>
 </tr>
 </tbody>
 </table>
@@ -455,7 +455,7 @@ AND region = '{{ region }}'
 >
 <TabItem value="resize">
 
-Invokes the `resize` action. Fabricated lifecycle operation over `POST /v2/nfs/&#123;nfs_id&#125;/actions`.
+Alias for the `resize` action.
 
 ```sql
 EXEC digitalocean.storage.shares.resize 
@@ -470,7 +470,7 @@ EXEC digitalocean.storage.shares.resize
 </TabItem>
 <TabItem value="snapshot">
 
-Invokes the `snapshot` action. Fabricated lifecycle operation over `POST /v2/nfs/&#123;nfs_id&#125;/actions`.
+Alias for the `snapshot` action.
 
 ```sql
 EXEC digitalocean.storage.shares.snapshot 
@@ -485,7 +485,7 @@ EXEC digitalocean.storage.shares.snapshot
 </TabItem>
 <TabItem value="attach">
 
-Invokes the `attach` action. Fabricated lifecycle operation over `POST /v2/nfs/&#123;nfs_id&#125;/actions`.
+Alias for the `attach` action.
 
 ```sql
 EXEC digitalocean.storage.shares.attach 
@@ -500,7 +500,7 @@ EXEC digitalocean.storage.shares.attach
 </TabItem>
 <TabItem value="detach">
 
-Invokes the `detach` action. Fabricated lifecycle operation over `POST /v2/nfs/&#123;nfs_id&#125;/actions`.
+Alias for the `detach` action.
 
 ```sql
 EXEC digitalocean.storage.shares.detach 
@@ -515,7 +515,7 @@ EXEC digitalocean.storage.shares.detach
 </TabItem>
 <TabItem value="reassign">
 
-Invokes the `reassign` action. Fabricated lifecycle operation over `POST /v2/nfs/&#123;nfs_id&#125;/actions`.
+Alias for the `reassign` action.
 
 ```sql
 EXEC digitalocean.storage.shares.reassign 
@@ -530,7 +530,7 @@ EXEC digitalocean.storage.shares.reassign
 </TabItem>
 <TabItem value="switch_performance_tier">
 
-Invokes the `switch_performance_tier` action. Fabricated lifecycle operation over `POST /v2/nfs/&#123;nfs_id&#125;/actions`.
+Alias for the `switch_performance_tier` action.
 
 ```sql
 EXEC digitalocean.storage.shares.switch_performance_tier 

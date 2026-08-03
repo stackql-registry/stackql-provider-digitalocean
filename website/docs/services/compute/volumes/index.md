@@ -235,21 +235,21 @@ The following methods are available for this resource:
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-volume_id"><code>volume_id</code></a></td>
     <td><a href="#parameter-per_page"><code>per_page</code></a>, <a href="#parameter-page"><code>page</code></a></td>
-    <td>Invokes the `attach` action. Fabricated lifecycle operation over `POST /v2/volumes/&#123;volume_id&#125;/actions`.</td>
+    <td>Alias for the `attach` action.</td>
 </tr>
 <tr>
     <td><a href="#detach"><CopyableCode code="detach" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-volume_id"><code>volume_id</code></a></td>
     <td><a href="#parameter-per_page"><code>per_page</code></a>, <a href="#parameter-page"><code>page</code></a></td>
-    <td>Invokes the `detach` action. Fabricated lifecycle operation over `POST /v2/volumes/&#123;volume_id&#125;/actions`.</td>
+    <td>Alias for the `detach` action.</td>
 </tr>
 <tr>
     <td><a href="#resize"><CopyableCode code="resize" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-volume_id"><code>volume_id</code></a></td>
     <td><a href="#parameter-per_page"><code>per_page</code></a>, <a href="#parameter-page"><code>page</code></a></td>
-    <td>Invokes the `resize` action. Fabricated lifecycle operation over `POST /v2/volumes/&#123;volume_id&#125;/actions`.</td>
+    <td>Alias for the `resize` action.</td>
 </tr>
 </tbody>
 </table>
@@ -499,7 +499,7 @@ EXEC digitalocean.compute.volumes.volume_actions_post
 </TabItem>
 <TabItem value="attach">
 
-Invokes the `attach` action. Fabricated lifecycle operation over `POST /v2/volumes/&#123;volume_id&#125;/actions`.
+Alias for the `attach` action.
 
 ```sql
 EXEC digitalocean.compute.volumes.attach 
@@ -517,7 +517,7 @@ EXEC digitalocean.compute.volumes.attach
 </TabItem>
 <TabItem value="detach">
 
-Invokes the `detach` action. Fabricated lifecycle operation over `POST /v2/volumes/&#123;volume_id&#125;/actions`.
+Alias for the `detach` action.
 
 ```sql
 EXEC digitalocean.compute.volumes.detach 
@@ -534,7 +534,7 @@ EXEC digitalocean.compute.volumes.detach
 </TabItem>
 <TabItem value="resize">
 
-Invokes the `resize` action. Fabricated lifecycle operation over `POST /v2/volumes/&#123;volume_id&#125;/actions`.
+Alias for the `resize` action.
 
 ```sql
 EXEC digitalocean.compute.volumes.resize 
