@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>indexing_job_data_sources</cod
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>indexing_job_data_sources</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="indexing_job_data_sources" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.genai.indexing_job_data_sources" /></td></tr>
 </tbody></table>
@@ -103,7 +104,7 @@ A successful response.
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td> (default: DATA_SOURCE_STATUS_UNKNOWN, example: DATA_SOURCE_STATUS_UNKNOWN)</td>
+    <td> (DATA_SOURCE_STATUS_UNKNOWN, DATA_SOURCE_STATUS_IN_PROGRESS, DATA_SOURCE_STATUS_UPDATED, DATA_SOURCE_STATUS_PARTIALLY_UPDATED, DATA_SOURCE_STATUS_NOT_UPDATED, DATA_SOURCE_STATUS_FAILED, DATA_SOURCE_STATUS_CANCELLED) (default: DATA_SOURCE_STATUS_UNKNOWN, example: DATA_SOURCE_STATUS_UNKNOWN)</td>
 </tr>
 <tr>
     <td><CopyableCode code="total_bytes" /></td>

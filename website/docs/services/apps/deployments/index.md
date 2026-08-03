@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>deployments</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>deployments</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="deployments" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.apps.deployments" /></td></tr>
 </tbody></table>
@@ -84,7 +85,7 @@ A JSON of the requested deployment
 <tr>
     <td><CopyableCode code="phase" /></td>
     <td><code>string</code></td>
-    <td> (default: UNKNOWN, example: ACTIVE)</td>
+    <td> (UNKNOWN, PENDING_BUILD, BUILDING, PENDING_DEPLOY, DEPLOYING, ACTIVE, SUPERSEDED, ERROR, CANCELED) (default: UNKNOWN, example: ACTIVE)</td>
 </tr>
 <tr>
     <td><CopyableCode code="phase_last_updated_at" /></td>
@@ -175,7 +176,7 @@ A JSON object with a `deployments` key. This will be a list of all app deploymen
 <tr>
     <td><CopyableCode code="phase" /></td>
     <td><code>string</code></td>
-    <td> (default: UNKNOWN, example: ACTIVE)</td>
+    <td> (UNKNOWN, PENDING_BUILD, BUILDING, PENDING_DEPLOY, DEPLOYING, ACTIVE, SUPERSEDED, ERROR, CANCELED) (default: UNKNOWN, example: ACTIVE)</td>
 </tr>
 <tr>
     <td><CopyableCode code="phase_last_updated_at" /></td>
@@ -392,7 +393,7 @@ Creating an app deployment will pull the latest changes from your repository and
 
 ```sql
 INSERT INTO digitalocean.apps.deployments (
-data__force_build,
+force_build,
 app_id
 )
 SELECT 
@@ -405,16 +406,16 @@ deployment
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: deployments
   props:
     - name: app_id
-      value: string
+      value: "{{ app_id }}"
       description: Required parameter for the deployments resource.
     - name: force_build
-      value: boolean
-```
+      value: {{ force_build }}
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 

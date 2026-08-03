@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>apps</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>apps</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="apps" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.apps.apps" /></td></tr>
 </tbody></table>
@@ -304,14 +305,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#apps_create"><CopyableCode code="apps_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__spec"><code>data__spec</code></a></td>
+    <td><a href="#parameter-spec"><code>spec</code></a></td>
     <td><a href="#parameter-Accept"><code>Accept</code></a>, <a href="#parameter-Content-Type"><code>Content-Type</code></a></td>
     <td>Create a new app by submitting an app specification. For documentation on app specifications (`AppSpec` objects), please refer to [the product documentation](https://docs.digitalocean.com/products/app-platform/reference/app-spec/).</td>
 </tr>
 <tr>
     <td><a href="#apps_update"><CopyableCode code="apps_update" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-id"><code>id</code></a>, <a href="#parameter-data__spec"><code>data__spec</code></a></td>
+    <td><a href="#parameter-id"><code>id</code></a>, <a href="#parameter-spec"><code>spec</code></a></td>
     <td></td>
     <td>Update an existing app by submitting a new app specification. For documentation on app specifications (`AppSpec` objects), please refer to [the product documentation](https://docs.digitalocean.com/products/app-platform/reference/app-spec/).</td>
 </tr>
@@ -499,8 +500,8 @@ Create a new app by submitting an app specification. For documentation on app sp
 
 ```sql
 INSERT INTO digitalocean.apps.apps (
-data__spec,
-data__project_id,
+spec,
+project_id,
 Accept,
 Content-Type
 )
@@ -516,28 +517,340 @@ app
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: apps
   props:
     - name: spec
-      value: object
-      description: >
+      description: |
         The desired configuration of an application.
-        
+      value:
+        name: "{{ name }}"
+        region: "{{ region }}"
+        disable_edge_cache: {{ disable_edge_cache }}
+        disable_email_obfuscation: {{ disable_email_obfuscation }}
+        enhanced_threat_control_enabled: {{ enhanced_threat_control_enabled }}
+        domains:
+          - domain: "{{ domain }}"
+            type: "{{ type }}"
+            wildcard: {{ wildcard }}
+            zone: "{{ zone }}"
+            minimum_tls_version: "{{ minimum_tls_version }}"
+        services:
+          - name: "{{ name }}"
+            git:
+              branch: "{{ branch }}"
+              repo_clone_url: "{{ repo_clone_url }}"
+            github:
+              branch: "{{ branch }}"
+              deploy_on_push: {{ deploy_on_push }}
+              repo: "{{ repo }}"
+            gitlab:
+              branch: "{{ branch }}"
+              deploy_on_push: {{ deploy_on_push }}
+              repo: "{{ repo }}"
+            bitbucket:
+              branch: "{{ branch }}"
+              deploy_on_push: {{ deploy_on_push }}
+              repo: "{{ repo }}"
+            image:
+              registry: "{{ registry }}"
+              registry_type: "{{ registry_type }}"
+              registry_credentials: "{{ registry_credentials }}"
+              repository: "{{ repository }}"
+              tag: "{{ tag }}"
+              digest: "{{ digest }}"
+              deploy_on_push:
+                enabled: {{ enabled }}
+            dockerfile_path: "{{ dockerfile_path }}"
+            build_command: "{{ build_command }}"
+            run_command: "{{ run_command }}"
+            source_dir: "{{ source_dir }}"
+            envs: "{{ envs }}"
+            environment_slug: "{{ environment_slug }}"
+            log_destinations: "{{ log_destinations }}"
+            instance_count: {{ instance_count }}
+            instance_size_slug: "{{ instance_size_slug }}"
+            autoscaling:
+              min_instance_count: {{ min_instance_count }}
+              max_instance_count: {{ max_instance_count }}
+              metrics:
+                cpu:
+                  percent: {{ percent }}
+            cors:
+              allow_origins:
+                - exact: "{{ exact }}"
+                  prefix: "{{ prefix }}"
+                  regex: "{{ regex }}"
+              allow_methods:
+                - "{{ allow_methods }}"
+              allow_headers:
+                - "{{ allow_headers }}"
+              expose_headers:
+                - "{{ expose_headers }}"
+              max_age: "{{ max_age }}"
+              allow_credentials: {{ allow_credentials }}
+            health_check:
+              failure_threshold: {{ failure_threshold }}
+              port: {{ port }}
+              http_path: "{{ http_path }}"
+              initial_delay_seconds: {{ initial_delay_seconds }}
+              period_seconds: {{ period_seconds }}
+              success_threshold: {{ success_threshold }}
+              timeout_seconds: {{ timeout_seconds }}
+            liveness_health_check:
+              failure_threshold: {{ failure_threshold }}
+              port: {{ port }}
+              http_path: "{{ http_path }}"
+              initial_delay_seconds: {{ initial_delay_seconds }}
+              period_seconds: {{ period_seconds }}
+              success_threshold: {{ success_threshold }}
+              timeout_seconds: {{ timeout_seconds }}
+            protocol: "{{ protocol }}"
+            http_port: {{ http_port }}
+            internal_ports: "{{ internal_ports }}"
+            routes: "{{ routes }}"
+            termination:
+              drain_seconds: {{ drain_seconds }}
+              grace_period_seconds: {{ grace_period_seconds }}
+        static_sites:
+          - name: "{{ name }}"
+            git:
+              branch: "{{ branch }}"
+              repo_clone_url: "{{ repo_clone_url }}"
+            github:
+              branch: "{{ branch }}"
+              deploy_on_push: {{ deploy_on_push }}
+              repo: "{{ repo }}"
+            gitlab:
+              branch: "{{ branch }}"
+              deploy_on_push: {{ deploy_on_push }}
+              repo: "{{ repo }}"
+            bitbucket:
+              branch: "{{ branch }}"
+              deploy_on_push: {{ deploy_on_push }}
+              repo: "{{ repo }}"
+            image:
+              registry: "{{ registry }}"
+              registry_type: "{{ registry_type }}"
+              registry_credentials: "{{ registry_credentials }}"
+              repository: "{{ repository }}"
+              tag: "{{ tag }}"
+              digest: "{{ digest }}"
+              deploy_on_push:
+                enabled: {{ enabled }}
+            dockerfile_path: "{{ dockerfile_path }}"
+            build_command: "{{ build_command }}"
+            run_command: "{{ run_command }}"
+            source_dir: "{{ source_dir }}"
+            envs: "{{ envs }}"
+            environment_slug: "{{ environment_slug }}"
+            log_destinations: "{{ log_destinations }}"
+            index_document: "{{ index_document }}"
+            error_document: "{{ error_document }}"
+            catchall_document: "{{ catchall_document }}"
+            output_dir: "{{ output_dir }}"
+            cors:
+              allow_origins:
+                - exact: "{{ exact }}"
+                  prefix: "{{ prefix }}"
+                  regex: "{{ regex }}"
+              allow_methods:
+                - "{{ allow_methods }}"
+              allow_headers:
+                - "{{ allow_headers }}"
+              expose_headers:
+                - "{{ expose_headers }}"
+              max_age: "{{ max_age }}"
+              allow_credentials: {{ allow_credentials }}
+            routes: "{{ routes }}"
+        jobs:
+          - name: "{{ name }}"
+            git:
+              branch: "{{ branch }}"
+              repo_clone_url: "{{ repo_clone_url }}"
+            github:
+              branch: "{{ branch }}"
+              deploy_on_push: {{ deploy_on_push }}
+              repo: "{{ repo }}"
+            gitlab:
+              branch: "{{ branch }}"
+              deploy_on_push: {{ deploy_on_push }}
+              repo: "{{ repo }}"
+            bitbucket:
+              branch: "{{ branch }}"
+              deploy_on_push: {{ deploy_on_push }}
+              repo: "{{ repo }}"
+            image:
+              registry: "{{ registry }}"
+              registry_type: "{{ registry_type }}"
+              registry_credentials: "{{ registry_credentials }}"
+              repository: "{{ repository }}"
+              tag: "{{ tag }}"
+              digest: "{{ digest }}"
+              deploy_on_push:
+                enabled: {{ enabled }}
+            dockerfile_path: "{{ dockerfile_path }}"
+            build_command: "{{ build_command }}"
+            run_command: "{{ run_command }}"
+            source_dir: "{{ source_dir }}"
+            envs: "{{ envs }}"
+            environment_slug: "{{ environment_slug }}"
+            log_destinations: "{{ log_destinations }}"
+            instance_count: {{ instance_count }}
+            instance_size_slug: "{{ instance_size_slug }}"
+            kind: "{{ kind }}"
+            termination:
+              grace_period_seconds: {{ grace_period_seconds }}
+        workers:
+          - name: "{{ name }}"
+            git:
+              branch: "{{ branch }}"
+              repo_clone_url: "{{ repo_clone_url }}"
+            github:
+              branch: "{{ branch }}"
+              deploy_on_push: {{ deploy_on_push }}
+              repo: "{{ repo }}"
+            gitlab:
+              branch: "{{ branch }}"
+              deploy_on_push: {{ deploy_on_push }}
+              repo: "{{ repo }}"
+            bitbucket:
+              branch: "{{ branch }}"
+              deploy_on_push: {{ deploy_on_push }}
+              repo: "{{ repo }}"
+            image:
+              registry: "{{ registry }}"
+              registry_type: "{{ registry_type }}"
+              registry_credentials: "{{ registry_credentials }}"
+              repository: "{{ repository }}"
+              tag: "{{ tag }}"
+              digest: "{{ digest }}"
+              deploy_on_push:
+                enabled: {{ enabled }}
+            dockerfile_path: "{{ dockerfile_path }}"
+            build_command: "{{ build_command }}"
+            run_command: "{{ run_command }}"
+            source_dir: "{{ source_dir }}"
+            envs: "{{ envs }}"
+            environment_slug: "{{ environment_slug }}"
+            log_destinations: "{{ log_destinations }}"
+            instance_count: {{ instance_count }}
+            instance_size_slug: "{{ instance_size_slug }}"
+            autoscaling:
+              min_instance_count: {{ min_instance_count }}
+              max_instance_count: {{ max_instance_count }}
+              metrics:
+                cpu:
+                  percent: {{ percent }}
+            termination:
+              grace_period_seconds: {{ grace_period_seconds }}
+            liveness_health_check:
+              failure_threshold: {{ failure_threshold }}
+              port: {{ port }}
+              http_path: "{{ http_path }}"
+              initial_delay_seconds: {{ initial_delay_seconds }}
+              period_seconds: {{ period_seconds }}
+              success_threshold: {{ success_threshold }}
+              timeout_seconds: {{ timeout_seconds }}
+        functions:
+          - cors:
+              allow_origins:
+                - exact: "{{ exact }}"
+                  prefix: "{{ prefix }}"
+                  regex: "{{ regex }}"
+              allow_methods:
+                - "{{ allow_methods }}"
+              allow_headers:
+                - "{{ allow_headers }}"
+              expose_headers:
+                - "{{ expose_headers }}"
+              max_age: "{{ max_age }}"
+              allow_credentials: {{ allow_credentials }}
+            routes: "{{ routes }}"
+            name: "{{ name }}"
+            source_dir: "{{ source_dir }}"
+            alerts: "{{ alerts }}"
+            envs: "{{ envs }}"
+            git:
+              branch: "{{ branch }}"
+              repo_clone_url: "{{ repo_clone_url }}"
+            github:
+              branch: "{{ branch }}"
+              deploy_on_push: {{ deploy_on_push }}
+              repo: "{{ repo }}"
+            gitlab:
+              branch: "{{ branch }}"
+              deploy_on_push: {{ deploy_on_push }}
+              repo: "{{ repo }}"
+            bitbucket:
+              branch: "{{ branch }}"
+              deploy_on_push: {{ deploy_on_push }}
+              repo: "{{ repo }}"
+            log_destinations: "{{ log_destinations }}"
+        databases:
+          - cluster_name: "{{ cluster_name }}"
+            db_name: "{{ db_name }}"
+            db_user: "{{ db_user }}"
+            engine: "{{ engine }}"
+            name: "{{ name }}"
+            production: {{ production }}
+            version: "{{ version }}"
+        ingress:
+          rules:
+            - match:
+                path:
+                  prefix: "{{ prefix }}"
+                authority:
+                  exact: "{{ exact }}"
+              cors:
+                allow_origins:
+                  - exact: "{{ exact }}"
+                    prefix: "{{ prefix }}"
+                    regex: "{{ regex }}"
+                allow_methods:
+                  - "{{ allow_methods }}"
+                allow_headers:
+                  - "{{ allow_headers }}"
+                expose_headers:
+                  - "{{ expose_headers }}"
+                max_age: "{{ max_age }}"
+                allow_credentials: {{ allow_credentials }}
+              component:
+                name: "{{ name }}"
+                preserve_path_prefix: "{{ preserve_path_prefix }}"
+                rewrite: "{{ rewrite }}"
+              redirect:
+                uri: "{{ uri }}"
+                authority: "{{ authority }}"
+                port: {{ port }}
+                scheme: "{{ scheme }}"
+                redirect_code: {{ redirect_code }}
+          custom_error_page_url: "{{ custom_error_page_url }}"
+        egress:
+          type: "{{ type }}"
+        maintenance:
+          enabled: {{ enabled }}
+          archive: {{ archive }}
+          offline_page_url: "{{ offline_page_url }}"
+        vpc:
+          id: "{{ id }}"
+          egress_ips:
+            - ip: "{{ ip }}"
     - name: project_id
-      value: string
-      description: >
+      value: "{{ project_id }}"
+      description: |
         The ID of the project the app should be assigned to. If omitted, it will be assigned to your default project.
-<br><br>Requires `project:update` scope.
-
+        <br><br>Requires \`project:assign_resource\` scope.
     - name: Accept
-      value: string
-      description: The content-type that should be used by the response. By default, the response will be `application/json`. `application/yaml` is also supported. (example: application/json)
+      value: "{{ Accept }}"
+      description: The content-type that should be used by the response. By default, the response will be \`application/json\`. \`application/yaml\` is also supported. (example: application/json)
+      description: The content-type that should be used by the response. By default, the response will be \`application/json\`. \`application/yaml\` is also supported. (example: application/json)
     - name: Content-Type
-      value: string
-      description: The content-type used for the request. By default, the requests are assumed to use `application/json`. `application/yaml` is also supported. (example: application/json)
-```
+      value: "{{ Content-Type }}"
+      description: The content-type used for the request. By default, the requests are assumed to use \`application/json\`. \`application/yaml\` is also supported. (example: application/json)
+      description: The content-type used for the request. By default, the requests are assumed to use \`application/json\`. \`application/yaml\` is also supported. (example: application/json)
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -557,11 +870,11 @@ Update an existing app by submitting a new app specification. For documentation 
 ```sql
 REPLACE digitalocean.apps.apps
 SET 
-data__spec = '{{ spec }}',
-data__update_all_source_versions = {{ update_all_source_versions }}
+spec = '{{ spec }}',
+update_all_source_versions = {{ update_all_source_versions }}
 WHERE 
 id = '{{ id }}' --required
-AND data__spec = '{{ spec }}' --required
+AND spec = '{{ spec }}' --required
 RETURNING
 app;
 ```

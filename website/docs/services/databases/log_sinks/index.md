@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>log_sinks</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>log_sinks</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="log_sinks" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.log_sinks" /></td></tr>
 </tbody></table>
@@ -40,7 +41,7 @@ The following fields are returned by `SELECT` queries:
 >
 <TabItem value="databases_get_logsink">
 
-A JSON object with a key of `sink`.
+A JSON object with logsink properties.
 
 <table>
 <thead>
@@ -52,9 +53,24 @@ A JSON object with a key of `sink`.
 </thead>
 <tbody>
 <tr>
-    <td><CopyableCode code="sink" /></td>
-    <td><code>object</code></td>
+    <td><CopyableCode code="sink_id" /></td>
+    <td><code>string</code></td>
+    <td>A unique identifier for Logsink (example: dfcc9f57d86bf58e321c2c6c31c7a971be244ac7)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="sink_name" /></td>
+    <td><code>string</code></td>
+    <td>The name of the Logsink (example: prod-logsink)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="config" /></td>
+    <td><code></code></td>
     <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="sink_type" /></td>
+    <td><code>string</code></td>
+    <td> (rsyslog, elasticsearch, opensearch) (example: rsyslog)</td>
 </tr>
 </tbody>
 </table>
@@ -90,7 +106,7 @@ A JSON object with a key of `sinks`.
 <tr>
     <td><CopyableCode code="sink_type" /></td>
     <td><code>string</code></td>
-    <td> (example: rsyslog)</td>
+    <td> (rsyslog, elasticsearch, opensearch) (example: rsyslog)</td>
 </tr>
 </tbody>
 </table>
@@ -129,14 +145,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#databases_create_logsink"><CopyableCode code="databases_create_logsink" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-data__sink_name"><code>data__sink_name</code></a>, <a href="#parameter-data__sink_type"><code>data__sink_type</code></a>, <a href="#parameter-data__config"><code>data__config</code></a></td>
+    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-sink_name"><code>sink_name</code></a>, <a href="#parameter-sink_type"><code>sink_type</code></a>, <a href="#parameter-config"><code>config</code></a></td>
     <td></td>
     <td>To create logsink for a database cluster, send a POST request to<br />`/v2/databases/$DATABASE_ID/logsink`.<br /></td>
 </tr>
 <tr>
     <td><a href="#databases_update_logsink"><CopyableCode code="databases_update_logsink" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-logsink_id"><code>logsink_id</code></a>, <a href="#parameter-data__config"><code>data__config</code></a></td>
+    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-logsink_id"><code>logsink_id</code></a>, <a href="#parameter-config"><code>config</code></a></td>
     <td></td>
     <td>To update a logsink for a database cluster, send a PUT request to<br />`/v2/databases/$DATABASE_ID/logsink/$LOGSINK_ID`.<br /></td>
 </tr>
@@ -191,7 +207,10 @@ To get a logsink for a database cluster, send a GET request to<br />`/v2/databas
 
 ```sql
 SELECT
-sink
+sink_id,
+sink_name,
+config,
+sink_type
 FROM digitalocean.databases.log_sinks
 WHERE database_cluster_uuid = '{{ database_cluster_uuid }}' -- required
 AND logsink_id = '{{ logsink_id }}' -- required
@@ -231,9 +250,9 @@ To create logsink for a database cluster, send a POST request to<br />`/v2/datab
 
 ```sql
 INSERT INTO digitalocean.databases.log_sinks (
-data__sink_name,
-data__sink_type,
-data__config,
+sink_name,
+sink_type,
+config,
 database_cluster_uuid
 )
 SELECT 
@@ -248,33 +267,29 @@ sink
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: log_sinks
   props:
     - name: database_cluster_uuid
-      value: string (uuid)
+      value: "{{ database_cluster_uuid }}"
       description: Required parameter for the log_sinks resource.
     - name: sink_name
-      value: string
-      description: >
+      value: "{{ sink_name }}"
+      description: |
         The name of the Logsink
-        
     - name: sink_type
-      value: string
-      description: >
+      value: "{{ sink_type }}"
+      description: |
         Type of logsink integration.
-
-- Use `datadog` for Datadog integration **only with MongoDB clusters**.
-- For non-MongoDB clusters, use `rsyslog` for general syslog forwarding.
-- Other supported types include `elasticsearch` and `opensearch`.
-
-More details about the configuration can be found in the `config` property.
-
+        - Use \`datadog\` for Datadog integration **only with MongoDB clusters**.
+        - For non-MongoDB clusters, use \`rsyslog\` for general syslog forwarding.
+        - Other supported types include \`elasticsearch\` and \`opensearch\`.
+        More details about the configuration can be found in the \`config\` property.
       valid_values: ['rsyslog', 'elasticsearch', 'opensearch', 'datadog']
     - name: config
-      value: string
-```
+      value: "{{ config }}"
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -294,11 +309,11 @@ To update a logsink for a database cluster, send a PUT request to<br />`/v2/data
 ```sql
 REPLACE digitalocean.databases.log_sinks
 SET 
-data__config = '{{ config }}'
+config = '{{ config }}'
 WHERE 
 database_cluster_uuid = '{{ database_cluster_uuid }}' --required
 AND logsink_id = '{{ logsink_id }}' --required
-AND data__config = '{{ config }}' --required;
+AND config = '{{ config }}' --required;
 ```
 </TabItem>
 </Tabs>

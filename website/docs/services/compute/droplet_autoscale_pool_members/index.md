@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>droplet_autoscale_pool_members<
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>droplet_autoscale_pool_members</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="droplet_autoscale_pool_members" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.droplet_autoscale_pool_members" /></td></tr>
 </tbody></table>
@@ -68,12 +69,17 @@ A JSON object with a key of `droplets`.
 <tr>
     <td><CopyableCode code="health_status" /></td>
     <td><code>string</code></td>
-    <td>The health status of the Droplet. (example: active)</td>
+    <td>The health status of the Droplet. (healthy, unhealthy) (example: healthy)</td>
 </tr>
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>The power status of the Droplet. (example: active)</td>
+    <td>The power status of the Droplet. (provisioning, active, deleting, off) (example: active)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="unhealthy_reason" /></td>
+    <td><code>string</code></td>
+    <td>A human-readable description of why the Droplet is unhealthy. Only present when `health_status` is `unhealthy`.  (example: Droplet failed health check)</td>
 </tr>
 <tr>
     <td><CopyableCode code="updated_at" /></td>
@@ -160,6 +166,7 @@ created_at,
 current_utilization,
 health_status,
 status,
+unhealthy_reason,
 updated_at
 FROM digitalocean.compute.droplet_autoscale_pool_members
 WHERE autoscale_pool_id = '{{ autoscale_pool_id }}' -- required

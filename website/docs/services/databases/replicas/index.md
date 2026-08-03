@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>replicas</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>replicas</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="replicas" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.replicas" /></td></tr>
 </tbody></table>
@@ -72,6 +73,11 @@ A JSON object with a key of `replica`.
     <td>A time value given in ISO8601 combined date and time format that represents when the database cluster was created. (example: 2019-01-11T18:37:36Z)</td>
 </tr>
 <tr>
+    <td><CopyableCode code="do_settings" /></td>
+    <td><code>object</code></td>
+    <td>DigitalOcean-specific settings for the database cluster.</td>
+</tr>
+<tr>
     <td><CopyableCode code="private_connection" /></td>
     <td><code>object</code></td>
     <td></td>
@@ -94,7 +100,7 @@ A JSON object with a key of `replica`.
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>A string representing the current status of the database cluster. (example: creating)</td>
+    <td>A string representing the current status of the database cluster. (creating, online, resizing, migrating, forking) (example: creating)</td>
 </tr>
 <tr>
     <td><CopyableCode code="storage_size_mib" /></td>
@@ -143,6 +149,11 @@ A JSON object with a key of `replicas`.
     <td>A time value given in ISO8601 combined date and time format that represents when the database cluster was created. (example: 2019-01-11T18:37:36Z)</td>
 </tr>
 <tr>
+    <td><CopyableCode code="do_settings" /></td>
+    <td><code>object</code></td>
+    <td>DigitalOcean-specific settings for the database cluster.</td>
+</tr>
+<tr>
     <td><CopyableCode code="private_connection" /></td>
     <td><code>object</code></td>
     <td></td>
@@ -165,7 +176,7 @@ A JSON object with a key of `replicas`.
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>A string representing the current status of the database cluster. (example: creating)</td>
+    <td>A string representing the current status of the database cluster. (creating, online, resizing, migrating, forking) (example: creating)</td>
 </tr>
 <tr>
     <td><CopyableCode code="storage_size_mib" /></td>
@@ -214,7 +225,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#databases_create_replica"><CopyableCode code="databases_create_replica" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-data__name"><code>data__name</code></a></td>
+    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-size"><code>size</code></a></td>
     <td></td>
     <td>To create a read-only replica for a PostgreSQL or MySQL database cluster, send a POST request to `/v2/databases/$DATABASE_ID/replicas` specifying the name it should be given, the size of the node to be used, and the region where it will be located.<br /><br />**Note**: Read-only replicas are not supported for Caching or Valkey clusters.<br /><br />The response will be a JSON object with a key called `replica`. The value of this will be an object that contains the standard attributes associated with a database replica. The initial value of the read-only replica's `status` attribute will be `forking`. When the replica is ready to receive traffic, this will transition to `active`.</td>
 </tr>
@@ -280,6 +291,7 @@ id,
 name,
 connection,
 created_at,
+do_settings,
 private_connection,
 private_network_uuid,
 region,
@@ -303,6 +315,7 @@ id,
 name,
 connection,
 created_at,
+do_settings,
 private_connection,
 private_network_uuid,
 region,
@@ -333,21 +346,23 @@ To create a read-only replica for a PostgreSQL or MySQL database cluster, send a
 
 ```sql
 INSERT INTO digitalocean.databases.replicas (
-data__name,
-data__region,
-data__size,
-data__tags,
-data__private_network_uuid,
-data__storage_size_mib,
+name,
+region,
+size,
+tags,
+private_network_uuid,
+storage_size_mib,
+do_settings,
 database_cluster_uuid
 )
 SELECT 
 '{{ name }}' /* required */,
 '{{ region }}',
-'{{ size }}',
+'{{ size }}' /* required */,
 '{{ tags }}',
 '{{ private_network_uuid }}',
 {{ storage_size_mib }},
+'{{ do_settings }}',
 '{{ database_cluster_uuid }}'
 RETURNING
 replica
@@ -356,44 +371,45 @@ replica
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: replicas
   props:
     - name: database_cluster_uuid
-      value: string (uuid)
+      value: "{{ database_cluster_uuid }}"
       description: Required parameter for the replicas resource.
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The name to give the read-only replicating
-        
     - name: region
-      value: string
-      description: >
+      value: "{{ region }}"
+      description: |
         A slug identifier for the region where the read-only replica will be located. If excluded, the replica will be placed in the same region as the cluster.
-        
     - name: size
-      value: string
-      description: >
+      value: "{{ size }}"
+      description: |
         A slug identifier representing the size of the node for the read-only replica. The size of the replica must be at least as large as the node size for the database cluster from which it is replicating.
-        
     - name: tags
-      value: array
-      description: >
-        A flat array of tag names as strings to apply to the read-only replica after it is created. Tag names can either be existing or new tags. <br><br>Requires `tag:create` scope.
-        
+      value:
+        - "{{ tags }}"
+      description: |
+        A flat array of tag names as strings to apply to the read-only replica after it is created. Tag names can either be existing or new tags. <br><br>Requires \`tag:create\` scope.
     - name: private_network_uuid
-      value: string
-      description: >
-        A string specifying the UUID of the VPC to which the read-only replica will be assigned. If excluded, the replica will be assigned to your account's default VPC for the region. <br><br>Requires `vpc:read` scope.
-        
+      value: "{{ private_network_uuid }}"
+      description: |
+        A string specifying the UUID of the VPC to which the read-only replica will be assigned. If excluded, the replica will be assigned to your account's default VPC for the region. <br><br>Requires \`vpc:read\` scope.
     - name: storage_size_mib
-      value: integer
-      description: >
+      value: {{ storage_size_mib }}
+      description: |
         Additional storage added to the cluster, in MiB. If null, no additional storage is added to the cluster, beyond what is provided as a base amount from the 'size' and any previously added additional storage.
-        
-```
+    - name: do_settings
+      description: |
+        DigitalOcean-specific settings for the database cluster.
+      value:
+        service_cnames:
+          - "{{ service_cnames }}"
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 

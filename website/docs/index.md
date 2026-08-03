@@ -20,8 +20,8 @@ DigitalOcean for managing cloud servers, databases, networking, and storage in a
 
 :::info[Provider Summary] 
 
-total services: __15__  
-total resources: __207__  
+total services: __19__  
+total resources: __276__  
 
 :::
 
@@ -42,7 +42,7 @@ REGISTRY PULL digitalocean;
 
 The following system environment variables are used for authentication by default:  
 
-- <CopyableCode code="DIGITALOCEAN_ACCESS_TOKEN" /> - DigitalOcean API token (see <a href="https://docs.digitalocean.com/reference/api/create-personal-access-token/">How to Create a Personal Access Token</a>)
+- <CopyableCode code="DIGITALOCEAN_TOKEN" /> - DigitalOcean API token (see <a href="https://docs.digitalocean.com/reference/api/create-personal-access-token/">How to Create a Personal Access Token</a>)
   
 These variables are sourced at runtime (from the local machine or as CI variables/secrets).  
 
@@ -72,12 +72,14 @@ stackql.exe shell --auth=$Auth
 <div class="row">
 <div class="providerDocColumn">
 <a href="/services/account/">account</a><br />
+<a href="/services/addons/">addons</a><br />
 <a href="/services/apps/">apps</a><br />
 <a href="/services/billing/">billing</a><br />
 <a href="/services/compute/">compute</a><br />
 <a href="/services/container_registry/">container_registry</a><br />
 <a href="/services/databases/">databases</a><br />
 <a href="/services/genai/">genai</a><br />
+<a href="/services/inference/">inference</a><br />
 <a href="/services/kubernetes/">kubernetes</a><br />
 </div>
 <div class="providerDocColumn">
@@ -85,8 +87,10 @@ stackql.exe shell --auth=$Auth
 <a href="/services/network/">network</a><br />
 <a href="/services/oneclick/">oneclick</a><br />
 <a href="/services/projects/">projects</a><br />
+<a href="/services/security/">security</a><br />
 <a href="/services/serverless/">serverless</a><br />
 <a href="/services/spaces/">spaces</a><br />
+<a href="/services/storage/">storage</a><br />
 <a href="/services/vpcs/">vpcs</a><br />
 </div>
 </div>

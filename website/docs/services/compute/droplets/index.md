@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>droplets</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>droplets</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="droplets" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.droplets" /></td></tr>
 </tbody></table>
@@ -144,7 +145,7 @@ The response will be a JSON object with a key called `droplet`. This will be<br 
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>A status string indicating the state of the Droplet instance. This may be "new", "active", "off", or "archive". (example: active)</td>
+    <td>A status string indicating the state of the Droplet instance. This may be "new", "active", "off", or "archive". (new, active, off, archive) (example: active)</td>
 </tr>
 <tr>
     <td><CopyableCode code="tags" /></td>
@@ -275,7 +276,7 @@ A JSON object with a key of `droplets`.
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>A status string indicating the state of the Droplet instance. This may be "new", "active", "off", or "archive". (example: active)</td>
+    <td>A status string indicating the state of the Droplet instance. This may be "new", "active", "off", or "archive". (new, active, off, archive) (example: active)</td>
 </tr>
 <tr>
     <td><CopyableCode code="tags" /></td>
@@ -334,7 +335,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#droplets_create"><CopyableCode code="droplets_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__name"><code>data__name</code></a></td>
+    <td><a href="#parameter-size"><code>size</code></a>, <a href="#parameter-image"><code>image</code></a></td>
     <td></td>
     <td>To create a new Droplet, send a POST request to `/v2/droplets` setting the<br />required attributes.<br /><br />A Droplet will be created using the provided information. The response body<br />will contain a JSON object with a key called `droplet`. The value will be an<br />object containing the standard attributes for your new Droplet. The response<br />code, 202 Accepted, does not indicate the success or failure of the operation,<br />just that the request has been accepted for processing. The `actions` returned<br />as part of the response's `links` object can be used to check the status<br />of the Droplet create event.<br /><br />### Create Multiple Droplets<br /><br />Creating multiple Droplets is very similar to creating a single Droplet.<br />Instead of sending `name` as a string, send `names` as an array of strings. A<br />Droplet will be created for each name you send using the associated<br />information. Up to ten Droplets may be created this way at a time.<br /><br />Rather than returning a single Droplet, the response body will contain a JSON<br />array with a key called `droplets`. This will be set to an array of JSON<br />objects, each of which will contain the standard Droplet attributes. The<br />response code, 202 Accepted, does not indicate the success or failure of any<br />operation, just that the request has been accepted for processing. The array<br />of `actions` returned as part of the response's `links` object can be used to<br />check the status of each individual Droplet create event.<br /></td>
 </tr>
@@ -351,6 +352,188 @@ The following methods are available for this resource:
     <td><a href="#parameter-tag_name"><code>tag_name</code></a></td>
     <td></td>
     <td>To delete **all** Droplets assigned to a specific tag, include the `tag_name`<br />query parameter set to the name of the tag in your DELETE request. For<br />example, `/v2/droplets?tag_name=$TAG_NAME`.<br /><br />This endpoint requires `tag:read` scope.<br /><br />A successful request will receive a 204 status code with no body in response.<br />This indicates that the request was processed successfully.<br /></td>
+</tr>
+<tr>
+    <td><a href="#droplet_actions_post"><CopyableCode code="droplet_actions_post" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a>, <a href="#parameter-type"><code>type</code></a></td>
+    <td></td>
+    <td>To initiate an action on a Droplet send a POST request to<br />`/v2/droplets/$DROPLET_ID/actions`. In the JSON body to the request,<br />set the `type` attribute to one of the supported action types:<br /><br />| Action                                   | Details | Required Permissions |<br />| ---------------------------------------- | ----------- | ----------- |<br />| `enable_backups`            | Enables backups for a Droplet | `droplet:update` |<br />| `disable_backups`           | Disables backups for a Droplet | `droplet:update` |<br />| `change_backup_policy`      | Update the backup policy for a Droplet | `droplet:update` |<br />| `reboot`                    | Reboots a Droplet. A `reboot` action is an attempt to reboot the Droplet in a graceful way, similar to using the `reboot` command from the console. | `droplet:update` |<br />| `power_cycle`               | Power cycles a Droplet. A `powercycle` action is similar to pushing the reset button on a physical machine, it's similar to booting from scratch. | `droplet:update` |<br />| `shutdown`                  | Shuts down a Droplet. A shutdown action is an attempt to shutdown the Droplet in a graceful way, similar to using the `shutdown` command from the console. Since a `shutdown` command can fail, this action guarantees that the command is issued, not that it succeeds. The preferred way to turn off a Droplet is to attempt a shutdown, with a reasonable timeout, followed by a `power_off` action to ensure the Droplet is off. | `droplet:update` |<br />| `power_off`                 | Powers off a Droplet. A `power_off` event is a hard shutdown and should only be used if the `shutdown` action is not successful. It is similar to cutting the power on a server and could lead to complications. | `droplet:update` |<br />| `power_on`                  | Powers on a Droplet. | `droplet:update` |<br />| `restore`                   | Restore a Droplet using a backup image. The image ID that is passed in must be a backup of the current Droplet instance. The operation will leave any embedded SSH keys intact. | `droplet:update`<br />`droplet:admin` |<br />| `password_reset`            | Resets the root password for a Droplet. A new password will be provided via email. It must be changed after first use. | `droplet:update`<br />`droplet:admin` |<br />| `resize`                    | Resizes a Droplet. Set the `size` attribute to a size slug. If a permanent resize with disk changes included is desired, set the `disk` attribute to `true`. | `droplet:update`<br />`droplet:create` |<br />| `rebuild`                   | Rebuilds a Droplet from a new base image. Set the `image` attribute to an image ID or slug. | `droplet:update`<br />`droplet:admin` |<br />| `rename`                    | Renames a Droplet. | `droplet:update` |<br />| `change_kernel`             | Changes a Droplet's kernel. Only applies to Droplets with externally managed kernels. All Droplets created after March 2017 use internal kernels by default. | `droplet:update` |<br />| `enable_ipv6`               | Enables IPv6 for a Droplet. Once enabled for a Droplet, IPv6 can not be disabled. When enabling IPv6 on an existing Droplet, [additional OS-level configuration](https://docs.digitalocean.com/products/networking/ipv6/how-to/enable/#on-existing-droplets) is required. | `droplet:update` |<br />| `snapshot`                  | Takes a snapshot of a Droplet. | `droplet:update`<br />`image:create` |<br /></td>
+</tr>
+<tr>
+    <td><a href="#droplet_actions_post_by_tag"><CopyableCode code="droplet_actions_post_by_tag" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-type"><code>type</code></a></td>
+    <td><a href="#parameter-tag_name"><code>tag_name</code></a></td>
+    <td>Some actions can be performed in bulk on tagged Droplets. The actions can be<br />initiated by sending a POST to `/v2/droplets/actions?tag_name=$TAG_NAME` with<br />the action arguments.<br /><br />Only a sub-set of action types are supported:<br /><br />- `power_cycle`<br />- `power_on`<br />- `power_off`<br />- `shutdown`<br />- `enable_ipv6`<br />- `enable_backups`<br />- `disable_backups`<br />- `snapshot` (also requires `image:create` permission)<br /></td>
+</tr>
+<tr>
+    <td><a href="#enable_backups"><CopyableCode code="enable_backups" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `enable_backups` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#disable_backups"><CopyableCode code="disable_backups" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `disable_backups` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#reboot"><CopyableCode code="reboot" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `reboot` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#power_cycle"><CopyableCode code="power_cycle" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `power_cycle` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#shutdown"><CopyableCode code="shutdown" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `shutdown` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#power_off"><CopyableCode code="power_off" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `power_off` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#power_on"><CopyableCode code="power_on" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `power_on` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#password_reset"><CopyableCode code="password_reset" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `password_reset` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#enable_ipv6"><CopyableCode code="enable_ipv6" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `enable_ipv6` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#restore"><CopyableCode code="restore" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `restore` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#resize"><CopyableCode code="resize" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `resize` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#rebuild"><CopyableCode code="rebuild" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `rebuild` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#rename"><CopyableCode code="rename" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `rename` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#change_kernel"><CopyableCode code="change_kernel" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `change_kernel` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#snapshot"><CopyableCode code="snapshot" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `snapshot` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#change_backup_policy"><CopyableCode code="change_backup_policy" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
+    <td></td>
+    <td>Invokes the `change_backup_policy` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#power_cycle_by_tag"><CopyableCode code="power_cycle_by_tag" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td></td>
+    <td><a href="#parameter-tag_name"><code>tag_name</code></a></td>
+    <td>Invokes the `power_cycle` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#power_on_by_tag"><CopyableCode code="power_on_by_tag" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td></td>
+    <td><a href="#parameter-tag_name"><code>tag_name</code></a></td>
+    <td>Invokes the `power_on` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#power_off_by_tag"><CopyableCode code="power_off_by_tag" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td></td>
+    <td><a href="#parameter-tag_name"><code>tag_name</code></a></td>
+    <td>Invokes the `power_off` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#shutdown_by_tag"><CopyableCode code="shutdown_by_tag" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td></td>
+    <td><a href="#parameter-tag_name"><code>tag_name</code></a></td>
+    <td>Invokes the `shutdown` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#enable_ipv6_by_tag"><CopyableCode code="enable_ipv6_by_tag" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td></td>
+    <td><a href="#parameter-tag_name"><code>tag_name</code></a></td>
+    <td>Invokes the `enable_ipv6` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#enable_backups_by_tag"><CopyableCode code="enable_backups_by_tag" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td></td>
+    <td><a href="#parameter-tag_name"><code>tag_name</code></a></td>
+    <td>Invokes the `enable_backups` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#disable_backups_by_tag"><CopyableCode code="disable_backups_by_tag" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td></td>
+    <td><a href="#parameter-tag_name"><code>tag_name</code></a></td>
+    <td>Invokes the `disable_backups` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#snapshot_by_tag"><CopyableCode code="snapshot_by_tag" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td></td>
+    <td><a href="#parameter-tag_name"><code>tag_name</code></a></td>
+    <td>Invokes the `snapshot` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.</td>
 </tr>
 </tbody>
 </table>
@@ -370,7 +553,7 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
 <tbody>
 <tr id="parameter-droplet_id">
     <td><CopyableCode code="droplet_id" /></td>
-    <td><code>integer</code></td>
+    <td><code>string</code></td>
     <td>A unique identifier for a Droplet instance. (example: 3164444)</td>
 </tr>
 <tr id="parameter-tag_name">
@@ -505,27 +688,29 @@ To create a new Droplet, send a POST request to `/v2/droplets` setting the<br />
 
 ```sql
 INSERT INTO digitalocean.compute.droplets (
-data__name,
-data__region,
-data__size,
-data__image,
-data__ssh_keys,
-data__backups,
-data__backup_policy,
-data__ipv6,
-data__monitoring,
-data__tags,
-data__user_data,
-data__private_networking,
-data__volumes,
-data__vpc_uuid,
-data__with_droplet_agent
+name,
+region,
+size,
+image,
+ssh_keys,
+backups,
+backup_policy,
+ipv6,
+monitoring,
+tags,
+user_data,
+private_networking,
+volumes,
+vpc_uuid,
+with_droplet_agent,
+public_networking,
+names
 )
 SELECT 
-'{{ name }}' /* required */,
+'{{ name }}',
 '{{ region }}',
-'{{ size }}',
-'{{ image }}',
+'{{ size }}' /* required */,
+'{{ image }}' /* required */,
 '{{ ssh_keys }}',
 {{ backups }},
 '{{ backup_policy }}',
@@ -536,99 +721,103 @@ SELECT
 {{ private_networking }},
 '{{ volumes }}',
 '{{ vpc_uuid }}',
-{{ with_droplet_agent }}
+{{ with_droplet_agent }},
+{{ public_networking }},
+'{{ names }}'
 ;
 ```
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: droplets
   props:
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The human-readable string you wish to use when displaying the Droplet name. The name, if set to a domain name managed in the DigitalOcean DNS management system, will configure a PTR record for the Droplet. The name set during creation will also determine the hostname for the Droplet in its internal configuration.
-        
     - name: region
-      value: string
-      description: >
-        The slug identifier for the region that you wish to deploy the Droplet in. If the specific datacenter is not not important, a slug prefix (e.g. `nyc`) can be used to deploy the Droplet in any of the that region's locations (`nyc1`, `nyc2`, or `nyc3`). If the region is omitted from the create request completely, the Droplet may deploy in any region.
-        
+      value: "{{ region }}"
+      description: |
+        The slug identifier for the region that you wish to deploy the Droplet in. If the specific datacenter is not not important, a slug prefix (e.g. \`nyc\`) can be used to deploy the Droplet in any of the that region's locations (\`nyc1\`, \`nyc2\`, or \`nyc3\`). If the region is omitted from the create request completely, the Droplet may deploy in any region.
     - name: size
-      value: string
-      description: >
+      value: "{{ size }}"
+      description: |
         The slug identifier for the size that you wish to select for this Droplet.
-        
     - name: image
-      value: string
-      description: >
-        The image ID of a public or private image or the slug identifier for a public image. This image will be the base image for your Droplet.<br>Requires `image:read` scope.
-        
+      value: "{{ image }}"
+      description: |
+        The image ID of a public or private image or the slug identifier for a public image. This image will be the base image for your Droplet.<br>Requires \`image:read\` scope.
     - name: ssh_keys
-      value: array
-      description: >
-        An array containing the IDs or fingerprints of the SSH keys that you wish to embed in the Droplet's root account upon creation. You must add the keys to your team before they can be embedded on a Droplet.<br>Requires `ssh_key:read` scope.
-        
+      value: "{{ ssh_keys }}"
+      description: |
+        An array containing the IDs or fingerprints of the SSH keys that you wish to embed in the Droplet's root account upon creation. You must add the keys to your team before they can be embedded on a Droplet.<br>Requires \`ssh_key:read\` scope.
       default: 
     - name: backups
-      value: boolean
-      description: >
+      value: {{ backups }}
+      description: |
         A boolean indicating whether automated backups should be enabled for the Droplet.
-        
       default: false
     - name: backup_policy
-      value: object
-      description: >
-        An object specifying the backup policy for the Droplet. If omitted and `backups` is `true`, the backup plan will default to daily.
-        
+      description: |
+        An object specifying the backup policy for the Droplet. If omitted and \`backups\` is \`true\`, the backup plan will default to daily.
+      value:
+        plan: "{{ plan }}"
+        weekday: "{{ weekday }}"
+        hour: {{ hour }}
+        window_length_hours: {{ window_length_hours }}
+        retention_period_days: {{ retention_period_days }}
     - name: ipv6
-      value: boolean
-      description: >
+      value: {{ ipv6 }}
+      description: |
         A boolean indicating whether to enable IPv6 on the Droplet.
-        
       default: false
     - name: monitoring
-      value: boolean
-      description: >
+      value: {{ monitoring }}
+      description: |
         A boolean indicating whether to install the DigitalOcean agent for monitoring.
-        
       default: false
     - name: tags
-      value: array
-      description: >
-        A flat array of tag names as strings to apply to the Droplet after it is created. Tag names can either be existing or new tags.<br>Requires `tag:create` scope.
-        
+      value:
+        - "{{ tags }}"
+      description: |
+        A flat array of tag names as strings to apply to the Droplet after it is created. Tag names can either be existing or new tags.<br>Requires \`tag:create\` scope.
       default: 
     - name: user_data
-      value: string
-      description: >
+      value: "{{ user_data }}"
+      description: |
         A string containing 'user data' which may be used to configure the Droplet on first boot, often a 'cloud-config' file or Bash script. It must be plain text and may not exceed 64 KiB in size.
-        
     - name: private_networking
-      value: boolean
-      description: >
-        This parameter has been deprecated. Use `vpc_uuid` instead to specify a VPC network for the Droplet. If no `vpc_uuid` is provided, the Droplet will be placed in your account's default VPC for the region.
-        
+      value: {{ private_networking }}
+      description: |
+        This parameter has been deprecated. Use \`vpc_uuid\` instead to specify a VPC network for the Droplet. If no \`vpc_uuid\` is provided, the Droplet will be placed in your account's default VPC for the region.
       default: false
     - name: volumes
-      value: array
-      description: >
-        An array of IDs for block storage volumes that will be attached to the Droplet once created. The volumes must not already be attached to an existing Droplet.<br>Requires `block_storage:read` scpoe.
-        
+      value:
+        - "{{ volumes }}"
+      description: |
+        An array of IDs for block storage volumes that will be attached to the Droplet once created. The volumes must not already be attached to an existing Droplet.<br>Requires \`block_storage:read\` scpoe.
       default: 
     - name: vpc_uuid
-      value: string
-      description: >
-        A string specifying the UUID of the VPC to which the Droplet will be assigned. If excluded, the Droplet will be assigned to your account's default VPC for the region.<br>Requires `vpc:read` scope.
-        
+      value: "{{ vpc_uuid }}"
+      description: |
+        A string specifying the UUID of the VPC to which the Droplet will be assigned. If excluded, the Droplet will be assigned to your account's default VPC for the region.<br>Requires \`vpc:read\` scope.
     - name: with_droplet_agent
-      value: boolean
-      description: >
-        A boolean indicating whether to install the DigitalOcean agent used for providing access to the Droplet web console in the control panel. By default, the agent is installed on new Droplets but installation errors (i.e. OS not supported) are ignored. To prevent it from being installed, set to `false`. To make installation errors fatal, explicitly set it to `true`.
-        
-```
+      value: {{ with_droplet_agent }}
+      description: |
+        A boolean indicating whether to install the DigitalOcean agent used for providing access to the Droplet web console in the control panel. By default, the agent is installed on new Droplets but installation errors (i.e. OS not supported) are ignored. To prevent it from being installed, set to \`false\`. To make installation errors fatal, explicitly set it to \`true\`.
+    - name: public_networking
+      value: {{ public_networking }}
+      description: |
+        An optional boolean indicating whether this Droplet should be created with public networking or not. By default, all Droplets are created with public networking available. If explicitly set to \`false\`, only private networking will be enabled, and public networking will be disabled; currently this means that it will not have any public static or Reserved IPv4 or IPv6 address, nor can one be assigned later. If explicitly set to \`false\`, \`ipv6\` must also be \`false\`.
+      default: true
+    - name: names
+      value:
+        - "{{ names }}"
+      description: |
+        An array of human human-readable strings you wish to use when displaying the Droplet name. Each name, if set to a domain name managed in the DigitalOcean DNS management system, will configure a PTR record for the Droplet. Each name set during creation will also determine the hostname for the Droplet in its internal configuration.
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -659,6 +848,354 @@ To delete **all** Droplets assigned to a specific tag, include the `tag_name`<br
 ```sql
 DELETE FROM digitalocean.compute.droplets
 WHERE tag_name = '{{ tag_name }}' --required
+;
+```
+</TabItem>
+</Tabs>
+
+
+## Lifecycle Methods
+
+<Tabs
+    defaultValue="droplet_actions_post"
+    values={[
+        { label: 'droplet_actions_post', value: 'droplet_actions_post' },
+        { label: 'droplet_actions_post_by_tag', value: 'droplet_actions_post_by_tag' },
+        { label: 'enable_backups', value: 'enable_backups' },
+        { label: 'disable_backups', value: 'disable_backups' },
+        { label: 'reboot', value: 'reboot' },
+        { label: 'power_cycle', value: 'power_cycle' },
+        { label: 'shutdown', value: 'shutdown' },
+        { label: 'power_off', value: 'power_off' },
+        { label: 'power_on', value: 'power_on' },
+        { label: 'password_reset', value: 'password_reset' },
+        { label: 'enable_ipv6', value: 'enable_ipv6' },
+        { label: 'restore', value: 'restore' },
+        { label: 'resize', value: 'resize' },
+        { label: 'rebuild', value: 'rebuild' },
+        { label: 'rename', value: 'rename' },
+        { label: 'change_kernel', value: 'change_kernel' },
+        { label: 'snapshot', value: 'snapshot' },
+        { label: 'change_backup_policy', value: 'change_backup_policy' },
+        { label: 'power_cycle_by_tag', value: 'power_cycle_by_tag' },
+        { label: 'power_on_by_tag', value: 'power_on_by_tag' },
+        { label: 'power_off_by_tag', value: 'power_off_by_tag' },
+        { label: 'shutdown_by_tag', value: 'shutdown_by_tag' },
+        { label: 'enable_ipv6_by_tag', value: 'enable_ipv6_by_tag' },
+        { label: 'enable_backups_by_tag', value: 'enable_backups_by_tag' },
+        { label: 'disable_backups_by_tag', value: 'disable_backups_by_tag' },
+        { label: 'snapshot_by_tag', value: 'snapshot_by_tag' }
+    ]}
+>
+<TabItem value="droplet_actions_post">
+
+To initiate an action on a Droplet send a POST request to<br />`/v2/droplets/$DROPLET_ID/actions`. In the JSON body to the request,<br />set the `type` attribute to one of the supported action types:<br /><br />| Action                                   | Details | Required Permissions |<br />| ---------------------------------------- | ----------- | ----------- |<br />| `enable_backups`            | Enables backups for a Droplet | `droplet:update` |<br />| `disable_backups`           | Disables backups for a Droplet | `droplet:update` |<br />| `change_backup_policy`      | Update the backup policy for a Droplet | `droplet:update` |<br />| `reboot`                    | Reboots a Droplet. A `reboot` action is an attempt to reboot the Droplet in a graceful way, similar to using the `reboot` command from the console. | `droplet:update` |<br />| `power_cycle`               | Power cycles a Droplet. A `powercycle` action is similar to pushing the reset button on a physical machine, it's similar to booting from scratch. | `droplet:update` |<br />| `shutdown`                  | Shuts down a Droplet. A shutdown action is an attempt to shutdown the Droplet in a graceful way, similar to using the `shutdown` command from the console. Since a `shutdown` command can fail, this action guarantees that the command is issued, not that it succeeds. The preferred way to turn off a Droplet is to attempt a shutdown, with a reasonable timeout, followed by a `power_off` action to ensure the Droplet is off. | `droplet:update` |<br />| `power_off`                 | Powers off a Droplet. A `power_off` event is a hard shutdown and should only be used if the `shutdown` action is not successful. It is similar to cutting the power on a server and could lead to complications. | `droplet:update` |<br />| `power_on`                  | Powers on a Droplet. | `droplet:update` |<br />| `restore`                   | Restore a Droplet using a backup image. The image ID that is passed in must be a backup of the current Droplet instance. The operation will leave any embedded SSH keys intact. | `droplet:update`<br />`droplet:admin` |<br />| `password_reset`            | Resets the root password for a Droplet. A new password will be provided via email. It must be changed after first use. | `droplet:update`<br />`droplet:admin` |<br />| `resize`                    | Resizes a Droplet. Set the `size` attribute to a size slug. If a permanent resize with disk changes included is desired, set the `disk` attribute to `true`. | `droplet:update`<br />`droplet:create` |<br />| `rebuild`                   | Rebuilds a Droplet from a new base image. Set the `image` attribute to an image ID or slug. | `droplet:update`<br />`droplet:admin` |<br />| `rename`                    | Renames a Droplet. | `droplet:update` |<br />| `change_kernel`             | Changes a Droplet's kernel. Only applies to Droplets with externally managed kernels. All Droplets created after March 2017 use internal kernels by default. | `droplet:update` |<br />| `enable_ipv6`               | Enables IPv6 for a Droplet. Once enabled for a Droplet, IPv6 can not be disabled. When enabling IPv6 on an existing Droplet, [additional OS-level configuration](https://docs.digitalocean.com/products/networking/ipv6/how-to/enable/#on-existing-droplets) is required. | `droplet:update` |<br />| `snapshot`                  | Takes a snapshot of a Droplet. | `droplet:update`<br />`image:create` |<br />
+
+```sql
+EXEC digitalocean.compute.droplets.droplet_actions_post 
+@droplet_id='{{ droplet_id }}' --required 
+@@json=
+'{
+"type": "{{ type }}", 
+"backup_policy": "{{ backup_policy }}", 
+"image": {{ image }}, 
+"disk": {{ disk }}, 
+"size": "{{ size }}", 
+"name": "{{ name }}", 
+"kernel": {{ kernel }}
+}'
+;
+```
+</TabItem>
+<TabItem value="droplet_actions_post_by_tag">
+
+Some actions can be performed in bulk on tagged Droplets. The actions can be<br />initiated by sending a POST to `/v2/droplets/actions?tag_name=$TAG_NAME` with<br />the action arguments.<br /><br />Only a sub-set of action types are supported:<br /><br />- `power_cycle`<br />- `power_on`<br />- `power_off`<br />- `shutdown`<br />- `enable_ipv6`<br />- `enable_backups`<br />- `disable_backups`<br />- `snapshot` (also requires `image:create` permission)<br />
+
+```sql
+EXEC digitalocean.compute.droplets.droplet_actions_post_by_tag 
+@tag_name='{{ tag_name }}' 
+@@json=
+'{
+"type": "{{ type }}", 
+"name": "{{ name }}"
+}'
+;
+```
+</TabItem>
+<TabItem value="enable_backups">
+
+Invokes the `enable_backups` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.enable_backups 
+@droplet_id='{{ droplet_id }}' --required 
+@@json=
+'{
+"backup_policy": "{{ backup_policy }}"
+}'
+;
+```
+</TabItem>
+<TabItem value="disable_backups">
+
+Invokes the `disable_backups` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.disable_backups 
+@droplet_id='{{ droplet_id }}' --required
+;
+```
+</TabItem>
+<TabItem value="reboot">
+
+Invokes the `reboot` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.reboot 
+@droplet_id='{{ droplet_id }}' --required
+;
+```
+</TabItem>
+<TabItem value="power_cycle">
+
+Invokes the `power_cycle` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.power_cycle 
+@droplet_id='{{ droplet_id }}' --required
+;
+```
+</TabItem>
+<TabItem value="shutdown">
+
+Invokes the `shutdown` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.shutdown 
+@droplet_id='{{ droplet_id }}' --required
+;
+```
+</TabItem>
+<TabItem value="power_off">
+
+Invokes the `power_off` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.power_off 
+@droplet_id='{{ droplet_id }}' --required
+;
+```
+</TabItem>
+<TabItem value="power_on">
+
+Invokes the `power_on` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.power_on 
+@droplet_id='{{ droplet_id }}' --required
+;
+```
+</TabItem>
+<TabItem value="password_reset">
+
+Invokes the `password_reset` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.password_reset 
+@droplet_id='{{ droplet_id }}' --required
+;
+```
+</TabItem>
+<TabItem value="enable_ipv6">
+
+Invokes the `enable_ipv6` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.enable_ipv6 
+@droplet_id='{{ droplet_id }}' --required
+;
+```
+</TabItem>
+<TabItem value="restore">
+
+Invokes the `restore` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.restore 
+@droplet_id='{{ droplet_id }}' --required 
+@@json=
+'{
+"image": "{{ image }}"
+}'
+;
+```
+</TabItem>
+<TabItem value="resize">
+
+Invokes the `resize` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.resize 
+@droplet_id='{{ droplet_id }}' --required 
+@@json=
+'{
+"disk": {{ disk }}, 
+"size": "{{ size }}"
+}'
+;
+```
+</TabItem>
+<TabItem value="rebuild">
+
+Invokes the `rebuild` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.rebuild 
+@droplet_id='{{ droplet_id }}' --required 
+@@json=
+'{
+"image": "{{ image }}"
+}'
+;
+```
+</TabItem>
+<TabItem value="rename">
+
+Invokes the `rename` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.rename 
+@droplet_id='{{ droplet_id }}' --required 
+@@json=
+'{
+"name": "{{ name }}"
+}'
+;
+```
+</TabItem>
+<TabItem value="change_kernel">
+
+Invokes the `change_kernel` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.change_kernel 
+@droplet_id='{{ droplet_id }}' --required 
+@@json=
+'{
+"kernel": {{ kernel }}
+}'
+;
+```
+</TabItem>
+<TabItem value="snapshot">
+
+Invokes the `snapshot` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.snapshot 
+@droplet_id='{{ droplet_id }}' --required 
+@@json=
+'{
+"name": "{{ name }}"
+}'
+;
+```
+</TabItem>
+<TabItem value="change_backup_policy">
+
+Invokes the `change_backup_policy` action. Fabricated lifecycle operation over `POST /v2/droplets/&#123;droplet_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.change_backup_policy 
+@droplet_id='{{ droplet_id }}' --required 
+@@json=
+'{
+"backup_policy": "{{ backup_policy }}"
+}'
+;
+```
+</TabItem>
+<TabItem value="power_cycle_by_tag">
+
+Invokes the `power_cycle` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.power_cycle_by_tag 
+@tag_name='{{ tag_name }}'
+;
+```
+</TabItem>
+<TabItem value="power_on_by_tag">
+
+Invokes the `power_on` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.power_on_by_tag 
+@tag_name='{{ tag_name }}'
+;
+```
+</TabItem>
+<TabItem value="power_off_by_tag">
+
+Invokes the `power_off` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.power_off_by_tag 
+@tag_name='{{ tag_name }}'
+;
+```
+</TabItem>
+<TabItem value="shutdown_by_tag">
+
+Invokes the `shutdown` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.shutdown_by_tag 
+@tag_name='{{ tag_name }}'
+;
+```
+</TabItem>
+<TabItem value="enable_ipv6_by_tag">
+
+Invokes the `enable_ipv6` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.enable_ipv6_by_tag 
+@tag_name='{{ tag_name }}'
+;
+```
+</TabItem>
+<TabItem value="enable_backups_by_tag">
+
+Invokes the `enable_backups` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.enable_backups_by_tag 
+@tag_name='{{ tag_name }}'
+;
+```
+</TabItem>
+<TabItem value="disable_backups_by_tag">
+
+Invokes the `disable_backups` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.disable_backups_by_tag 
+@tag_name='{{ tag_name }}'
+;
+```
+</TabItem>
+<TabItem value="snapshot_by_tag">
+
+Invokes the `snapshot` action. Fabricated lifecycle operation over `POST /v2/droplets/actions`.
+
+```sql
+EXEC digitalocean.compute.droplets.snapshot_by_tag 
+@tag_name='{{ tag_name }}' 
+@@json=
+'{
+"name": "{{ name }}"
+}'
 ;
 ```
 </TabItem>

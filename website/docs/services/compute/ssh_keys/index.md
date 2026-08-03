@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>ssh_keys</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>ssh_keys</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="ssh_keys" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.ssh_keys" /></td></tr>
 </tbody></table>
@@ -144,7 +145,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#ssh_keys_create"><CopyableCode code="ssh_keys_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__public_key"><code>data__public_key</code></a>, <a href="#parameter-data__name"><code>data__name</code></a></td>
+    <td><a href="#parameter-public_key"><code>public_key</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>To add a new SSH public key to your DigitalOcean account, send a POST request to `/v2/account/keys`. Set the `name` attribute to the name you wish to use and the `public_key` attribute to the full public key you are adding.</td>
 </tr>
@@ -254,8 +255,8 @@ To add a new SSH public key to your DigitalOcean account, send a POST request to
 
 ```sql
 INSERT INTO digitalocean.compute.ssh_keys (
-data__public_key,
-data__name
+public_key,
+name
 )
 SELECT 
 '{{ public_key }}' /* required */,
@@ -267,21 +268,19 @@ ssh_key
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: ssh_keys
   props:
     - name: public_key
-      value: string
-      description: >
-        The entire public key string that was uploaded. Embedded into the root user's `authorized_keys` file if you include this key during Droplet creation.
-        
+      value: "{{ public_key }}"
+      description: |
+        The entire public key string that was uploaded. Embedded into the root user's \`authorized_keys\` file if you include this key during Droplet creation.
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         A human-readable display name for this key, used to easily identify the SSH keys when they are displayed.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -301,7 +300,7 @@ To update the name of an SSH key, send a PUT request to either `/v2/account/keys
 ```sql
 REPLACE digitalocean.compute.ssh_keys
 SET 
-data__name = '{{ name }}'
+name = '{{ name }}'
 WHERE 
 ssh_key_identifier = '{{ ssh_key_identifier }}' --required
 RETURNING

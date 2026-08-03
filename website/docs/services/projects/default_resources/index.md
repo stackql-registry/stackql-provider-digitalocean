@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>default_resources</code> resour
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>default_resources</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="default_resources" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.projects.default_resources" /></td></tr>
 </tbody></table>
@@ -63,7 +64,7 @@ The response will be a JSON object with a key called `resources`.<br />The value
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>The status of assigning and fetching the resources. (example: ok)</td>
+    <td>The status of assigning and fetching the resources. (ok, not_found, assigned, already_assigned, service_down) (example: ok)</td>
 </tr>
 <tr>
     <td><CopyableCode code="urn" /></td>
@@ -102,7 +103,7 @@ The following methods are available for this resource:
     <td><CopyableCode code="insert" /></td>
     <td></td>
     <td></td>
-    <td>To assign resources to your default project, send a POST request to `/v2/projects/default/resources`.<br /><br />You must have both project:update and &lt;resource&gt;:read scopes to assign new resources. For example, to assign a Droplet to the default project, include both the `project:update` and `droplet:read` scopes.<br /></td>
+    <td>To assign resources to your default project, send a POST request to `/v2/projects/default/resources`.<br /><br />You must have both `project:assign_resource` and `<resource>:read` scopes to assign new resources. For example, to assign a Droplet to the default project, include both the `project:assign_resource` and `droplet:read` scopes. The `project:update` scope also grants `project:assign_resource`.<br /></td>
 </tr>
 </tbody>
 </table>
@@ -159,11 +160,11 @@ FROM digitalocean.projects.default_resources
 >
 <TabItem value="projects_assign_resources_default">
 
-To assign resources to your default project, send a POST request to `/v2/projects/default/resources`.<br /><br />You must have both project:update and &lt;resource&gt;:read scopes to assign new resources. For example, to assign a Droplet to the default project, include both the `project:update` and `droplet:read` scopes.<br />
+To assign resources to your default project, send a POST request to `/v2/projects/default/resources`.<br /><br />You must have both `project:assign_resource` and `<resource>:read` scopes to assign new resources. For example, to assign a Droplet to the default project, include both the `project:assign_resource` and `droplet:read` scopes. The `project:update` scope also grants `project:assign_resource`.<br />
 
 ```sql
 INSERT INTO digitalocean.projects.default_resources (
-data__resources
+resources
 )
 SELECT 
 '{{ resources }}'
@@ -174,15 +175,15 @@ resources
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: default_resources
   props:
     - name: resources
-      value: array
-      description: >
+      value:
+        - "{{ resources }}"
+      description: |
         A list of uniform resource names (URNs) to be added to a project. Only resources that you are authorized to see will be returned.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>

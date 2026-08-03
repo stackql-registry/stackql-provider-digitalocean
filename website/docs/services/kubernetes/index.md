@@ -18,7 +18,7 @@ kubernetes service documentation.
 
 :::info[Service Summary]
 
-total resources: __10__  
+total resources: __11__  
 
 :::
 
@@ -29,13 +29,14 @@ total resources: __10__
 <a href="/services/kubernetes/available_upgrades/">available_upgrades</a><br />
 <a href="/services/kubernetes/cluster_user/">cluster_user</a><br />
 <a href="/services/kubernetes/clusters/">clusters</a><br />
-<a href="/services/kubernetes/credentials/">credentials</a>
+<a href="/services/kubernetes/credentials/">credentials</a><br />
+<a href="/services/kubernetes/lint_checks/">lint_checks</a>
 </div>
 <div class="providerDocColumn">
-<a href="/services/kubernetes/lint_checks/">lint_checks</a><br />
 <a href="/services/kubernetes/node_pools/">node_pools</a><br />
 <a href="/services/kubernetes/nodes/">nodes</a><br />
 <a href="/services/kubernetes/options/">options</a><br />
+<a href="/services/kubernetes/registries/">registries</a><br />
 <a href="/services/kubernetes/status_messages/">status_messages</a>
 </div>
 </div>

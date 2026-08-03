@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>kafka_schemas</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>kafka_schemas</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="kafka_schemas" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.kafka_schemas" /></td></tr>
 </tbody></table>
@@ -69,7 +70,7 @@ A JSON object.
 <tr>
     <td><CopyableCode code="schema_type" /></td>
     <td><code>string</code></td>
-    <td>The type of the schema. (example: AVRO)</td>
+    <td>The type of the schema. (AVRO, JSON, PROTOBUF) (example: AVRO)</td>
 </tr>
 <tr>
     <td><CopyableCode code="version" /></td>
@@ -110,7 +111,7 @@ A JSON object with a key of `subjects`.
 <tr>
     <td><CopyableCode code="schema_type" /></td>
     <td><code>string</code></td>
-    <td>The type of the schema. (example: AVRO)</td>
+    <td>The type of the schema. (AVRO, JSON, PROTOBUF) (example: AVRO)</td>
 </tr>
 </tbody>
 </table>
@@ -149,7 +150,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#databases_create_kafka_schema"><CopyableCode code="databases_create_kafka_schema" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-data__subject_name"><code>data__subject_name</code></a>, <a href="#parameter-data__schema_type"><code>data__schema_type</code></a>, <a href="#parameter-data__schema"><code>data__schema</code></a></td>
+    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-subject_name"><code>subject_name</code></a>, <a href="#parameter-schema_type"><code>schema_type</code></a>, <a href="#parameter-schema"><code>schema</code></a></td>
     <td></td>
     <td>To create a Kafka schema for a database cluster, send a POST request to<br />`/v2/databases/$DATABASE_ID/schema-registry`.<br /></td>
 </tr>
@@ -248,9 +249,9 @@ To create a Kafka schema for a database cluster, send a POST request to<br />`/v
 
 ```sql
 INSERT INTO digitalocean.databases.kafka_schemas (
-data__subject_name,
-data__schema_type,
-data__schema,
+subject_name,
+schema_type,
+schema,
 database_cluster_uuid
 )
 SELECT 
@@ -268,30 +269,27 @@ schema_type
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: kafka_schemas
   props:
     - name: database_cluster_uuid
-      value: string (uuid)
+      value: "{{ database_cluster_uuid }}"
       description: Required parameter for the kafka_schemas resource.
     - name: subject_name
-      value: string
-      description: >
+      value: "{{ subject_name }}"
+      description: |
         The name of the schema subject.
-        
     - name: schema_type
-      value: string
-      description: >
+      value: "{{ schema_type }}"
+      description: |
         The type of the schema.
-        
       valid_values: ['AVRO', 'JSON', 'PROTOBUF']
     - name: schema
-      value: string
-      description: >
+      value: "{{ schema }}"
+      description: |
         The schema definition in the specified format.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 

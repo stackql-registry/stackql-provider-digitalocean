@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>clusters</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>clusters</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="clusters" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.kubernetes.clusters" /></td></tr>
 </tbody></table>
@@ -92,6 +93,11 @@ The response will be a JSON object with a key called `kubernetes_cluster`. The<b
     <td>An object specifying the control plane firewall for the Kubernetes cluster. Control plane firewall is in early availability (invite only).</td>
 </tr>
 <tr>
+    <td><CopyableCode code="coredns_autoscaler" /></td>
+    <td><code>object</code></td>
+    <td>An object specifying whether the Cluster Proportional Autoscaler (CPA) add-on for CoreDNS should be enabled for the Kubernetes cluster.</td>
+</tr>
+<tr>
     <td><CopyableCode code="created_at" /></td>
     <td><code>string (date-time)</code></td>
     <td>A time value given in ISO8601 combined date and time format that represents when the Kubernetes cluster was created. (example: 2018-11-15T16:00:11Z)</td>
@@ -104,7 +110,7 @@ The response will be a JSON object with a key called `kubernetes_cluster`. The<b
 <tr>
     <td><CopyableCode code="ha" /></td>
     <td><code>boolean</code></td>
-    <td>A boolean value indicating whether the control plane is run in a highly available configuration in the cluster. Highly available control planes incur less downtime. The property cannot be disabled.</td>
+    <td>A boolean value indicating whether the control plane is run in a highly available configuration in the cluster. Highly available control planes incur less downtime. The property cannot be disabled. When omitted on create, the default is version-dependent; for DOKS 1.36.0 and later, the default is true; for earlier versions, the default is false.</td>
 </tr>
 <tr>
     <td><CopyableCode code="ipv4" /></td>
@@ -122,9 +128,29 @@ The response will be a JSON object with a key called `kubernetes_cluster`. The<b
     <td>An object specifying the details of the worker nodes available to the Kubernetes cluster.</td>
 </tr>
 <tr>
+    <td><CopyableCode code="nvidia_gpu_device_plugin" /></td>
+    <td><code>object</code></td>
+    <td>An object specifying whether the Nvidia GPU Device Plugin should be enabled in the Kubernetes cluster. It's enabled by default for clusters with an Nvidia GPU node pool.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="p2p_oci_registry_plugin" /></td>
+    <td><code>object</code></td>
+    <td>An object specifying whether the Peer-to-peer OCI registry component should be enabled for the Kubernetes cluster.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="rdma_shared_dev_plugin" /></td>
+    <td><code>object</code></td>
+    <td>An object specifying whether the RDMA shared device plugin should be enabled in the Kubernetes cluster.</td>
+</tr>
+<tr>
     <td><CopyableCode code="region" /></td>
     <td><code>string</code></td>
     <td>The slug identifier for the region where the Kubernetes cluster is located. (example: nyc1)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="registries" /></td>
+    <td><code>array</code></td>
+    <td>An array of integrated DOCR registries.</td>
 </tr>
 <tr>
     <td><CopyableCode code="registry_enabled" /></td>
@@ -140,6 +166,11 @@ The response will be a JSON object with a key called `kubernetes_cluster`. The<b
     <td><CopyableCode code="service_subnet" /></td>
     <td><code>string (cidr)</code></td>
     <td>The range of assignable IP addresses for services running in the Kubernetes cluster in CIDR notation. (example: 192.168.16.0/24)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="sso" /></td>
+    <td><code>object</code></td>
+    <td>An object specifying Single Sign-On (SSO) configuration for the Kubernetes cluster.</td>
 </tr>
 <tr>
     <td><CopyableCode code="status" /></td>
@@ -170,6 +201,11 @@ The response will be a JSON object with a key called `kubernetes_cluster`. The<b
     <td><CopyableCode code="vpc_uuid" /></td>
     <td><code>string (uuid)</code></td>
     <td>A string specifying the UUID of the VPC to which the Kubernetes cluster is assigned.<br /><br />Requires `vpc:read` scope. (example: c33931f2-a26a-4e61-b85c-4e95a2ec431b)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="worker_subnet_uuid" /></td>
+    <td><code>string (uuid)</code></td>
+    <td>The UUID of the VPC subnet worker nodes are attached to. When unset, the default subnet for the VPC is used.<br /><br />Requires `vpc:read` scope.  (example: cbd79771-23eb-49be-b5ea-59cc56222622)</td>
 </tr>
 </tbody>
 </table>
@@ -228,6 +264,11 @@ The response will be a JSON object with a key called `kubernetes_clusters`.<br /
     <td>An object specifying the control plane firewall for the Kubernetes cluster. Control plane firewall is in early availability (invite only).</td>
 </tr>
 <tr>
+    <td><CopyableCode code="coredns_autoscaler" /></td>
+    <td><code>object</code></td>
+    <td>An object specifying whether the Cluster Proportional Autoscaler (CPA) add-on for CoreDNS should be enabled for the Kubernetes cluster.</td>
+</tr>
+<tr>
     <td><CopyableCode code="created_at" /></td>
     <td><code>string (date-time)</code></td>
     <td>A time value given in ISO8601 combined date and time format that represents when the Kubernetes cluster was created. (example: 2018-11-15T16:00:11Z)</td>
@@ -240,7 +281,7 @@ The response will be a JSON object with a key called `kubernetes_clusters`.<br /
 <tr>
     <td><CopyableCode code="ha" /></td>
     <td><code>boolean</code></td>
-    <td>A boolean value indicating whether the control plane is run in a highly available configuration in the cluster. Highly available control planes incur less downtime. The property cannot be disabled.</td>
+    <td>A boolean value indicating whether the control plane is run in a highly available configuration in the cluster. Highly available control planes incur less downtime. The property cannot be disabled. When omitted on create, the default is version-dependent; for DOKS 1.36.0 and later, the default is true; for earlier versions, the default is false.</td>
 </tr>
 <tr>
     <td><CopyableCode code="ipv4" /></td>
@@ -258,9 +299,29 @@ The response will be a JSON object with a key called `kubernetes_clusters`.<br /
     <td>An object specifying the details of the worker nodes available to the Kubernetes cluster.</td>
 </tr>
 <tr>
+    <td><CopyableCode code="nvidia_gpu_device_plugin" /></td>
+    <td><code>object</code></td>
+    <td>An object specifying whether the Nvidia GPU Device Plugin should be enabled in the Kubernetes cluster. It's enabled by default for clusters with an Nvidia GPU node pool.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="p2p_oci_registry_plugin" /></td>
+    <td><code>object</code></td>
+    <td>An object specifying whether the Peer-to-peer OCI registry component should be enabled for the Kubernetes cluster.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="rdma_shared_dev_plugin" /></td>
+    <td><code>object</code></td>
+    <td>An object specifying whether the RDMA shared device plugin should be enabled in the Kubernetes cluster.</td>
+</tr>
+<tr>
     <td><CopyableCode code="region" /></td>
     <td><code>string</code></td>
     <td>The slug identifier for the region where the Kubernetes cluster is located. (example: nyc1)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="registries" /></td>
+    <td><code>array</code></td>
+    <td>An array of integrated DOCR registries.</td>
 </tr>
 <tr>
     <td><CopyableCode code="registry_enabled" /></td>
@@ -276,6 +337,11 @@ The response will be a JSON object with a key called `kubernetes_clusters`.<br /
     <td><CopyableCode code="service_subnet" /></td>
     <td><code>string (cidr)</code></td>
     <td>The range of assignable IP addresses for services running in the Kubernetes cluster in CIDR notation. (example: 192.168.16.0/24)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="sso" /></td>
+    <td><code>object</code></td>
+    <td>An object specifying Single Sign-On (SSO) configuration for the Kubernetes cluster.</td>
 </tr>
 <tr>
     <td><CopyableCode code="status" /></td>
@@ -306,6 +372,11 @@ The response will be a JSON object with a key called `kubernetes_clusters`.<br /
     <td><CopyableCode code="vpc_uuid" /></td>
     <td><code>string (uuid)</code></td>
     <td>A string specifying the UUID of the VPC to which the Kubernetes cluster is assigned.<br /><br />Requires `vpc:read` scope. (example: c33931f2-a26a-4e61-b85c-4e95a2ec431b)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="worker_subnet_uuid" /></td>
+    <td><code>string (uuid)</code></td>
+    <td>The UUID of the VPC subnet worker nodes are attached to. When unset, the default subnet for the VPC is used.<br /><br />Requires `vpc:read` scope.  (example: cbd79771-23eb-49be-b5ea-59cc56222622)</td>
 </tr>
 </tbody>
 </table>
@@ -344,14 +415,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#kubernetes_create_cluster"><CopyableCode code="kubernetes_create_cluster" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__region"><code>data__region</code></a>, <a href="#parameter-data__version"><code>data__version</code></a>, <a href="#parameter-data__node_pools"><code>data__node_pools</code></a></td>
+    <td><a href="#parameter-name"><code>name</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-version"><code>version</code></a>, <a href="#parameter-node_pools"><code>node_pools</code></a></td>
     <td></td>
     <td>To create a new Kubernetes cluster, send a POST request to<br />`/v2/kubernetes/clusters`. The request must contain at least one node pool<br />with at least one worker.<br /><br />The request may contain a maintenance window policy describing a time period<br />when disruptive maintenance tasks may be carried out. Omitting the policy<br />implies that a window will be chosen automatically. See<br />[here](https://docs.digitalocean.com/products/kubernetes/how-to/upgrade-cluster/)<br />for details.<br /></td>
 </tr>
 <tr>
     <td><a href="#kubernetes_update_cluster"><CopyableCode code="kubernetes_update_cluster" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-data__name"><code>data__name</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>To update a Kubernetes cluster, send a PUT request to<br />`/v2/kubernetes/clusters/$K8S_CLUSTER_ID` and specify one or more of the<br />attributes below.<br /></td>
 </tr>
@@ -366,8 +437,8 @@ The following methods are available for this resource:
     <td><a href="#kubernetes_get_kubeconfig"><CopyableCode code="kubernetes_get_kubeconfig" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
-    <td><a href="#parameter-expiry_seconds"><code>expiry_seconds</code></a></td>
-    <td>This endpoint returns a kubeconfig file in YAML format. It can be used to<br />connect to and administer the cluster using the Kubernetes command line tool,<br />`kubectl`, or other programs supporting kubeconfig files (e.g., client libraries).<br /><br />The resulting kubeconfig file uses token-based authentication for clusters<br />supporting it, and certificate-based authentication otherwise. For a list of<br />supported versions and more information, see "[How to Connect to a DigitalOcean<br />Kubernetes Cluster](https://docs.digitalocean.com/products/kubernetes/how-to/connect-to-cluster/)".<br /><br />To retrieve a kubeconfig file for use with a Kubernetes cluster, send a GET<br />request to `/v2/kubernetes/clusters/$K8S_CLUSTER_ID/kubeconfig`.<br /><br />Clusters supporting token-based authentication may define an expiration by<br />passing a duration in seconds as a query parameter to<br />`/v2/kubernetes/clusters/$K8S_CLUSTER_ID/kubeconfig?expiry_seconds=$DURATION_IN_SECONDS`.<br />If not set or 0, then the token will have a 7 day expiry. The query parameter<br />has no impact in certificate-based authentication.<br /><br />Kubernetes Roles granted to a user with a token-based kubeconfig are derived from that user's<br />DigitalOcean role. Predefined roles (Owner, Member, Modifier etc.) have an automatic mapping<br />to Kubernetes roles. Custom roles are not automatically mapped to any Kubernetes roles,<br />and require [additional configuration](https://docs.digitalocean.com/products/kubernetes/how-to/set-up-custom-rolebindings/)<br />by a cluster administrator.<br /></td>
+    <td><a href="#parameter-expiry_seconds"><code>expiry_seconds</code></a>, <a href="#parameter-type"><code>type</code></a></td>
+    <td>This endpoint returns a kubeconfig file in YAML format. It can be used to<br />connect to and administer the cluster using the Kubernetes command line tool,<br />`kubectl`, or other programs supporting kubeconfig files (e.g., client libraries).<br /><br />The resulting kubeconfig file uses token-based authentication for clusters<br />supporting it, and certificate-based authentication otherwise. For a list of<br />supported versions and more information, see "[How to Connect to a DigitalOcean<br />Kubernetes Cluster](https://docs.digitalocean.com/products/kubernetes/how-to/connect-to-cluster/)".<br /><br />To retrieve a kubeconfig file for use with a Kubernetes cluster, send a GET<br />request to `/v2/kubernetes/clusters/$K8S_CLUSTER_ID/kubeconfig`.<br /><br />Clusters supporting token-based authentication may define an expiration by<br />passing a duration in seconds as a query parameter to<br />`/v2/kubernetes/clusters/$K8S_CLUSTER_ID/kubeconfig?expiry_seconds=$DURATION_IN_SECONDS`.<br />If not set or 0, then the token will have a 7 day expiry. The query parameter<br />has no impact for other kubeconfig types.<br /><br />Using an `sso` kubeconfig type requires `doctl` to be installed to handle the client side<br />of the OAuth2 flow.<br /><br />Kubernetes Roles granted to a user are derived from that user's<br />DigitalOcean role. Predefined roles (Owner, Member, Modifier etc.) have an automatic mapping<br />to Kubernetes roles. Custom roles are not automatically mapped to any Kubernetes roles,<br />and require [additional configuration](https://docs.digitalocean.com/products/kubernetes/how-to/set-up-custom-rolebindings/)<br />by a cluster administrator.<br /></td>
 </tr>
 <tr>
     <td><a href="#kubernetes_upgrade_cluster"><CopyableCode code="kubernetes_upgrade_cluster" /></a></td>
@@ -426,6 +497,11 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     <td><code>integer</code></td>
     <td>Number of items returned per page (example: 2)</td>
 </tr>
+<tr id="parameter-type">
+    <td><CopyableCode code="type" /></td>
+    <td><code>string</code></td>
+    <td>The type of credentials to return in the kubeconfig. When omitted, the default credential type for the cluster is used: `sso` for clusters with SSO enabled, `token` for clusters without SSO enabled.  (example: sso)</td>
+</tr>
 </tbody>
 </table>
 
@@ -452,22 +528,29 @@ auto_upgrade,
 cluster_autoscaler_configuration,
 cluster_subnet,
 control_plane_firewall,
+coredns_autoscaler,
 created_at,
 endpoint,
 ha,
 ipv4,
 maintenance_policy,
 node_pools,
+nvidia_gpu_device_plugin,
+p2p_oci_registry_plugin,
+rdma_shared_dev_plugin,
 region,
+registries,
 registry_enabled,
 routing_agent,
 service_subnet,
+sso,
 status,
 surge_upgrade,
 tags,
 updated_at,
 version,
-vpc_uuid
+vpc_uuid,
+worker_subnet_uuid
 FROM digitalocean.kubernetes.clusters
 WHERE cluster_id = '{{ cluster_id }}' -- required
 ;
@@ -487,22 +570,29 @@ auto_upgrade,
 cluster_autoscaler_configuration,
 cluster_subnet,
 control_plane_firewall,
+coredns_autoscaler,
 created_at,
 endpoint,
 ha,
 ipv4,
 maintenance_policy,
 node_pools,
+nvidia_gpu_device_plugin,
+p2p_oci_registry_plugin,
+rdma_shared_dev_plugin,
 region,
+registries,
 registry_enabled,
 routing_agent,
 service_subnet,
+sso,
 status,
 surge_upgrade,
 tags,
 updated_at,
 version,
-vpc_uuid
+vpc_uuid,
+worker_subnet_uuid
 FROM digitalocean.kubernetes.clusters
 WHERE per_page = '{{ per_page }}'
 AND page = '{{ page }}'
@@ -527,23 +617,29 @@ To create a new Kubernetes cluster, send a POST request to<br />`/v2/kubernetes/
 
 ```sql
 INSERT INTO digitalocean.kubernetes.clusters (
-data__name,
-data__region,
-data__version,
-data__cluster_subnet,
-data__service_subnet,
-data__vpc_uuid,
-data__tags,
-data__node_pools,
-data__maintenance_policy,
-data__auto_upgrade,
-data__surge_upgrade,
-data__ha,
-data__control_plane_firewall,
-data__cluster_autoscaler_configuration,
-data__routing_agent,
-data__amd_gpu_device_plugin,
-data__amd_gpu_device_metrics_exporter_plugin
+name,
+region,
+version,
+cluster_subnet,
+service_subnet,
+vpc_uuid,
+worker_subnet_uuid,
+tags,
+node_pools,
+maintenance_policy,
+auto_upgrade,
+surge_upgrade,
+ha,
+control_plane_firewall,
+cluster_autoscaler_configuration,
+sso,
+routing_agent,
+p2p_oci_registry_plugin,
+amd_gpu_device_plugin,
+amd_gpu_device_metrics_exporter_plugin,
+nvidia_gpu_device_plugin,
+rdma_shared_dev_plugin,
+coredns_autoscaler
 )
 SELECT 
 '{{ name }}' /* required */,
@@ -552,6 +648,7 @@ SELECT
 '{{ cluster_subnet }}',
 '{{ service_subnet }}',
 '{{ vpc_uuid }}',
+'{{ worker_subnet_uuid }}',
 '{{ tags }}',
 '{{ node_pools }}' /* required */,
 '{{ maintenance_policy }}',
@@ -560,9 +657,14 @@ SELECT
 {{ ha }},
 '{{ control_plane_firewall }}',
 '{{ cluster_autoscaler_configuration }}',
+'{{ sso }}',
 '{{ routing_agent }}',
+'{{ p2p_oci_registry_plugin }}',
 '{{ amd_gpu_device_plugin }}',
-'{{ amd_gpu_device_metrics_exporter_plugin }}'
+'{{ amd_gpu_device_metrics_exporter_plugin }}',
+'{{ nvidia_gpu_device_plugin }}',
+'{{ rdma_shared_dev_plugin }}',
+'{{ coredns_autoscaler }}'
 RETURNING
 kubernetes_cluster
 ;
@@ -570,99 +672,142 @@ kubernetes_cluster
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: clusters
   props:
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         A human-readable name for a Kubernetes cluster.
-        
     - name: region
-      value: string
-      description: >
+      value: "{{ region }}"
+      description: |
         The slug identifier for the region where the Kubernetes cluster is located.
-        
     - name: version
-      value: string
-      description: >
-        The slug identifier for the version of Kubernetes used for the cluster. If set to a minor version (e.g. "1.14"), the latest version within it will be used (e.g. "1.14.6-do.1"); if set to "latest", the latest published version will be used. See the `/v2/kubernetes/options` endpoint to find all currently available versions.
-        
+      value: "{{ version }}"
+      description: |
+        The slug identifier for the version of Kubernetes used for the cluster. If set to a minor version (e.g. "1.14"), the latest version within it will be used (e.g. "1.14.6-do.1"); if set to "latest", the latest published version will be used. See the \`/v2/kubernetes/options\` endpoint to find all currently available versions.
     - name: cluster_subnet
-      value: string
-      description: >
+      value: "{{ cluster_subnet }}"
+      description: |
         The range of IP addresses for the overlay network of the Kubernetes cluster in CIDR notation.
-        
     - name: service_subnet
-      value: string
-      description: >
+      value: "{{ service_subnet }}"
+      description: |
         The range of assignable IP addresses for services running in the Kubernetes cluster in CIDR notation.
-        
     - name: vpc_uuid
-      value: string
-      description: >
-        A string specifying the UUID of the VPC to which the Kubernetes cluster is assigned.<br><br>Requires `vpc:read` scope.
-        
+      value: "{{ vpc_uuid }}"
+      description: |
+        A string specifying the UUID of the VPC to which the Kubernetes cluster is assigned.<br><br>Requires \`vpc:read\` scope.
+    - name: worker_subnet_uuid
+      value: "{{ worker_subnet_uuid }}"
+      description: |
+        The UUID of the VPC subnet to attach worker nodes to. When omitted on
+        create, the default subnet for the VPC is used. This value cannot be changed
+        after the cluster is created.
+        \`vpc_uuid\` must also be set.
+        <br><br>Requires \`vpc:read\` scope.
     - name: tags
-      value: array
-      description: >
-        An array of tags to apply to the Kubernetes cluster. All clusters are automatically tagged `k8s` and `k8s:$K8S_CLUSTER_ID`. <br><br>Requires `tag:read` and `tag:create` scope, as well as `tag:delete` if existing tags are getting removed.
-        
+      value:
+        - "{{ tags }}"
+      description: |
+        An array of tags to apply to the Kubernetes cluster. All clusters are automatically tagged \`k8s\` and \`k8s:$K8S_CLUSTER_ID\`. <br><br>Requires \`tag:read\` and \`tag:create\` scope, as well as \`tag:delete\` if existing tags are getting removed.
     - name: node_pools
-      value: array
-      description: >
+      description: |
         An object specifying the details of the worker nodes available to the Kubernetes cluster.
-        
+      value:
+        - size: "{{ size }}"
+          id: "{{ id }}"
+          name: "{{ name }}"
+          count: {{ count }}
+          tags: "{{ tags }}"
+          labels: "{{ labels }}"
+          taints: "{{ taints }}"
+          auto_scale: {{ auto_scale }}
+          min_nodes: {{ min_nodes }}
+          max_nodes: {{ max_nodes }}
+          nodes: "{{ nodes }}"
     - name: maintenance_policy
-      value: object
-      description: >
+      description: |
         An object specifying the maintenance window policy for the Kubernetes cluster.
-        
+      value:
+        start_time: "{{ start_time }}"
+        duration: "{{ duration }}"
+        day: "{{ day }}"
     - name: auto_upgrade
-      value: boolean
-      description: >
+      value: {{ auto_upgrade }}
+      description: |
         A boolean value indicating whether the cluster will be automatically upgraded to new patch releases during its maintenance window.
-        
       default: false
     - name: surge_upgrade
-      value: boolean
-      description: >
+      value: {{ surge_upgrade }}
+      description: |
         A boolean value indicating whether surge upgrade is enabled/disabled for the cluster. Surge upgrade makes cluster upgrades fast and reliable by bringing up new nodes before destroying the outdated nodes.
-        
       default: false
     - name: ha
-      value: boolean
-      description: >
-        A boolean value indicating whether the control plane is run in a highly available configuration in the cluster. Highly available control planes incur less downtime. The property cannot be disabled.
-        
-      default: false
+      value: {{ ha }}
+      description: |
+        A boolean value indicating whether the control plane is run in a highly available configuration in the cluster. Highly available control planes incur less downtime. The property cannot be disabled. When omitted on create, the default is version-dependent; for DOKS 1.36.0 and later, the default is true; for earlier versions, the default is false.
     - name: control_plane_firewall
-      value: object
-      description: >
+      description: |
         An object specifying the control plane firewall for the Kubernetes cluster. Control plane firewall is in early availability (invite only).
-        
+      value:
+        enabled: {{ enabled }}
+        allowed_addresses:
+          - "{{ allowed_addresses }}"
     - name: cluster_autoscaler_configuration
-      value: object
-      description: >
+      description: |
         An object specifying custom cluster autoscaler configuration.
-        
+      value:
+        scale_down_utilization_threshold: {{ scale_down_utilization_threshold }}
+        scale_down_unneeded_time: "{{ scale_down_unneeded_time }}"
+        expanders:
+          - "{{ expanders }}"
+    - name: sso
+      description: |
+        An object specifying Single Sign-On (SSO) configuration for the Kubernetes cluster.
+      value:
+        enabled: {{ enabled }}
+        required: {{ required }}
+        issuer_url: "{{ issuer_url }}"
+        client_id: "{{ client_id }}"
     - name: routing_agent
-      value: object
-      description: >
+      description: |
         An object specifying whether the routing-agent component should be enabled for the Kubernetes cluster.
-        
+      value:
+        enabled: {{ enabled }}
+    - name: p2p_oci_registry_plugin
+      description: |
+        An object specifying whether the Peer-to-peer OCI registry component should be enabled for the Kubernetes cluster.
+      value:
+        enabled: {{ enabled }}
     - name: amd_gpu_device_plugin
-      value: object
-      description: >
+      description: |
         An object specifying whether the AMD GPU Device Plugin should be enabled in the Kubernetes cluster. It's enabled by default for clusters with an AMD GPU node pool.
-        
+      value:
+        enabled: {{ enabled }}
     - name: amd_gpu_device_metrics_exporter_plugin
-      value: object
-      description: >
+      description: |
         An object specifying whether the AMD Device Metrics Exporter should be enabled in the Kubernetes cluster.
-        
-```
+      value:
+        enabled: {{ enabled }}
+    - name: nvidia_gpu_device_plugin
+      description: |
+        An object specifying whether the Nvidia GPU Device Plugin should be enabled in the Kubernetes cluster. It's enabled by default for clusters with an Nvidia GPU node pool.
+      value:
+        enabled: {{ enabled }}
+    - name: rdma_shared_dev_plugin
+      description: |
+        An object specifying whether the RDMA shared device plugin should be enabled in the Kubernetes cluster.
+      value:
+        enabled: {{ enabled }}
+    - name: coredns_autoscaler
+      description: |
+        An object specifying whether the Cluster Proportional Autoscaler (CPA) add-on for CoreDNS should be enabled for the Kubernetes cluster.
+      value:
+        enabled: {{ enabled }}
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -682,20 +827,25 @@ To update a Kubernetes cluster, send a PUT request to<br />`/v2/kubernetes/clust
 ```sql
 REPLACE digitalocean.kubernetes.clusters
 SET 
-data__name = '{{ name }}',
-data__tags = '{{ tags }}',
-data__maintenance_policy = '{{ maintenance_policy }}',
-data__auto_upgrade = {{ auto_upgrade }},
-data__surge_upgrade = {{ surge_upgrade }},
-data__ha = {{ ha }},
-data__control_plane_firewall = '{{ control_plane_firewall }}',
-data__cluster_autoscaler_configuration = '{{ cluster_autoscaler_configuration }}',
-data__routing_agent = '{{ routing_agent }}',
-data__amd_gpu_device_plugin = '{{ amd_gpu_device_plugin }}',
-data__amd_gpu_device_metrics_exporter_plugin = '{{ amd_gpu_device_metrics_exporter_plugin }}'
+name = '{{ name }}',
+tags = '{{ tags }}',
+maintenance_policy = '{{ maintenance_policy }}',
+auto_upgrade = {{ auto_upgrade }},
+surge_upgrade = {{ surge_upgrade }},
+ha = {{ ha }},
+control_plane_firewall = '{{ control_plane_firewall }}',
+cluster_autoscaler_configuration = '{{ cluster_autoscaler_configuration }}',
+sso = '{{ sso }}',
+routing_agent = '{{ routing_agent }}',
+p2p_oci_registry_plugin = '{{ p2p_oci_registry_plugin }}',
+amd_gpu_device_plugin = '{{ amd_gpu_device_plugin }}',
+amd_gpu_device_metrics_exporter_plugin = '{{ amd_gpu_device_metrics_exporter_plugin }}',
+nvidia_gpu_device_plugin = '{{ nvidia_gpu_device_plugin }}',
+rdma_shared_dev_plugin = '{{ rdma_shared_dev_plugin }}',
+coredns_autoscaler = '{{ coredns_autoscaler }}'
 WHERE 
 cluster_id = '{{ cluster_id }}' --required
-AND data__name = '{{ name }}' --required
+AND name = '{{ name }}' --required
 RETURNING
 kubernetes_cluster;
 ```
@@ -737,12 +887,13 @@ WHERE cluster_id = '{{ cluster_id }}' --required
 >
 <TabItem value="kubernetes_get_kubeconfig">
 
-This endpoint returns a kubeconfig file in YAML format. It can be used to<br />connect to and administer the cluster using the Kubernetes command line tool,<br />`kubectl`, or other programs supporting kubeconfig files (e.g., client libraries).<br /><br />The resulting kubeconfig file uses token-based authentication for clusters<br />supporting it, and certificate-based authentication otherwise. For a list of<br />supported versions and more information, see "[How to Connect to a DigitalOcean<br />Kubernetes Cluster](https://docs.digitalocean.com/products/kubernetes/how-to/connect-to-cluster/)".<br /><br />To retrieve a kubeconfig file for use with a Kubernetes cluster, send a GET<br />request to `/v2/kubernetes/clusters/$K8S_CLUSTER_ID/kubeconfig`.<br /><br />Clusters supporting token-based authentication may define an expiration by<br />passing a duration in seconds as a query parameter to<br />`/v2/kubernetes/clusters/$K8S_CLUSTER_ID/kubeconfig?expiry_seconds=$DURATION_IN_SECONDS`.<br />If not set or 0, then the token will have a 7 day expiry. The query parameter<br />has no impact in certificate-based authentication.<br /><br />Kubernetes Roles granted to a user with a token-based kubeconfig are derived from that user's<br />DigitalOcean role. Predefined roles (Owner, Member, Modifier etc.) have an automatic mapping<br />to Kubernetes roles. Custom roles are not automatically mapped to any Kubernetes roles,<br />and require [additional configuration](https://docs.digitalocean.com/products/kubernetes/how-to/set-up-custom-rolebindings/)<br />by a cluster administrator.<br />
+This endpoint returns a kubeconfig file in YAML format. It can be used to<br />connect to and administer the cluster using the Kubernetes command line tool,<br />`kubectl`, or other programs supporting kubeconfig files (e.g., client libraries).<br /><br />The resulting kubeconfig file uses token-based authentication for clusters<br />supporting it, and certificate-based authentication otherwise. For a list of<br />supported versions and more information, see "[How to Connect to a DigitalOcean<br />Kubernetes Cluster](https://docs.digitalocean.com/products/kubernetes/how-to/connect-to-cluster/)".<br /><br />To retrieve a kubeconfig file for use with a Kubernetes cluster, send a GET<br />request to `/v2/kubernetes/clusters/$K8S_CLUSTER_ID/kubeconfig`.<br /><br />Clusters supporting token-based authentication may define an expiration by<br />passing a duration in seconds as a query parameter to<br />`/v2/kubernetes/clusters/$K8S_CLUSTER_ID/kubeconfig?expiry_seconds=$DURATION_IN_SECONDS`.<br />If not set or 0, then the token will have a 7 day expiry. The query parameter<br />has no impact for other kubeconfig types.<br /><br />Using an `sso` kubeconfig type requires `doctl` to be installed to handle the client side<br />of the OAuth2 flow.<br /><br />Kubernetes Roles granted to a user are derived from that user's<br />DigitalOcean role. Predefined roles (Owner, Member, Modifier etc.) have an automatic mapping<br />to Kubernetes roles. Custom roles are not automatically mapped to any Kubernetes roles,<br />and require [additional configuration](https://docs.digitalocean.com/products/kubernetes/how-to/set-up-custom-rolebindings/)<br />by a cluster administrator.<br />
 
 ```sql
 EXEC digitalocean.kubernetes.clusters.kubernetes_get_kubeconfig 
 @cluster_id='{{ cluster_id }}' --required, 
-@expiry_seconds='{{ expiry_seconds }}'
+@expiry_seconds='{{ expiry_seconds }}', 
+@type='{{ type }}'
 ;
 ```
 </TabItem>

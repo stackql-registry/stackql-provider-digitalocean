@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>reserved_ipv6</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>reserved_ipv6</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="reserved_ipv6" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.reserved_ipv6" /></td></tr>
 </tbody></table>
@@ -53,8 +54,8 @@ The response will be a JSON object with key `reserved_ipv6`. The value of this w
 <tbody>
 <tr>
     <td><CopyableCode code="droplet" /></td>
-    <td><code></code></td>
-    <td></td>
+    <td><code>string</code></td>
+    <td>If the reserved IP is not assigned to a Droplet, the value will be null.<br /><br />Requires `droplet:read` scope. (opaque JSON object) (title: null)</td>
 </tr>
 <tr>
     <td><CopyableCode code="ip" /></td>
@@ -139,7 +140,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#reserved_ipv6_create"><CopyableCode code="reserved_ipv6_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__region_slug"><code>data__region_slug</code></a></td>
+    <td><a href="#parameter-region_slug"><code>region_slug</code></a></td>
     <td></td>
     <td>On creation, a reserved IPv6 must be reserved to a region.<br />* To create a new reserved IPv6 reserved to a region, send a POST request to<br />  `/v2/reserved_ipv6` with the `region_slug` attribute.</td>
 </tr>
@@ -156,6 +157,20 @@ The following methods are available for this resource:
     <td><a href="#parameter-reserved_ipv6"><code>reserved_ipv6</code></a>, <a href="#parameter-type"><code>type</code></a></td>
     <td></td>
     <td>To initiate an action on a reserved IPv6 send a POST request to<br />`/v2/reserved_ipv6/$RESERVED_IPV6/actions`. In the JSON body to the request,<br />set the `type` attribute to on of the supported action types:<br /><br />| Action     | Details<br />|------------|--------<br />| `assign`   | Assigns a reserved IPv6 to a Droplet<br />| `unassign` | Unassign a reserved IPv6 from a Droplet<br /></td>
+</tr>
+<tr>
+    <td><a href="#assign"><CopyableCode code="assign" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-reserved_ipv6"><code>reserved_ipv6</code></a></td>
+    <td></td>
+    <td>Invokes the `assign` action. Fabricated lifecycle operation over `POST /v2/reserved_ipv6/&#123;reserved_ipv6&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#unassign"><CopyableCode code="unassign" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-reserved_ipv6"><code>reserved_ipv6</code></a></td>
+    <td></td>
+    <td>Invokes the `unassign` action. Fabricated lifecycle operation over `POST /v2/reserved_ipv6/&#123;reserved_ipv6&#125;/actions`.</td>
 </tr>
 </tbody>
 </table>
@@ -248,7 +263,7 @@ On creation, a reserved IPv6 must be reserved to a region.<br />* To create a ne
 
 ```sql
 INSERT INTO digitalocean.compute.reserved_ipv6 (
-data__region_slug
+region_slug
 )
 SELECT 
 '{{ region_slug }}' /* required */
@@ -259,16 +274,15 @@ reserved_ipv6
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: reserved_ipv6
   props:
     - name: region_slug
-      value: string
-      description: >
+      value: "{{ region_slug }}"
+      description: |
         The slug identifier for the region the reserved IPv6 will be reserved to.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -299,7 +313,9 @@ WHERE reserved_ipv6 = '{{ reserved_ipv6 }}' --required
 <Tabs
     defaultValue="reserved_ipv6_actions_post"
     values={[
-        { label: 'reserved_ipv6_actions_post', value: 'reserved_ipv6_actions_post' }
+        { label: 'reserved_ipv6_actions_post', value: 'reserved_ipv6_actions_post' },
+        { label: 'assign', value: 'assign' },
+        { label: 'unassign', value: 'unassign' }
     ]}
 >
 <TabItem value="reserved_ipv6_actions_post">
@@ -311,8 +327,33 @@ EXEC digitalocean.compute.reserved_ipv6.reserved_ipv6_actions_post
 @reserved_ipv6='{{ reserved_ipv6 }}' --required 
 @@json=
 '{
-"type": "{{ type }}"
+"type": "{{ type }}", 
+"droplet_id": {{ droplet_id }}
 }'
+;
+```
+</TabItem>
+<TabItem value="assign">
+
+Invokes the `assign` action. Fabricated lifecycle operation over `POST /v2/reserved_ipv6/&#123;reserved_ipv6&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.reserved_ipv6.assign 
+@reserved_ipv6='{{ reserved_ipv6 }}' --required 
+@@json=
+'{
+"droplet_id": {{ droplet_id }}
+}'
+;
+```
+</TabItem>
+<TabItem value="unassign">
+
+Invokes the `unassign` action. Fabricated lifecycle operation over `POST /v2/reserved_ipv6/&#123;reserved_ipv6&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.reserved_ipv6.unassign 
+@reserved_ipv6='{{ reserved_ipv6 }}' --required
 ;
 ```
 </TabItem>

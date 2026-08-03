@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>rollbacks</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>rollbacks</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="rollbacks" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.apps.rollbacks" /></td></tr>
 </tbody></table>
@@ -116,8 +117,8 @@ Rollback an app to a previous deployment. A new deployment will be created to pe
 
 ```sql
 INSERT INTO digitalocean.apps.rollbacks (
-data__deployment_id,
-data__skip_pin,
+deployment_id,
+skip_pin,
 app_id
 )
 SELECT 
@@ -131,24 +132,22 @@ deployment
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: rollbacks
   props:
     - name: app_id
-      value: string
+      value: "{{ app_id }}"
       description: Required parameter for the rollbacks resource.
     - name: deployment_id
-      value: string
-      description: >
+      value: "{{ deployment_id }}"
+      description: |
         The ID of the deployment to rollback to.
-        
     - name: skip_pin
-      value: boolean
-      description: >
+      value: {{ skip_pin }}
+      description: |
         Whether to skip pinning the rollback deployment. If false, the rollback deployment will be pinned and any new deployments including Auto Deploy on Push hooks will be disabled until the rollback is either manually committed or reverted via the CommitAppRollback or RevertAppRollback endpoints respectively. If true, the rollback will be immediately committed and the app will remain unpinned.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 

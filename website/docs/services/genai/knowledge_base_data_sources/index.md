@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>knowledge_base_data_sources</co
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>knowledge_base_data_sources</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="knowledge_base_data_sources" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.genai.knowledge_base_data_sources" /></td></tr>
 </tbody></table>
@@ -98,6 +99,13 @@ The following methods are available for this resource:
     <td><a href="#parameter-knowledge_base_uuid"><code>knowledge_base_uuid</code></a></td>
     <td></td>
     <td>To add a data source to a knowledge base, send a POST request to `/v2/gen-ai/knowledge_bases/&#123;knowledge_base_uuid&#125;/data_sources`.</td>
+</tr>
+<tr>
+    <td><a href="#genai_update_knowledge_base_data_source"><CopyableCode code="genai_update_knowledge_base_data_source" /></a></td>
+    <td><CopyableCode code="replace" /></td>
+    <td><a href="#parameter-knowledge_base_uuid"><code>knowledge_base_uuid</code></a>, <a href="#parameter-data_source_uuid"><code>data_source_uuid</code></a></td>
+    <td></td>
+    <td>To update a data source (e.g. chunking options), send a PUT request to `/v2/gen-ai/knowledge_bases/&#123;knowledge_base_uuid&#125;/data_sources/&#123;data_source_uuid&#125;`.</td>
 </tr>
 <tr>
     <td><a href="#genai_delete_knowledge_base_data_source"><CopyableCode code="genai_delete_knowledge_base_data_source" /></a></td>
@@ -194,14 +202,18 @@ To add a data source to a knowledge base, send a POST request to `/v2/gen-ai/kno
 
 ```sql
 INSERT INTO digitalocean.genai.knowledge_base_data_sources (
-data__aws_data_source,
-data__knowledge_base_uuid,
-data__spaces_data_source,
-data__web_crawler_data_source,
+aws_data_source,
+chunking_algorithm,
+chunking_options,
+knowledge_base_uuid,
+spaces_data_source,
+web_crawler_data_source,
 knowledge_base_uuid
 )
 SELECT 
 '{{ aws_data_source }}',
+'{{ chunking_algorithm }}',
+'{{ chunking_options }}',
 '{{ knowledge_base_uuid }}',
 '{{ spaces_data_source }}',
 '{{ web_crawler_data_source }}',
@@ -213,33 +225,81 @@ knowledge_base_data_source
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: knowledge_base_data_sources
   props:
     - name: knowledge_base_uuid
-      value: string
+      value: "{{ knowledge_base_uuid }}"
       description: Required parameter for the knowledge_base_data_sources resource.
     - name: aws_data_source
-      value: object
-      description: >
+      description: |
         AWS S3 Data Source
-        
+      value:
+        bucket_name: "{{ bucket_name }}"
+        item_path: "{{ item_path }}"
+        key_id: "{{ key_id }}"
+        region: "{{ region }}"
+        secret_key: "{{ secret_key }}"
+    - name: chunking_algorithm
+      value: "{{ chunking_algorithm }}"
+      valid_values: ['CHUNKING_ALGORITHM_UNKNOWN', 'CHUNKING_ALGORITHM_SECTION_BASED', 'CHUNKING_ALGORITHM_HIERARCHICAL', 'CHUNKING_ALGORITHM_SEMANTIC', 'CHUNKING_ALGORITHM_FIXED_LENGTH']
+      default: CHUNKING_ALGORITHM_UNKNOWN
+    - name: chunking_options
+      value:
+        child_chunk_size: {{ child_chunk_size }}
+        max_chunk_size: {{ max_chunk_size }}
+        parent_chunk_size: {{ parent_chunk_size }}
+        semantic_threshold: {{ semantic_threshold }}
     - name: knowledge_base_uuid
-      value: string
-      description: >
+      value: "{{ knowledge_base_uuid }}"
+      description: |
         Knowledge base id
-        
     - name: spaces_data_source
-      value: object
-      description: >
+      description: |
         Spaces Bucket Data Source
-        
+      value:
+        bucket_name: "{{ bucket_name }}"
+        item_path: "{{ item_path }}"
+        region: "{{ region }}"
     - name: web_crawler_data_source
-      value: object
-      description: >
+      description: |
         WebCrawlerDataSource
-        
+      value:
+        base_url: "{{ base_url }}"
+        crawling_option: "{{ crawling_option }}"
+        embed_media: {{ embed_media }}
+        exclude_tags:
+          - "{{ exclude_tags }}"
+`}</CodeBlock>
+
+</TabItem>
+</Tabs>
+
+
+## `REPLACE` examples
+
+<Tabs
+    defaultValue="genai_update_knowledge_base_data_source"
+    values={[
+        { label: 'genai_update_knowledge_base_data_source', value: 'genai_update_knowledge_base_data_source' }
+    ]}
+>
+<TabItem value="genai_update_knowledge_base_data_source">
+
+To update a data source (e.g. chunking options), send a PUT request to `/v2/gen-ai/knowledge_bases/&#123;knowledge_base_uuid&#125;/data_sources/&#123;data_source_uuid&#125;`.
+
+```sql
+REPLACE digitalocean.genai.knowledge_base_data_sources
+SET 
+chunking_algorithm = '{{ chunking_algorithm }}',
+chunking_options = '{{ chunking_options }}',
+data_source_uuid = '{{ data_source_uuid }}',
+knowledge_base_uuid = '{{ knowledge_base_uuid }}'
+WHERE 
+knowledge_base_uuid = '{{ knowledge_base_uuid }}' --required
+AND data_source_uuid = '{{ data_source_uuid }}' --required
+RETURNING
+knowledge_base_data_source;
 ```
 </TabItem>
 </Tabs>

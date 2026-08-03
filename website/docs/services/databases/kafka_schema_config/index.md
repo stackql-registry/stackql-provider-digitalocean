@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>kafka_schema_config</code> reso
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>kafka_schema_config</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="kafka_schema_config" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.kafka_schema_config" /></td></tr>
 </tbody></table>
@@ -53,7 +54,7 @@ A JSON object with a key of `compatibility_level`.
 <tr>
     <td><CopyableCode code="compatibility_level" /></td>
     <td><code>string</code></td>
-    <td>The compatibility level of the schema registry.</td>
+    <td>The compatibility level of the schema registry. (NONE, BACKWARD, BACKWARD_TRANSITIVE, FORWARD, FORWARD_TRANSITIVE, FULL, FULL_TRANSITIVE)</td>
 </tr>
 </tbody>
 </table>
@@ -85,7 +86,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#databases_update_kafka_schema_config"><CopyableCode code="databases_update_kafka_schema_config" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-data__compatibility_level"><code>data__compatibility_level</code></a></td>
+    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-compatibility_level"><code>compatibility_level</code></a></td>
     <td></td>
     <td>To update the Schema Registry configuration for a Kafka cluster, send a PUT request to<br />`/v2/databases/$DATABASE_ID/schema-registry/config`.<br />The response is a JSON object with a `compatibility_level` key, which is set to an object<br />containing any database configuration parameters.<br /></td>
 </tr>
@@ -151,10 +152,10 @@ To update the Schema Registry configuration for a Kafka cluster, send a PUT requ
 ```sql
 REPLACE digitalocean.databases.kafka_schema_config
 SET 
-data__compatibility_level = '{{ compatibility_level }}'
+compatibility_level = '{{ compatibility_level }}'
 WHERE 
 database_cluster_uuid = '{{ database_cluster_uuid }}' --required
-AND data__compatibility_level = '{{ compatibility_level }}' --required
+AND compatibility_level = '{{ compatibility_level }}' --required
 RETURNING
 compatibility_level;
 ```

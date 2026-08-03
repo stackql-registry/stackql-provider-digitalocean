@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>kafka_topics</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>kafka_topics</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="kafka_topics" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.kafka_topics" /></td></tr>
 </tbody></table>
@@ -74,7 +75,7 @@ A JSON object with a key of `topic`.
 <tr>
     <td><CopyableCode code="state" /></td>
     <td><code>string</code></td>
-    <td>The state of the Kafka topic. (example: active)</td>
+    <td>The state of the Kafka topic. (active, configuring, deleting, unknown) (example: active)</td>
 </tr>
 </tbody>
 </table>
@@ -110,7 +111,7 @@ A JSON object with a key of `topics`.
 <tr>
     <td><CopyableCode code="state" /></td>
     <td><code>string</code></td>
-    <td>The state of the Kafka topic. (example: active)</td>
+    <td>The state of the Kafka topic. (active, configuring, deleting, unknown) (example: active)</td>
 </tr>
 </tbody>
 </table>
@@ -149,7 +150,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#databases_create_kafka_topic"><CopyableCode code="databases_create_kafka_topic" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-data__name"><code>data__name</code></a></td>
+    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>To create a topic attached to a Kafka cluster, send a POST request to<br />`/v2/databases/$DATABASE_ID/topics`.<br /><br />The result will be a JSON object with a `topic` key.<br /></td>
 </tr>
@@ -255,10 +256,10 @@ To create a topic attached to a Kafka cluster, send a POST request to<br />`/v2/
 
 ```sql
 INSERT INTO digitalocean.databases.kafka_topics (
-data__name,
-data__replication_factor,
-data__partition_count,
-data__config,
+name,
+replication_factor,
+partition_count,
+config,
 database_cluster_uuid
 )
 SELECT 
@@ -274,31 +275,49 @@ topic
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: kafka_topics
   props:
     - name: database_cluster_uuid
-      value: string (uuid)
+      value: "{{ database_cluster_uuid }}"
       description: Required parameter for the kafka_topics resource.
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The name of the Kafka topic.
-        
     - name: replication_factor
-      value: integer
-      description: >
+      value: {{ replication_factor }}
+      description: |
         The number of nodes to replicate data across the cluster.
-        
     - name: partition_count
-      value: integer
-      description: >
+      value: {{ partition_count }}
+      description: |
         The number of partitions available for the topic. On update, this value can only be increased.
-        
     - name: config
-      value: object
-```
+      value:
+        cleanup_policy: "{{ cleanup_policy }}"
+        compression_type: "{{ compression_type }}"
+        delete_retention_ms: {{ delete_retention_ms }}
+        file_delete_delay_ms: {{ file_delete_delay_ms }}
+        flush_messages: {{ flush_messages }}
+        flush_ms: {{ flush_ms }}
+        index_interval_bytes: {{ index_interval_bytes }}
+        max_compaction_lag_ms: {{ max_compaction_lag_ms }}
+        max_message_bytes: {{ max_message_bytes }}
+        message_down_conversion_enable: {{ message_down_conversion_enable }}
+        message_format_version: "{{ message_format_version }}"
+        message_timestamp_type: "{{ message_timestamp_type }}"
+        min_cleanable_dirty_ratio: {{ min_cleanable_dirty_ratio }}
+        min_compaction_lag_ms: {{ min_compaction_lag_ms }}
+        min_insync_replicas: {{ min_insync_replicas }}
+        preallocate: {{ preallocate }}
+        retention_bytes: {{ retention_bytes }}
+        retention_ms: {{ retention_ms }}
+        segment_bytes: {{ segment_bytes }}
+        segment_jitter_ms: {{ segment_jitter_ms }}
+        segment_ms: {{ segment_ms }}
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -318,9 +337,9 @@ To update a topic attached to a Kafka cluster, send a PUT request to<br />`/v2/d
 ```sql
 REPLACE digitalocean.databases.kafka_topics
 SET 
-data__replication_factor = {{ replication_factor }},
-data__partition_count = {{ partition_count }},
-data__config = '{{ config }}'
+replication_factor = {{ replication_factor }},
+partition_count = {{ partition_count }},
+config = '{{ config }}'
 WHERE 
 database_cluster_uuid = '{{ database_cluster_uuid }}' --required
 AND topic_name = '{{ topic_name }}' --required

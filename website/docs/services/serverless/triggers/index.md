@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>triggers</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>triggers</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="triggers" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.serverless.triggers" /></td></tr>
 </tbody></table>
@@ -194,7 +195,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#functions_create_trigger"><CopyableCode code="functions_create_trigger" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-namespace_id"><code>namespace_id</code></a>, <a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__function"><code>data__function</code></a>, <a href="#parameter-data__type"><code>data__type</code></a>, <a href="#parameter-data__is_enabled"><code>data__is_enabled</code></a>, <a href="#parameter-data__scheduled_details"><code>data__scheduled_details</code></a></td>
+    <td><a href="#parameter-namespace_id"><code>namespace_id</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-function"><code>function</code></a>, <a href="#parameter-type"><code>type</code></a>, <a href="#parameter-is_enabled"><code>is_enabled</code></a>, <a href="#parameter-scheduled_details"><code>scheduled_details</code></a></td>
     <td></td>
     <td>Creates a new trigger for a given function in a namespace. To create a trigger, send a POST request to `/v2/functions/namespaces/$NAMESPACE_ID/triggers` with the `name`, `function`, `type`, `is_enabled` and `scheduled_details` properties.</td>
 </tr>
@@ -309,11 +310,11 @@ Creates a new trigger for a given function in a namespace. To create a trigger, 
 
 ```sql
 INSERT INTO digitalocean.serverless.triggers (
-data__name,
-data__function,
-data__type,
-data__is_enabled,
-data__scheduled_details,
+name,
+function,
+type,
+is_enabled,
+scheduled_details,
 namespace_id
 )
 SELECT 
@@ -330,39 +331,37 @@ trigger
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: triggers
   props:
     - name: namespace_id
-      value: string
+      value: "{{ namespace_id }}"
       description: Required parameter for the triggers resource.
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The trigger's unique name within the namespace.
-        
     - name: function
-      value: string
-      description: >
+      value: "{{ function }}"
+      description: |
         Name of function(action) that exists in the given namespace.
-        
     - name: type
-      value: string
-      description: >
+      value: "{{ type }}"
+      description: |
         One of different type of triggers. Currently only SCHEDULED is supported.
-        
     - name: is_enabled
-      value: boolean
-      description: >
+      value: {{ is_enabled }}
+      description: |
         Indicates weather the trigger is paused or unpaused.
-        
     - name: scheduled_details
-      value: object
-      description: >
+      description: |
         Trigger details for SCHEDULED type, where body is optional.
+      value:
+        cron: "{{ cron }}"
+        body:
+          name: "{{ name }}"
+`}</CodeBlock>
 
-```
 </TabItem>
 </Tabs>
 
@@ -382,8 +381,8 @@ Updates the details of the given trigger. To update a trigger, send a PUT reques
 ```sql
 REPLACE digitalocean.serverless.triggers
 SET 
-data__is_enabled = {{ is_enabled }},
-data__scheduled_details = '{{ scheduled_details }}'
+is_enabled = {{ is_enabled }},
+scheduled_details = '{{ scheduled_details }}'
 WHERE 
 namespace_id = '{{ namespace_id }}' --required
 AND trigger_name = '{{ trigger_name }}' --required

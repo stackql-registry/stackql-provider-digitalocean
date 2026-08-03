@@ -8,9 +8,8 @@ paths:
     get:
       operationId: spacesKey_list
       summary: List Spaces Access Keys
-      description: >
-        To list Spaces Access Key, send a GET request to `/v2/spaces/keys`. Sort
-        parameter must be used with Sort Direction.
+      description: |
+        To list Spaces Access Key, send a GET request to `/v2/spaces/keys`. Sort parameter must be used with Sort Direction.
       tags:
         - Spaces Keys
       parameters:
@@ -45,15 +44,10 @@ paths:
     post:
       operationId: spacesKey_create
       summary: Create a New Spaces Access Key
-      description: >
-        To create a new Spaces Access Key, send a POST request to
-        `/v2/spaces/keys`.
-
-        At the moment, you cannot mix a fullaccess permission with scoped
-        permissions.
-
-        A fullaccess permission will be prioritized if fullaccess and scoped
-        permissions are both added.
+      description: |
+        To create a new Spaces Access Key, send a POST request to `/v2/spaces/keys`.
+        At the moment, you cannot mix a fullaccess permission with scoped permissions.
+        A fullaccess permission will be prioritized if fullaccess and scoped permissions are both added.
       tags:
         - Spaces Keys
       requestBody:
@@ -97,7 +91,7 @@ paths:
         '201':
           $ref: '#/components/responses/key_create'
         '400':
-          $ref: '#/components/responses/bad_request-2'
+          $ref: '#/components/responses/bad_request-3'
         '401':
           $ref: '#/components/responses/unauthorized'
         '429':
@@ -121,10 +115,8 @@ paths:
     get:
       operationId: spacesKey_get
       summary: Get a Spaces Access Key
-      description: >
-        To get a Spaces Access Key, send a GET request to
-        `/v2/spaces/keys/$ACCESS_KEY`.
-
+      description: |
+        To get a Spaces Access Key, send a GET request to `/v2/spaces/keys/$ACCESS_KEY`.
 
         A successful request will return the Access Key.
       tags:
@@ -157,10 +149,8 @@ paths:
     delete:
       operationId: spacesKey_delete
       summary: Delete a Spaces Access Key
-      description: >
-        To delete a Spaces Access Key, send a DELETE request to
-        `/v2/spaces/keys/$ACCESS_KEY`.
-
+      description: |
+        To delete a Spaces Access Key, send a DELETE request to `/v2/spaces/keys/$ACCESS_KEY`.
 
         A successful request will return a `204 No Content` status code.
       tags:
@@ -193,12 +183,9 @@ paths:
     put:
       operationId: spacesKey_update
       summary: Update Spaces Access Keys
-      description: >
-        To update Spaces Access Key, send a PUT or PATCH request to
-        `/v2/spaces/keys/$ACCESS_KEY`. At the moment, you cannot convert a
-
-        fullaccess key to a scoped key or vice versa. You can only update the
-        name of the key.
+      description: |
+        To update Spaces Access Key, send a PUT or PATCH request to `/v2/spaces/keys/$ACCESS_KEY`. At the moment, you cannot convert a
+        fullaccess key to a scoped key or vice versa. You can only update the name of the key.
       tags:
         - Spaces Keys
       parameters:
@@ -217,7 +204,7 @@ paths:
         '200':
           $ref: '#/components/responses/key_update'
         '400':
-          $ref: '#/components/responses/bad_request-2'
+          $ref: '#/components/responses/bad_request-3'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -242,12 +229,9 @@ paths:
     patch:
       operationId: spacesKey_patch
       summary: Update Spaces Access Keys
-      description: >
-        To update Spaces Access Key, send a PUT or PATCH request to
-        `/v2/spaces/keys/$ACCESS_KEY`. At the moment, you cannot convert a
-
-        fullaccess key to a scoped key or vice versa. You can only update the
-        name of the key.
+      description: |
+        To update Spaces Access Key, send a PUT or PATCH request to `/v2/spaces/keys/$ACCESS_KEY`. At the moment, you cannot convert a
+        fullaccess key to a scoped key or vice versa. You can only update the name of the key.
       tags:
         - Spaces Keys
       parameters:
@@ -266,7 +250,7 @@ paths:
         '200':
           $ref: '#/components/responses/key_update'
         '400':
-          $ref: '#/components/responses/bad_request-2'
+          $ref: '#/components/responses/bad_request-3'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -323,33 +307,30 @@ components:
       type: object
       properties:
         meta:
-          allOf:
-            - $ref: '#/components/schemas/meta_properties'
-            - required:
-                - total
+          type: object
+          description: Information about the response itself.
+          properties:
+            total:
+              description: Number of objects returned by the request.
+              type: integer
+              example: 1
+          required:
+            - total
       required:
         - meta
     error:
       type: object
       properties:
         id:
-          description: >-
-            A short identifier corresponding to the HTTP status code returned.
-            For  example, the ID for a response returning a 404 status code
-            would be "not_found."
+          description: A short identifier corresponding to the HTTP status code returned. For  example, the ID for a response returning a 404 status code would be "not_found."
           type: string
           example: not_found
         message:
-          description: >-
-            A message providing additional information about the error,
-            including  details to help resolve it when possible.
+          description: A message providing additional information about the error, including  details to help resolve it when possible.
           type: string
           example: The resource you were accessing could not be found.
         request_id:
-          description: >-
-            Optionally, some endpoints may include a request ID that should be 
-            provided when reporting bugs or opening support tickets to help 
-            identify the issue.
+          description: Optionally, some endpoints may include a request ID that should be  provided when reporting bugs or opening support tickets to help  identify the issue.
           type: string
           example: 4d9d8375-3c56-4925-a3e7-eb137fed17e9
       required:
@@ -364,38 +345,66 @@ components:
           example: my-bucket
         permission:
           type: string
-          description: >-
-            The permission to grant to the user. Possible values are `read`,
-            `readwrite`, `fullaccess`, or an empty string.
+          description: The permission to grant to the user. Possible values are `read`, `readwrite`, `fullaccess`, or an empty string.
           example: read
       required:
         - bucket
         - permission
     key_create_response:
-      allOf:
-        - type: object
-          properties:
-            secret_key:
-              type: string
-              description: >-
-                The secret key used to access the bucket. We return secret keys
-                only once upon creation. Make sure to copy the key and securely
-                store it.
-              example: DOSECRETKEYEXAMPLE
-              readOnly: true
-        - $ref: '#/components/schemas/key'
+      type: object
+      properties:
+        secret_key:
+          type: string
+          description: The secret key used to access the bucket. We return secret keys only once upon creation. Make sure to copy the key and securely store it.
+          example: DOSECRETKEYEXAMPLE
+          readOnly: true
+        name:
+          type: string
+          description: The access key's name.
+          example: my-access-key
+        grants:
+          type: array
+          description: The list of permissions for the access key.
+          items:
+            $ref: '#/components/schemas/grant'
+          default: []
+        access_key:
+          type: string
+          description: The Access Key ID used to access a bucket.
+          example: DOACCESSKEYEXAMPLE
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the key was created.
+          example: '2018-07-19T15:04:16Z'
+          readOnly: true
     page_links:
       type: object
       properties:
         pages:
-          anyOf:
-            - $ref: '#/components/schemas/forward_links'
-            - $ref: '#/components/schemas/backward_links'
-            - {}
           example:
             pages:
               first: https://api.digitalocean.com/v2/account/keys?page=1
               prev: https://api.digitalocean.com/v2/account/keys?page=2
+          type: object
+          properties:
+            last:
+              description: URI of the last page of the results.
+              type: string
+              example: https://api.digitalocean.com/v2/images?page=2
+            next:
+              description: URI of the next page of the results.
+              type: string
+              example: https://api.digitalocean.com/v2/images?page=2
+            first:
+              description: URI of the first page of the results.
+              type: string
+              example: https://api.digitalocean.com/v2/images?page=1
+            prev:
+              description: URI of the previous page of the results.
+              type: string
+              example: https://api.digitalocean.com/v2/images?page=1
     meta_properties:
       type: object
       description: Information about the response itself.
@@ -405,13 +414,27 @@ components:
           type: integer
           example: 1
     forward_links:
-      allOf:
-        - $ref: '#/components/schemas/link_to_last_page'
-        - $ref: '#/components/schemas/link_to_next_page'
+      type: object
+      properties:
+        last:
+          description: URI of the last page of the results.
+          type: string
+          example: https://api.digitalocean.com/v2/images?page=2
+        next:
+          description: URI of the next page of the results.
+          type: string
+          example: https://api.digitalocean.com/v2/images?page=2
     backward_links:
-      allOf:
-        - $ref: '#/components/schemas/link_to_first_page'
-        - $ref: '#/components/schemas/link_to_prev_page'
+      type: object
+      properties:
+        first:
+          description: URI of the first page of the results.
+          type: string
+          example: https://api.digitalocean.com/v2/images?page=1
+        prev:
+          description: URI of the previous page of the results.
+          type: string
+          example: https://api.digitalocean.com/v2/images?page=1
     link_to_last_page:
       type: object
       properties:
@@ -453,15 +476,6 @@ components:
       content:
         application/json:
           schema:
-            allOf:
-              - type: object
-                properties:
-                  keys:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/key'
-              - $ref: '#/components/schemas/pagination'
-              - $ref: '#/components/schemas/meta'
             example:
               keys:
                 - name: my-access-key
@@ -473,6 +487,26 @@ components:
               links: {}
               meta:
                 total: 1
+            type: object
+            properties:
+              keys:
+                type: array
+                items:
+                  $ref: '#/components/schemas/key'
+              links:
+                $ref: '#/components/schemas/page_links'
+              meta:
+                type: object
+                description: Information about the response itself.
+                properties:
+                  total:
+                    description: Number of objects returned by the request.
+                    type: integer
+                    example: 1
+                required:
+                  - total
+            required:
+              - meta
     unauthorized:
       description: Authentication failed due to invalid credentials.
       headers:
@@ -586,7 +620,7 @@ components:
                     - bucket: my-other-bucket
                       permission: read
                   created_at: '2018-07-19T15:04:16Z'
-    bad_request-2:
+    bad_request-3:
       description: Cannot mix fullaccess permission with scoped permissions
       headers:
         ratelimit-limit:
@@ -614,13 +648,12 @@ components:
       content:
         application/json:
           schema:
-            allOf:
-              - type: object
-                properties:
-                  keys:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/key'
+            type: object
+            properties:
+              keys:
+                type: array
+                items:
+                  $ref: '#/components/schemas/key'
           examples:
             Read Only Key:
               value:
@@ -742,9 +775,7 @@ components:
       in: query
       name: permission
       required: false
-      description: >-
-        The permission of the access key. Possible values are `read`,
-        `readwrite`, `fullaccess`, or an empty string.
+      description: The permission of the access key. Possible values are `read`, `readwrite`, `fullaccess`, or an empty string.
       schema:
         type: string
       example: read
@@ -761,28 +792,17 @@ components:
       schema:
         type: integer
       example: 5000
-      description: >-
-        The default limit on number of requests that can be made per hour and
-        per minute. Current rate limits are 5000 requests per hour and 250
-        requests per minute.
+      description: The default limit on number of requests that can be made per hour and per minute. Current rate limits are 5000 requests per hour and 250 requests per minute.
     ratelimit-remaining:
       schema:
         type: integer
       example: 4816
-      description: >-
-        The number of requests in your hourly quota that remain before you hit
-        your request limit. See
-        https://developers.digitalocean.com/documentation/v2/#rate-limit for
-        information about how requests expire.
+      description: The number of requests in your hourly quota that remain before you hit your request limit. See https://developers.digitalocean.com/documentation/v2/#rate-limit for information about how requests expire.
     ratelimit-reset:
       schema:
         type: integer
       example: 1444931833
-      description: >-
-        The time when the oldest request will expire. The value is given in Unix
-        epoch time. See
-        https://developers.digitalocean.com/documentation/v2/#rate-limit for
-        information about how requests expire.
+      description: The time when the oldest request will expire. The value is given in Unix epoch time. See https://developers.digitalocean.com/documentation/v2/#rate-limit for information about how requests expire.
 servers:
   - url: https://api.digitalocean.com
     description: production

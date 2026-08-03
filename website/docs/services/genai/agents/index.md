@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>agents</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>agents</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="agents" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.genai.agents" /></td></tr>
 </tbody></table>
@@ -163,9 +164,24 @@ A successful response.
     <td></td>
 </tr>
 <tr>
+    <td><CopyableCode code="mcp_servers" /></td>
+    <td><code>array</code></td>
+    <td>MCP (Model Context Protocol) servers attached to this agent</td>
+</tr>
+<tr>
     <td><CopyableCode code="model" /></td>
     <td><code>object</code></td>
     <td>Description of a Model</td>
+</tr>
+<tr>
+    <td><CopyableCode code="model_provider_key" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="model_router" /></td>
+    <td><code>object</code></td>
+    <td>Model router</td>
 </tr>
 <tr>
     <td><CopyableCode code="openai_api_key" /></td>
@@ -183,6 +199,11 @@ A successful response.
     <td>Whether the agent should provide in-response citations</td>
 </tr>
 <tr>
+    <td><CopyableCode code="reasoning_effort" /></td>
+    <td><code>string</code></td>
+    <td>The reasoning effort for the agent (example: example string)</td>
+</tr>
+<tr>
     <td><CopyableCode code="region" /></td>
     <td><code>string</code></td>
     <td>Region code (example: example string)</td>
@@ -190,7 +211,7 @@ A successful response.
 <tr>
     <td><CopyableCode code="retrieval_method" /></td>
     <td><code>string</code></td>
-    <td>- RETRIEVAL_METHOD_UNKNOWN: The retrieval method is unknown  - RETRIEVAL_METHOD_REWRITE: The retrieval method is rewrite  - RETRIEVAL_METHOD_STEP_BACK: The retrieval method is step back  - RETRIEVAL_METHOD_SUB_QUERIES: The retrieval method is sub queries  - RETRIEVAL_METHOD_NONE: The retrieval method is none (default: RETRIEVAL_METHOD_UNKNOWN, example: RETRIEVAL_METHOD_UNKNOWN)</td>
+    <td>- RETRIEVAL_METHOD_UNKNOWN: The retrieval method is unknown  - RETRIEVAL_METHOD_REWRITE: The retrieval method is rewrite  - RETRIEVAL_METHOD_STEP_BACK: The retrieval method is step back  - RETRIEVAL_METHOD_SUB_QUERIES: The retrieval method is sub queries  - RETRIEVAL_METHOD_NONE: The retrieval method is none (RETRIEVAL_METHOD_UNKNOWN, RETRIEVAL_METHOD_REWRITE, RETRIEVAL_METHOD_STEP_BACK, RETRIEVAL_METHOD_SUB_QUERIES, RETRIEVAL_METHOD_NONE) (default: RETRIEVAL_METHOD_UNKNOWN, example: RETRIEVAL_METHOD_UNKNOWN)</td>
 </tr>
 <tr>
     <td><CopyableCode code="route_created_at" /></td>
@@ -223,6 +244,11 @@ A successful response.
     <td>Represents an AgentTemplate entity</td>
 </tr>
 <tr>
+    <td><CopyableCode code="thinking_token_budget" /></td>
+    <td><code>integer (int64)</code></td>
+    <td>The thinking token budget for Anthropic extended thinking (0 = disabled)</td>
+</tr>
+<tr>
     <td><CopyableCode code="top_p" /></td>
     <td><code>number (float)</code></td>
     <td></td>
@@ -246,6 +272,26 @@ A successful response.
     <td><CopyableCode code="version_hash" /></td>
     <td><code>string</code></td>
     <td>The latest version of the agent (example: example string)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="vpc_egress_ips" /></td>
+    <td><code>array</code></td>
+    <td>VPC Egress IPs</td>
+</tr>
+<tr>
+    <td><CopyableCode code="vpc_uuid" /></td>
+    <td><code>string</code></td>
+    <td> (example: "12345678-1234-1234-1234-123456789012")</td>
+</tr>
+<tr>
+    <td><CopyableCode code="web_fetch_enabled" /></td>
+    <td><code>boolean</code></td>
+    <td>Whether this agent can use the built-in web_fetch tool.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="web_search_enabled" /></td>
+    <td><code>boolean</code></td>
+    <td>Whether this agent can use the built-in web_search tool.</td>
 </tr>
 <tr>
     <td><CopyableCode code="workspace" /></td>
@@ -405,6 +451,20 @@ The following methods are available for this resource:
     <td>To delete a function route from an agent, send a DELETE request to `/v2/gen-ai/agents/&#123;agent_uuid&#125;/functions/&#123;function_uuid&#125;`.</td>
 </tr>
 <tr>
+    <td><a href="#genai_attach_agent_guardrails"><CopyableCode code="genai_attach_agent_guardrails" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-agent_uuid"><code>agent_uuid</code></a></td>
+    <td></td>
+    <td>To attach guardrails to an agent, send a POST request to `/v2/gen-ai/agents/&#123;agent_uuid&#125;/guardrails`.</td>
+</tr>
+<tr>
+    <td><a href="#genai_detach_agent_guardrail"><CopyableCode code="genai_detach_agent_guardrail" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-agent_uuid"><code>agent_uuid</code></a>, <a href="#parameter-guardrail_uuid"><code>guardrail_uuid</code></a></td>
+    <td></td>
+    <td>To detach a guardrail from an agent, send a DELETE request to `/v2/gen-ai/agents/&#123;agent_uuid&#125;/guardrails/&#123;guardrail_uuid&#125;`.</td>
+</tr>
+<tr>
     <td><a href="#genai_attach_agent"><CopyableCode code="genai_attach_agent" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-parent_agent_uuid"><code>parent_agent_uuid</code></a>, <a href="#parameter-child_agent_uuid"><code>child_agent_uuid</code></a></td>
@@ -451,7 +511,7 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
 <tr id="parameter-agent_uuid">
     <td><CopyableCode code="agent_uuid" /></td>
     <td><code>string</code></td>
-    <td>The id of the agent the function route belongs to. (example: "123e4567-e89b-12d3-a456-426614174000")</td>
+    <td>The UUID of the agent. (example: "123e4567-e89b-12d3-a456-426614174000")</td>
 </tr>
 <tr id="parameter-child_agent_uuid">
     <td><CopyableCode code="child_agent_uuid" /></td>
@@ -462,6 +522,11 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     <td><CopyableCode code="function_uuid" /></td>
     <td><code>string</code></td>
     <td>The function route to be destroyed. This does not destroy the function itself. (example: "123e4567-e89b-12d3-a456-426614174000")</td>
+</tr>
+<tr id="parameter-guardrail_uuid">
+    <td><CopyableCode code="guardrail_uuid" /></td>
+    <td><code>string</code></td>
+    <td>The UUID of the guardrail to detach. (example: "123e4567-e89b-12d3-a456-426614174000")</td>
 </tr>
 <tr id="parameter-parent_agent_uuid">
     <td><CopyableCode code="parent_agent_uuid" /></td>
@@ -534,10 +599,14 @@ k,
 knowledge_bases,
 logging_config,
 max_tokens,
+mcp_servers,
 model,
+model_provider_key,
+model_router,
 openai_api_key,
 parent_agents,
 provide_citations,
+reasoning_effort,
 region,
 retrieval_method,
 route_created_at,
@@ -546,11 +615,16 @@ route_uuid,
 tags,
 temperature,
 template,
+thinking_token_budget,
 top_p,
 updated_at,
 url,
 uuid,
 version_hash,
+vpc_egress_ips,
+vpc_uuid,
+web_fetch_enabled,
+web_search_enabled,
 workspace
 FROM digitalocean.genai.agents
 WHERE uuid = '{{ uuid }}' -- required
@@ -608,28 +682,46 @@ To create a new agent, send a POST request to `/v2/gen-ai/agents`. The response 
 
 ```sql
 INSERT INTO digitalocean.genai.agents (
-data__anthropic_key_uuid,
-data__description,
-data__instruction,
-data__knowledge_base_uuid,
-data__model_uuid,
-data__name,
-data__open_ai_key_uuid,
-data__project_id,
-data__region,
-data__tags
+anthropic_key_uuid,
+description,
+instruction,
+knowledge_base_uuid,
+mcp_servers,
+model_provider_key_uuid,
+model_router_uuid,
+model_uuid,
+name,
+open_ai_key_uuid,
+project_id,
+reasoning_effort,
+region,
+router_preset_slug,
+tags,
+thinking_token_budget,
+web_fetch_enabled,
+web_search_enabled,
+workspace_uuid
 )
 SELECT 
 '{{ anthropic_key_uuid }}',
 '{{ description }}',
 '{{ instruction }}',
 '{{ knowledge_base_uuid }}',
+'{{ mcp_servers }}',
+'{{ model_provider_key_uuid }}',
+'{{ model_router_uuid }}',
 '{{ model_uuid }}',
 '{{ name }}',
 '{{ open_ai_key_uuid }}',
 '{{ project_id }}',
+'{{ reasoning_effort }}',
 '{{ region }}',
-'{{ tags }}'
+'{{ router_preset_slug }}',
+'{{ tags }}',
+{{ thinking_token_budget }},
+{{ web_fetch_enabled }},
+{{ web_search_enabled }},
+'{{ workspace_uuid }}'
 RETURNING
 agent
 ;
@@ -637,61 +729,84 @@ agent
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: agents
   props:
     - name: anthropic_key_uuid
-      value: string
-      description: >
+      value: "{{ anthropic_key_uuid }}"
+      description: |
         Optional Anthropic API key ID to use with Anthropic models
-        
     - name: description
-      value: string
-      description: >
+      value: "{{ description }}"
+      description: |
         A text description of the agent, not used in inference
-        
     - name: instruction
-      value: string
-      description: >
+      value: "{{ instruction }}"
+      description: |
         Agent instruction. Instructions help your agent to perform its job effectively. See [Write Effective Agent Instructions](https://docs.digitalocean.com/products/genai-platform/concepts/best-practices/#agent-instructions) for best practices.
-        
     - name: knowledge_base_uuid
-      value: array
-      description: >
+      value:
+        - "{{ knowledge_base_uuid }}"
+      description: |
         Ids of the knowledge base(s) to attach to the agent
-        
+    - name: mcp_servers
+      description: |
+        MCP (Model Context Protocol) servers to attach to the agent
+      value:
+        - allowed_tools: "{{ allowed_tools }}"
+          authorization: "{{ authorization }}"
+          headers: "{{ headers }}"
+          server_label: "{{ server_label }}"
+          server_url: "{{ server_url }}"
+    - name: model_provider_key_uuid
+      value: "{{ model_provider_key_uuid }}"
+    - name: model_router_uuid
+      value: "{{ model_router_uuid }}"
     - name: model_uuid
-      value: string
-      description: >
+      value: "{{ model_uuid }}"
+      description: |
         Identifier for the foundation model.
-        
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         Agent name
-        
     - name: open_ai_key_uuid
-      value: string
-      description: >
+      value: "{{ open_ai_key_uuid }}"
+      description: |
         Optional OpenAI API key ID to use with OpenAI models
-        
     - name: project_id
-      value: string
-      description: >
+      value: "{{ project_id }}"
+      description: |
         The id of the DigitalOcean project this agent will belong to
-        
+    - name: reasoning_effort
+      value: "{{ reasoning_effort }}"
     - name: region
-      value: string
-      description: >
+      value: "{{ region }}"
+      description: |
         The DigitalOcean region to deploy your agent in
-        
+    - name: router_preset_slug
+      value: "{{ router_preset_slug }}"
     - name: tags
-      value: array
-      description: >
+      value:
+        - "{{ tags }}"
+      description: |
         Agent tag to organize related resources
-        
-```
+    - name: thinking_token_budget
+      value: {{ thinking_token_budget }}
+    - name: web_fetch_enabled
+      value: {{ web_fetch_enabled }}
+      description: |
+        Whether the agent can use the built-in web_fetch tool to retrieve content from public web pages.
+    - name: web_search_enabled
+      value: {{ web_search_enabled }}
+      description: |
+        Whether the agent can use the built-in web_search tool to search the public web for current information.
+    - name: workspace_uuid
+      value: "{{ workspace_uuid }}"
+      description: |
+        Identifier for the workspace
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -712,23 +827,33 @@ To update an agent, send a PUT request to `/v2/gen-ai/agents/&#123;uuid&#125;`. 
 ```sql
 REPLACE digitalocean.genai.agents
 SET 
-data__agent_log_insights_enabled = {{ agent_log_insights_enabled }},
-data__anthropic_key_uuid = '{{ anthropic_key_uuid }}',
-data__conversation_logs_enabled = {{ conversation_logs_enabled }},
-data__description = '{{ description }}',
-data__instruction = '{{ instruction }}',
-data__k = {{ k }},
-data__max_tokens = {{ max_tokens }},
-data__model_uuid = '{{ model_uuid }}',
-data__name = '{{ name }}',
-data__open_ai_key_uuid = '{{ open_ai_key_uuid }}',
-data__project_id = '{{ project_id }}',
-data__provide_citations = {{ provide_citations }},
-data__retrieval_method = '{{ retrieval_method }}',
-data__tags = '{{ tags }}',
-data__temperature = {{ temperature }},
-data__top_p = {{ top_p }},
-data__uuid = '{{ uuid }}'
+agent_log_insights_enabled = {{ agent_log_insights_enabled }},
+allowed_domains = '{{ allowed_domains }}',
+anthropic_key_uuid = '{{ anthropic_key_uuid }}',
+clear_mcp_servers = {{ clear_mcp_servers }},
+conversation_logs_enabled = {{ conversation_logs_enabled }},
+description = '{{ description }}',
+instruction = '{{ instruction }}',
+k = {{ k }},
+max_tokens = {{ max_tokens }},
+mcp_servers = '{{ mcp_servers }}',
+model_provider_key_uuid = '{{ model_provider_key_uuid }}',
+model_router_uuid = '{{ model_router_uuid }}',
+model_uuid = '{{ model_uuid }}',
+name = '{{ name }}',
+open_ai_key_uuid = '{{ open_ai_key_uuid }}',
+project_id = '{{ project_id }}',
+provide_citations = {{ provide_citations }},
+reasoning_effort = '{{ reasoning_effort }}',
+retrieval_method = '{{ retrieval_method }}',
+router_preset_slug = '{{ router_preset_slug }}',
+tags = '{{ tags }}',
+temperature = {{ temperature }},
+thinking_token_budget = {{ thinking_token_budget }},
+top_p = {{ top_p }},
+uuid = '{{ uuid }}',
+web_fetch_enabled = {{ web_fetch_enabled }},
+web_search_enabled = {{ web_search_enabled }}
 WHERE 
 uuid = '{{ uuid }}' --required
 RETURNING
@@ -742,8 +867,8 @@ To move all listed agents a given workspace, send a PUT request to `/v2/gen-ai/w
 ```sql
 REPLACE digitalocean.genai.agents
 SET 
-data__agent_uuids = '{{ agent_uuids }}',
-data__workspace_uuid = '{{ workspace_uuid }}'
+agent_uuids = '{{ agent_uuids }}',
+workspace_uuid = '{{ workspace_uuid }}'
 WHERE 
 workspace_uuid = '{{ workspace_uuid }}' --required
 RETURNING
@@ -782,6 +907,8 @@ WHERE uuid = '{{ uuid }}' --required
         { label: 'genai_attach_agent_function', value: 'genai_attach_agent_function' },
         { label: 'genai_update_agent_function', value: 'genai_update_agent_function' },
         { label: 'genai_detach_agent_function', value: 'genai_detach_agent_function' },
+        { label: 'genai_attach_agent_guardrails', value: 'genai_attach_agent_guardrails' },
+        { label: 'genai_detach_agent_guardrail', value: 'genai_detach_agent_guardrail' },
         { label: 'genai_attach_agent', value: 'genai_attach_agent' },
         { label: 'genai_update_attached_agent', value: 'genai_update_attached_agent' },
         { label: 'genai_detach_agent', value: 'genai_detach_agent' },
@@ -838,6 +965,32 @@ To delete a function route from an agent, send a DELETE request to `/v2/gen-ai/a
 EXEC digitalocean.genai.agents.genai_detach_agent_function 
 @agent_uuid='{{ agent_uuid }}' --required, 
 @function_uuid='{{ function_uuid }}' --required
+;
+```
+</TabItem>
+<TabItem value="genai_attach_agent_guardrails">
+
+To attach guardrails to an agent, send a POST request to `/v2/gen-ai/agents/&#123;agent_uuid&#125;/guardrails`.
+
+```sql
+EXEC digitalocean.genai.agents.genai_attach_agent_guardrails 
+@agent_uuid='{{ agent_uuid }}' --required 
+@@json=
+'{
+"agent_uuid": "{{ agent_uuid }}", 
+"guardrails": "{{ guardrails }}"
+}'
+;
+```
+</TabItem>
+<TabItem value="genai_detach_agent_guardrail">
+
+To detach a guardrail from an agent, send a DELETE request to `/v2/gen-ai/agents/&#123;agent_uuid&#125;/guardrails/&#123;guardrail_uuid&#125;`.
+
+```sql
+EXEC digitalocean.genai.agents.genai_detach_agent_guardrail 
+@agent_uuid='{{ agent_uuid }}' --required, 
+@guardrail_uuid='{{ guardrail_uuid }}' --required
 ;
 ```
 </TabItem>

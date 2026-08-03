@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>subscriptions</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>subscriptions</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="subscriptions" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.container_registry.subscriptions" /></td></tr>
 </tbody></table>
@@ -90,28 +91,28 @@ The following methods are available for this resource:
     <td><CopyableCode code="select" /></td>
     <td></td>
     <td></td>
-    <td>A subscription is automatically created when you configure your container registry. To get information about your subscription, send a GET request to `/v2/registries/subscription`. It is similar to GET `/v2/registry/subscription` and exists for backward compatibility.</td>
+    <td>A subscription is automatically created when you configure your container registry. To get information about your subscription, send a GET request to `/v2/registries/subscription`. It is similar to GET `/v2/registry/subscription`.</td>
 </tr>
 <tr>
     <td><a href="#registries_update_subscription"><CopyableCode code="registries_update_subscription" /></a></td>
     <td><CopyableCode code="insert" /></td>
     <td></td>
     <td></td>
-    <td>After creating your registry, you can switch to a different subscription tier to better suit your needs. To do this, send a POST request to `/v2/registries/subscription`. It is similar to POST `/v2/registry/subscription` and exists for backward compatibility.</td>
+    <td>After creating your registry, you can switch to a different subscription tier to better suit your needs. To do this, send a POST request to `/v2/registries/subscription`. It is similar to POST `/v2/registry/subscription`.</td>
 </tr>
 <tr>
     <td><a href="#registry_get_subscription_legacy"><CopyableCode code="registry_get_subscription_legacy" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td></td>
     <td></td>
-    <td>A subscription is automatically created when you configure your container registry. To get information about your subscription, send a GET request to `/v2/registry/subscription`.</td>
+    <td>**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />A subscription is automatically created when you configure your<br />container registry. To get information about your subscription, send a GET<br />request to `/v2/registry/subscription`.<br /></td>
 </tr>
 <tr>
     <td><a href="#registry_update_subscription_legacy"><CopyableCode code="registry_update_subscription_legacy" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td></td>
     <td></td>
-    <td>After creating your registry, you can switch to a different subscription tier to better suit your needs. To do this, send a POST request to `/v2/registry/subscription`.</td>
+    <td>**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />After creating your registry, you can switch to a different<br />subscription tier to better suit your needs. To do this, send a POST request<br />to `/v2/registry/subscription`.<br /></td>
 </tr>
 </tbody>
 </table>
@@ -142,7 +143,7 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
 >
 <TabItem value="registries_get_subscription">
 
-A subscription is automatically created when you configure your container registry. To get information about your subscription, send a GET request to `/v2/registries/subscription`. It is similar to GET `/v2/registry/subscription` and exists for backward compatibility.
+A subscription is automatically created when you configure your container registry. To get information about your subscription, send a GET request to `/v2/registries/subscription`. It is similar to GET `/v2/registry/subscription`.
 
 ```sql
 SELECT
@@ -167,11 +168,11 @@ FROM digitalocean.container_registry.subscriptions
 >
 <TabItem value="registries_update_subscription">
 
-After creating your registry, you can switch to a different subscription tier to better suit your needs. To do this, send a POST request to `/v2/registries/subscription`. It is similar to POST `/v2/registry/subscription` and exists for backward compatibility.
+After creating your registry, you can switch to a different subscription tier to better suit your needs. To do this, send a POST request to `/v2/registries/subscription`. It is similar to POST `/v2/registry/subscription`.
 
 ```sql
 INSERT INTO digitalocean.container_registry.subscriptions (
-data__tier_slug
+tier_slug
 )
 SELECT 
 '{{ tier_slug }}'
@@ -182,17 +183,16 @@ subscription
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: subscriptions
   props:
     - name: tier_slug
-      value: string
-      description: >
+      value: "{{ tier_slug }}"
+      description: |
         The slug of the subscription tier to sign up for.
-        
       valid_values: ['starter', 'basic', 'professional']
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -208,7 +208,7 @@ subscription
 >
 <TabItem value="registry_get_subscription_legacy">
 
-A subscription is automatically created when you configure your container registry. To get information about your subscription, send a GET request to `/v2/registry/subscription`.
+**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />A subscription is automatically created when you configure your<br />container registry. To get information about your subscription, send a GET<br />request to `/v2/registry/subscription`.<br />
 
 ```sql
 EXEC digitalocean.container_registry.subscriptions.registry_get_subscription_legacy 
@@ -218,7 +218,7 @@ EXEC digitalocean.container_registry.subscriptions.registry_get_subscription_leg
 </TabItem>
 <TabItem value="registry_update_subscription_legacy">
 
-After creating your registry, you can switch to a different subscription tier to better suit your needs. To do this, send a POST request to `/v2/registry/subscription`.
+**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />After creating your registry, you can switch to a different<br />subscription tier to better suit your needs. To do this, send a POST request<br />to `/v2/registry/subscription`.<br />
 
 ```sql
 EXEC digitalocean.container_registry.subscriptions.registry_update_subscription_legacy 

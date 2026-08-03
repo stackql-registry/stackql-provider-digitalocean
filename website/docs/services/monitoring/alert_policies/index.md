@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>alert_policies</code> resource
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>alert_policies</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="alert_policies" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.monitoring.alert_policies" /></td></tr>
 </tbody></table>
@@ -59,7 +60,7 @@ An alert policy.
 <tr>
     <td><CopyableCode code="compare" /></td>
     <td><code>string</code></td>
-    <td> (example: GreaterThan)</td>
+    <td> (GreaterThan, LessThan) (example: GreaterThan)</td>
 </tr>
 <tr>
     <td><CopyableCode code="description" /></td>
@@ -84,7 +85,7 @@ An alert policy.
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td> (example: v1/insights/droplet/cpu)</td>
+    <td> (v1/insights/droplet/load_1, v1/insights/droplet/load_5, v1/insights/droplet/load_15, v1/insights/droplet/memory_utilization_percent, v1/insights/droplet/disk_utilization_percent, v1/insights/droplet/cpu, v1/insights/droplet/disk_read, v1/insights/droplet/disk_write, v1/insights/droplet/public_outbound_bandwidth, v1/insights/droplet/public_inbound_bandwidth, v1/insights/droplet/private_outbound_bandwidth, v1/insights/droplet/private_inbound_bandwidth, v1/insights/lbaas/avg_cpu_utilization_percent, v1/insights/lbaas/connection_utilization_percent, v1/insights/lbaas/droplet_health, v1/insights/lbaas/tls_connections_per_second_utilization_percent, v1/insights/lbaas/increase_in_http_error_rate_percentage_5xx, v1/insights/lbaas/increase_in_http_error_rate_percentage_4xx, v1/insights/lbaas/increase_in_http_error_rate_count_5xx, v1/insights/lbaas/increase_in_http_error_rate_count_4xx, v1/insights/lbaas/high_http_request_response_time, v1/insights/lbaas/high_http_request_response_time_50p, v1/insights/lbaas/high_http_request_response_time_95p, v1/insights/lbaas/high_http_request_response_time_99p, v1/dbaas/alerts/load_15_alerts, v1/dbaas/alerts/memory_utilization_alerts, v1/dbaas/alerts/disk_utilization_alerts, v1/dbaas/alerts/cpu_alerts, v1/droplet/autoscale_alerts/current_instances, v1/droplet/autoscale_alerts/target_instances, v1/droplet/autoscale_alerts/current_cpu_utilization, v1/droplet/autoscale_alerts/target_cpu_utilization, v1/droplet/autoscale_alerts/current_memory_utilization, v1/droplet/autoscale_alerts/target_memory_utilization, v1/droplet/autoscale_alerts/scale_up, v1/droplet/autoscale_alerts/scale_down) (example: v1/insights/droplet/cpu)</td>
 </tr>
 <tr>
     <td><CopyableCode code="uuid" /></td>
@@ -99,7 +100,7 @@ An alert policy.
 <tr>
     <td><CopyableCode code="window" /></td>
     <td><code>string</code></td>
-    <td> (example: 5m)</td>
+    <td> (5m, 10m, 30m, 1h) (example: 5m)</td>
 </tr>
 </tbody>
 </table>
@@ -169,14 +170,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#monitoring_create_alert_policy"><CopyableCode code="monitoring_create_alert_policy" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__type"><code>data__type</code></a>, <a href="#parameter-data__description"><code>data__description</code></a>, <a href="#parameter-data__compare"><code>data__compare</code></a>, <a href="#parameter-data__value"><code>data__value</code></a>, <a href="#parameter-data__window"><code>data__window</code></a>, <a href="#parameter-data__entities"><code>data__entities</code></a>, <a href="#parameter-data__tags"><code>data__tags</code></a>, <a href="#parameter-data__alerts"><code>data__alerts</code></a>, <a href="#parameter-data__enabled"><code>data__enabled</code></a></td>
+    <td><a href="#parameter-type"><code>type</code></a>, <a href="#parameter-description"><code>description</code></a>, <a href="#parameter-compare"><code>compare</code></a>, <a href="#parameter-value"><code>value</code></a>, <a href="#parameter-window"><code>window</code></a>, <a href="#parameter-entities"><code>entities</code></a>, <a href="#parameter-tags"><code>tags</code></a>, <a href="#parameter-alerts"><code>alerts</code></a>, <a href="#parameter-enabled"><code>enabled</code></a></td>
     <td></td>
     <td>To create a new alert, send a POST request to `/v2/monitoring/alerts`.</td>
 </tr>
 <tr>
     <td><a href="#monitoring_update_alert_policy"><CopyableCode code="monitoring_update_alert_policy" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-alert_uuid"><code>alert_uuid</code></a>, <a href="#parameter-data__type"><code>data__type</code></a>, <a href="#parameter-data__description"><code>data__description</code></a>, <a href="#parameter-data__compare"><code>data__compare</code></a>, <a href="#parameter-data__value"><code>data__value</code></a>, <a href="#parameter-data__window"><code>data__window</code></a>, <a href="#parameter-data__entities"><code>data__entities</code></a>, <a href="#parameter-data__tags"><code>data__tags</code></a>, <a href="#parameter-data__alerts"><code>data__alerts</code></a>, <a href="#parameter-data__enabled"><code>data__enabled</code></a></td>
+    <td><a href="#parameter-alert_uuid"><code>alert_uuid</code></a>, <a href="#parameter-type"><code>type</code></a>, <a href="#parameter-description"><code>description</code></a>, <a href="#parameter-compare"><code>compare</code></a>, <a href="#parameter-value"><code>value</code></a>, <a href="#parameter-window"><code>window</code></a>, <a href="#parameter-entities"><code>entities</code></a>, <a href="#parameter-tags"><code>tags</code></a>, <a href="#parameter-alerts"><code>alerts</code></a>, <a href="#parameter-enabled"><code>enabled</code></a></td>
     <td></td>
     <td>To update en existing policy, send a PUT request to `v2/monitoring/alerts/&#123;alert_uuid&#125;`.</td>
 </tr>
@@ -284,15 +285,15 @@ To create a new alert, send a POST request to `/v2/monitoring/alerts`.
 
 ```sql
 INSERT INTO digitalocean.monitoring.alert_policies (
-data__alerts,
-data__compare,
-data__description,
-data__enabled,
-data__entities,
-data__tags,
-data__type,
-data__value,
-data__window
+alerts,
+compare,
+description,
+enabled,
+entities,
+tags,
+type,
+value,
+window
 )
 SELECT 
 '{{ alerts }}' /* required */,
@@ -311,32 +312,39 @@ policy
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: alert_policies
   props:
     - name: alerts
-      value: object
+      value:
+        email:
+          - "{{ email }}"
+        slack:
+          - channel: "{{ channel }}"
+            url: "{{ url }}"
     - name: compare
-      value: string
+      value: "{{ compare }}"
       valid_values: ['GreaterThan', 'LessThan']
     - name: description
-      value: string
+      value: "{{ description }}"
     - name: enabled
-      value: boolean
+      value: {{ enabled }}
     - name: entities
-      value: array
+      value:
+        - "{{ entities }}"
     - name: tags
-      value: array
+      value:
+        - "{{ tags }}"
     - name: type
-      value: string
+      value: "{{ type }}"
       valid_values: ['v1/insights/droplet/load_1', 'v1/insights/droplet/load_5', 'v1/insights/droplet/load_15', 'v1/insights/droplet/memory_utilization_percent', 'v1/insights/droplet/disk_utilization_percent', 'v1/insights/droplet/cpu', 'v1/insights/droplet/disk_read', 'v1/insights/droplet/disk_write', 'v1/insights/droplet/public_outbound_bandwidth', 'v1/insights/droplet/public_inbound_bandwidth', 'v1/insights/droplet/private_outbound_bandwidth', 'v1/insights/droplet/private_inbound_bandwidth', 'v1/insights/lbaas/avg_cpu_utilization_percent', 'v1/insights/lbaas/connection_utilization_percent', 'v1/insights/lbaas/droplet_health', 'v1/insights/lbaas/tls_connections_per_second_utilization_percent', 'v1/insights/lbaas/increase_in_http_error_rate_percentage_5xx', 'v1/insights/lbaas/increase_in_http_error_rate_percentage_4xx', 'v1/insights/lbaas/increase_in_http_error_rate_count_5xx', 'v1/insights/lbaas/increase_in_http_error_rate_count_4xx', 'v1/insights/lbaas/high_http_request_response_time', 'v1/insights/lbaas/high_http_request_response_time_50p', 'v1/insights/lbaas/high_http_request_response_time_95p', 'v1/insights/lbaas/high_http_request_response_time_99p', 'v1/dbaas/alerts/load_15_alerts', 'v1/dbaas/alerts/memory_utilization_alerts', 'v1/dbaas/alerts/disk_utilization_alerts', 'v1/dbaas/alerts/cpu_alerts', 'v1/droplet/autoscale_alerts/current_instances', 'v1/droplet/autoscale_alerts/target_instances', 'v1/droplet/autoscale_alerts/current_cpu_utilization', 'v1/droplet/autoscale_alerts/target_cpu_utilization', 'v1/droplet/autoscale_alerts/current_memory_utilization', 'v1/droplet/autoscale_alerts/target_memory_utilization', 'v1/droplet/autoscale_alerts/scale_up', 'v1/droplet/autoscale_alerts/scale_down']
     - name: value
-      value: number
+      value: {{ value }}
     - name: window
-      value: string
+      value: "{{ window }}"
       valid_values: ['5m', '10m', '30m', '1h']
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -356,26 +364,26 @@ To update en existing policy, send a PUT request to `v2/monitoring/alerts/&#123;
 ```sql
 REPLACE digitalocean.monitoring.alert_policies
 SET 
-data__alerts = '{{ alerts }}',
-data__compare = '{{ compare }}',
-data__description = '{{ description }}',
-data__enabled = {{ enabled }},
-data__entities = '{{ entities }}',
-data__tags = '{{ tags }}',
-data__type = '{{ type }}',
-data__value = {{ value }},
-data__window = '{{ window }}'
+alerts = '{{ alerts }}',
+compare = '{{ compare }}',
+description = '{{ description }}',
+enabled = {{ enabled }},
+entities = '{{ entities }}',
+tags = '{{ tags }}',
+type = '{{ type }}',
+value = {{ value }},
+window = '{{ window }}'
 WHERE 
 alert_uuid = '{{ alert_uuid }}' --required
-AND data__type = '{{ type }}' --required
-AND data__description = '{{ description }}' --required
-AND data__compare = '{{ compare }}' --required
-AND data__value = '{{ value }}' --required
-AND data__window = '{{ window }}' --required
-AND data__entities = '{{ entities }}' --required
-AND data__tags = '{{ tags }}' --required
-AND data__alerts = '{{ alerts }}' --required
-AND data__enabled = {{ enabled }} --required
+AND type = '{{ type }}' --required
+AND description = '{{ description }}' --required
+AND compare = '{{ compare }}' --required
+AND value = '{{ value }}' --required
+AND window = '{{ window }}' --required
+AND entities = '{{ entities }}' --required
+AND tags = '{{ tags }}' --required
+AND alerts = '{{ alerts }}' --required
+AND enabled = {{ enabled }} --required
 RETURNING
 policy;
 ```

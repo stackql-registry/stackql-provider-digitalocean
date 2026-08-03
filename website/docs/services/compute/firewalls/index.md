@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>firewalls</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>firewalls</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="firewalls" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.firewalls" /></td></tr>
 </tbody></table>
@@ -59,7 +60,7 @@ The response will be a JSON object with a firewall key. This will be set to an o
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>A human-readable name for a firewall. The name must begin with an alphanumeric character. Subsequent characters must either be alphanumeric characters, a period (.), or a dash (-). (pattern: <code>^[a-zA-Z0-9][a-zA-Z0-9\.-]+$</code>, example: firewall)</td>
+    <td>A human-readable name for a firewall. The name must begin with an alphanumeric character. Subsequent characters must either be alphanumeric characters, a period (.), or a dash (-). (pattern: <code>^&#91;a-zA-Z0-9&#93;&#91;a-zA-Z0-9\.-&#93;+$</code>, example: firewall)</td>
 </tr>
 <tr>
     <td><CopyableCode code="created_at" /></td>
@@ -89,7 +90,7 @@ The response will be a JSON object with a firewall key. This will be set to an o
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>A status string indicating the current state of the firewall. This can be "waiting", "succeeded", or "failed". (example: waiting)</td>
+    <td>A status string indicating the current state of the firewall. This can be "waiting", "succeeded", or "failed". (waiting, succeeded, failed) (example: waiting)</td>
 </tr>
 <tr>
     <td><CopyableCode code="tags" /></td>
@@ -120,7 +121,7 @@ To list all of the firewalls available on your account, send a GET request to `/
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>A human-readable name for a firewall. The name must begin with an alphanumeric character. Subsequent characters must either be alphanumeric characters, a period (.), or a dash (-). (pattern: <code>^[a-zA-Z0-9][a-zA-Z0-9\.-]+$</code>, example: firewall)</td>
+    <td>A human-readable name for a firewall. The name must begin with an alphanumeric character. Subsequent characters must either be alphanumeric characters, a period (.), or a dash (-). (pattern: <code>^&#91;a-zA-Z0-9&#93;&#91;a-zA-Z0-9\.-&#93;+$</code>, example: firewall)</td>
 </tr>
 <tr>
     <td><CopyableCode code="created_at" /></td>
@@ -150,7 +151,7 @@ To list all of the firewalls available on your account, send a GET request to `/
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>A status string indicating the current state of the firewall. This can be "waiting", "succeeded", or "failed". (example: waiting)</td>
+    <td>A status string indicating the current state of the firewall. This can be "waiting", "succeeded", or "failed". (waiting, succeeded, failed) (example: waiting)</td>
 </tr>
 <tr>
     <td><CopyableCode code="tags" /></td>
@@ -194,14 +195,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#firewalls_create"><CopyableCode code="firewalls_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__inbound_rules"><code>data__inbound_rules</code></a></td>
+    <td><a href="#parameter-inbound_rules"><code>inbound_rules</code></a></td>
     <td></td>
     <td>To create a new firewall, send a POST request to `/v2/firewalls`. The request<br />must contain at least one inbound or outbound access rule.<br /></td>
 </tr>
 <tr>
     <td><a href="#firewalls_update"><CopyableCode code="firewalls_update" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-firewall_id"><code>firewall_id</code></a>, <a href="#parameter-data__inbound_rules"><code>data__inbound_rules</code></a></td>
+    <td><a href="#parameter-firewall_id"><code>firewall_id</code></a>, <a href="#parameter-inbound_rules"><code>inbound_rules</code></a></td>
     <td></td>
     <td>To update the configuration of an existing firewall, send a PUT request to<br />`/v2/firewalls/$FIREWALL_ID`. The request should contain a full representation<br />of the firewall including existing attributes. **Note that any attributes that<br />are not provided will be reset to their default values.**<br /><br /><br />You must have read access (e.g. `droplet:read`) to all resources attached<br />to the firewall to successfully update the firewall.<br /></td>
 </tr>
@@ -328,11 +329,11 @@ To create a new firewall, send a POST request to `/v2/firewalls`. The request<br
 
 ```sql
 INSERT INTO digitalocean.compute.firewalls (
-data__name,
-data__droplet_ids,
-data__tags,
-data__inbound_rules,
-data__outbound_rules
+name,
+droplet_ids,
+tags,
+inbound_rules,
+outbound_rules
 )
 SELECT 
 '{{ name }}',
@@ -347,30 +348,55 @@ firewall
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: firewalls
   props:
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         A human-readable name for a firewall. The name must begin with an alphanumeric character. Subsequent characters must either be alphanumeric characters, a period (.), or a dash (-).
-        
     - name: droplet_ids
-      value: array
-      description: >
-        An array containing the IDs of the Droplets assigned to the firewall. <br><br>Requires `droplet:read` scope.
-        
+      value:
+        - {{ droplet_ids }}
+      description: |
+        An array containing the IDs of the Droplets assigned to the firewall. <br><br>Requires \`droplet:read\` scope.
     - name: tags
-      value: array
-      description: >
-        A flat array of tag names as strings to be applied to the resource. Tag names must exist in order to be referenced in a request. <br><br>Requires `tag:create` and `tag:read` scopes.
-        
+      value:
+        - "{{ tags }}"
+      description: |
+        A flat array of tag names as strings to be applied to the resource. Tag names must exist in order to be referenced in a request. <br><br>Requires \`tag:create\` and \`tag:read\` scopes.
     - name: inbound_rules
-      value: array
+      value:
+        - protocol: "{{ protocol }}"
+          ports: "{{ ports }}"
+          sources:
+            addresses:
+              - "{{ addresses }}"
+            droplet_ids:
+              - {{ droplet_ids }}
+            load_balancer_uids:
+              - "{{ load_balancer_uids }}"
+            kubernetes_ids:
+              - "{{ kubernetes_ids }}"
+            tags:
+              - "{{ tags }}"
     - name: outbound_rules
-      value: array
-```
+      value:
+        - protocol: "{{ protocol }}"
+          ports: "{{ ports }}"
+          destinations:
+            addresses:
+              - "{{ addresses }}"
+            droplet_ids:
+              - {{ droplet_ids }}
+            load_balancer_uids:
+              - "{{ load_balancer_uids }}"
+            kubernetes_ids:
+              - "{{ kubernetes_ids }}"
+            tags:
+              - "{{ tags }}"
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -390,14 +416,14 @@ To update the configuration of an existing firewall, send a PUT request to<br />
 ```sql
 REPLACE digitalocean.compute.firewalls
 SET 
-data__name = '{{ name }}',
-data__droplet_ids = '{{ droplet_ids }}',
-data__tags = '{{ tags }}',
-data__inbound_rules = '{{ inbound_rules }}',
-data__outbound_rules = '{{ outbound_rules }}'
+name = '{{ name }}',
+droplet_ids = '{{ droplet_ids }}',
+tags = '{{ tags }}',
+inbound_rules = '{{ inbound_rules }}',
+outbound_rules = '{{ outbound_rules }}'
 WHERE 
 firewall_id = '{{ firewall_id }}' --required
-AND data__inbound_rules = '{{ inbound_rules }}' --required
+AND inbound_rules = '{{ inbound_rules }}' --required
 RETURNING
 firewall;
 ```

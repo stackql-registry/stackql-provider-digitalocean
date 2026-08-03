@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>evaluation_run_prompt_results<
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>evaluation_run_prompt_results</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="evaluation_run_prompt_results" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.genai.evaluation_run_prompt_results" /></td></tr>
 </tbody></table>
@@ -54,6 +55,16 @@ A successful response.
     <td><CopyableCode code="prompt_id" /></td>
     <td><code>integer (int64)</code></td>
     <td>Prompt ID</td>
+</tr>
+<tr>
+    <td><CopyableCode code="trace_id" /></td>
+    <td><code>string</code></td>
+    <td>The trace id for the prompt. (example: 123e4567-e89b-12d3-a456-426614174000)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="evaluation_trace_spans" /></td>
+    <td><code>array</code></td>
+    <td>The evaluated trace spans.</td>
 </tr>
 <tr>
     <td><CopyableCode code="ground_truth" /></td>
@@ -161,6 +172,8 @@ To retrieve results of an evaluation run, send a GET request to `/v2/gen-ai/eval
 ```sql
 SELECT
 prompt_id,
+trace_id,
+evaluation_trace_spans,
 ground_truth,
 input,
 input_tokens,

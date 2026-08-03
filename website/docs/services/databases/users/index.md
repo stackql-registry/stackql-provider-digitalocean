@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>users</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>users</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="users" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.users" /></td></tr>
 </tbody></table>
@@ -79,7 +80,7 @@ A JSON object with a key of `user`.
 <tr>
     <td><CopyableCode code="role" /></td>
     <td><code>string</code></td>
-    <td>A string representing the database user's role. The value will be either "primary" or "normal".  (example: normal)</td>
+    <td>A string representing the database user's role. The value will be either "primary" or "normal".  (primary, normal) (example: normal)</td>
 </tr>
 <tr>
     <td><CopyableCode code="settings" /></td>
@@ -130,7 +131,7 @@ A JSON object with a key of `users`.
 <tr>
     <td><CopyableCode code="role" /></td>
     <td><code>string</code></td>
-    <td>A string representing the database user's role. The value will be either "primary" or "normal".  (example: normal)</td>
+    <td>A string representing the database user's role. The value will be either "primary" or "normal".  (primary, normal) (example: normal)</td>
 </tr>
 <tr>
     <td><CopyableCode code="settings" /></td>
@@ -162,28 +163,28 @@ The following methods are available for this resource:
     <td><CopyableCode code="select" /></td>
     <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-username"><code>username</code></a></td>
     <td></td>
-    <td>To show information about an existing database user, send a GET request to<br />`/v2/databases/$DATABASE_ID/users/$USERNAME`.<br /><br />Note: User management is not supported for Caching or Valkey clusters.<br /><br />The response will be a JSON object with a `user` key. This will be set to an object<br />containing the standard database user attributes. The user's password will not show<br />up unless the `database:view_credentials` scope is present.<br /><br />For MySQL clusters, additional options will be contained in the `mysql_settings`<br />object.<br /><br />For Kafka clusters, additional options will be contained in the `settings` object.<br /><br />For MongoDB clusters, additional information will be contained in the mongo_user_settings object<br /></td>
+    <td>To show information about an existing database user, send a GET request to<br />`/v2/databases/$DATABASE_ID/users/$USERNAME`.<br /><br />Note: User management is not supported for Caching or Valkey clusters.<br /><br />The response will be a JSON object with a `user` key. This will be set to an object<br />containing the standard database user attributes. The user's password will not show<br />up unless the `database:view_credentials` scope is present.<br /><br />For MySQL clusters, additional options will be contained in the `mysql_settings`<br />object.<br /><br />For PostgreSQL clusters, additional options will be contained in the `settings`<br />object (for example, `pg_allow_replication`).<br /><br />For Kafka clusters, additional options will be contained in the `settings` object.<br /><br />For MongoDB clusters, additional information will be contained in the mongo_user_settings object<br /></td>
 </tr>
 <tr>
     <td><a href="#databases_list_users"><CopyableCode code="databases_list_users" /></a></td>
     <td><CopyableCode code="select" /></td>
     <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a></td>
     <td></td>
-    <td>To list all of the users for your database cluster, send a GET request to<br />`/v2/databases/$DATABASE_ID/users`.<br /><br />Note: User management is not supported for Caching or Valkey clusters.<br /><br />The result will be a JSON object with a `users` key. This will be set to an array<br />of database user objects, each of which will contain the standard database user attributes.<br />User passwords will not show without the `database:view_credentials` scope.<br /><br />For MySQL clusters, additional options will be contained in the mysql_settings object.<br /><br />For MongoDB clusters, additional information will be contained in the mongo_user_settings object<br /></td>
+    <td>To list all of the users for your database cluster, send a GET request to<br />`/v2/databases/$DATABASE_ID/users`.<br /><br />Note: User management is not supported for Caching or Valkey clusters.<br /><br />The result will be a JSON object with a `users` key. This will be set to an array<br />of database user objects, each of which will contain the standard database user attributes.<br />User passwords will not show without the `database:view_credentials` scope.<br /><br />For MySQL clusters, additional options will be contained in the mysql_settings object.<br /><br />For PostgreSQL clusters, additional options will be contained in the `settings`<br />object (for example, `pg_allow_replication`).<br /><br />For Kafka clusters, additional options will be contained in the `settings` object.<br /><br />For MongoDB clusters, additional information will be contained in the mongo_user_settings object<br /></td>
 </tr>
 <tr>
     <td><a href="#databases_add_user"><CopyableCode code="databases_add_user" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-data__name"><code>data__name</code></a></td>
+    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
-    <td>To add a new database user, send a POST request to `/v2/databases/$DATABASE_ID/users`<br />with the desired username.<br /><br />Note: User management is not supported for Caching or Valkey clusters.<br /><br />When adding a user to a MySQL cluster, additional options can be configured in the<br />`mysql_settings` object.<br /><br />When adding a user to a Kafka cluster, additional options can be configured in<br />the `settings` object.<br /><br /> When adding a user to a MongoDB cluster, additional options can be configured in<br />the `settings.mongo_user_settings` object.<br /><br />The response will be a JSON object with a key called `user`. The value of this will be an<br />object that contains the standard attributes associated with a database user including<br />its randomly generated password.<br /></td>
+    <td>To add a new database user, send a POST request to `/v2/databases/$DATABASE_ID/users`<br />with the desired username.<br /><br />Note: User management is not supported for Caching or Valkey clusters.<br /><br />When adding a user to a MySQL cluster, additional options can be configured in the<br />`mysql_settings` object.<br /><br />When adding a user to a PostgreSQL cluster, additional options can be configured in<br />the `settings` object (for example, `pg_allow_replication`). When<br />`pg_allow_replication` is omitted, it defaults to `false`.<br /><br />When adding a user to a Kafka cluster, additional options can be configured in<br />the `settings` object.<br /><br />When adding a user to a MongoDB cluster, additional options can be configured in<br />the `settings.mongo_user_settings` object.<br /><br />The response will be a JSON object with a key called `user`. The value of this will be an<br />object that contains the standard attributes associated with a database user including<br />its randomly generated password.<br /></td>
 </tr>
 <tr>
     <td><a href="#databases_update_user"><CopyableCode code="databases_update_user" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-username"><code>username</code></a>, <a href="#parameter-data__settings"><code>data__settings</code></a></td>
+    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-username"><code>username</code></a>, <a href="#parameter-settings"><code>settings</code></a></td>
     <td></td>
-    <td>To update an existing database user, send a PUT request to `/v2/databases/$DATABASE_ID/users/$USERNAME`<br />with the desired settings.<br /><br />**Note**: only `settings` can be updated via this type of request. If you wish to change the name of a user,<br />you must recreate a new user.<br /><br />The response will be a JSON object with a key called `user`. The value of this will be an<br />object that contains the name of the update database user, along with the `settings` object that<br />has been updated.<br /></td>
+    <td>To update an existing database user, send a PUT request to `/v2/databases/$DATABASE_ID/users/$USERNAME`<br />with the desired settings.<br /><br />**Note**: only `settings` can be updated via this type of request. If you wish to change the name of a user,<br />you must recreate a new user.<br /><br />For PostgreSQL clusters, you can update `settings.pg_allow_replication` to enable or<br />disable replication privileges for the user. When omitted, the value defaults to `false`.<br /><br />For Kafka and OpenSearch clusters, additional options can be configured in the<br />`settings` object (for example, topic or index ACLs).<br /><br />The response will be a JSON object with a key called `user`. The value of this will be an<br />object that contains the name of the updated database user, along with the `settings` object that<br />has been updated.<br /></td>
 </tr>
 <tr>
     <td><a href="#databases_delete_user"><CopyableCode code="databases_delete_user" /></a></td>
@@ -239,7 +240,7 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
 >
 <TabItem value="databases_get_user">
 
-To show information about an existing database user, send a GET request to<br />`/v2/databases/$DATABASE_ID/users/$USERNAME`.<br /><br />Note: User management is not supported for Caching or Valkey clusters.<br /><br />The response will be a JSON object with a `user` key. This will be set to an object<br />containing the standard database user attributes. The user's password will not show<br />up unless the `database:view_credentials` scope is present.<br /><br />For MySQL clusters, additional options will be contained in the `mysql_settings`<br />object.<br /><br />For Kafka clusters, additional options will be contained in the `settings` object.<br /><br />For MongoDB clusters, additional information will be contained in the mongo_user_settings object<br />
+To show information about an existing database user, send a GET request to<br />`/v2/databases/$DATABASE_ID/users/$USERNAME`.<br /><br />Note: User management is not supported for Caching or Valkey clusters.<br /><br />The response will be a JSON object with a `user` key. This will be set to an object<br />containing the standard database user attributes. The user's password will not show<br />up unless the `database:view_credentials` scope is present.<br /><br />For MySQL clusters, additional options will be contained in the `mysql_settings`<br />object.<br /><br />For PostgreSQL clusters, additional options will be contained in the `settings`<br />object (for example, `pg_allow_replication`).<br /><br />For Kafka clusters, additional options will be contained in the `settings` object.<br /><br />For MongoDB clusters, additional information will be contained in the mongo_user_settings object<br />
 
 ```sql
 SELECT
@@ -258,7 +259,7 @@ AND username = '{{ username }}' -- required
 </TabItem>
 <TabItem value="databases_list_users">
 
-To list all of the users for your database cluster, send a GET request to<br />`/v2/databases/$DATABASE_ID/users`.<br /><br />Note: User management is not supported for Caching or Valkey clusters.<br /><br />The result will be a JSON object with a `users` key. This will be set to an array<br />of database user objects, each of which will contain the standard database user attributes.<br />User passwords will not show without the `database:view_credentials` scope.<br /><br />For MySQL clusters, additional options will be contained in the mysql_settings object.<br /><br />For MongoDB clusters, additional information will be contained in the mongo_user_settings object<br />
+To list all of the users for your database cluster, send a GET request to<br />`/v2/databases/$DATABASE_ID/users`.<br /><br />Note: User management is not supported for Caching or Valkey clusters.<br /><br />The result will be a JSON object with a `users` key. This will be set to an array<br />of database user objects, each of which will contain the standard database user attributes.<br />User passwords will not show without the `database:view_credentials` scope.<br /><br />For MySQL clusters, additional options will be contained in the mysql_settings object.<br /><br />For PostgreSQL clusters, additional options will be contained in the `settings`<br />object (for example, `pg_allow_replication`).<br /><br />For Kafka clusters, additional options will be contained in the `settings` object.<br /><br />For MongoDB clusters, additional information will be contained in the mongo_user_settings object<br />
 
 ```sql
 SELECT
@@ -288,14 +289,14 @@ WHERE database_cluster_uuid = '{{ database_cluster_uuid }}' -- required
 >
 <TabItem value="databases_add_user">
 
-To add a new database user, send a POST request to `/v2/databases/$DATABASE_ID/users`<br />with the desired username.<br /><br />Note: User management is not supported for Caching or Valkey clusters.<br /><br />When adding a user to a MySQL cluster, additional options can be configured in the<br />`mysql_settings` object.<br /><br />When adding a user to a Kafka cluster, additional options can be configured in<br />the `settings` object.<br /><br /> When adding a user to a MongoDB cluster, additional options can be configured in<br />the `settings.mongo_user_settings` object.<br /><br />The response will be a JSON object with a key called `user`. The value of this will be an<br />object that contains the standard attributes associated with a database user including<br />its randomly generated password.<br />
+To add a new database user, send a POST request to `/v2/databases/$DATABASE_ID/users`<br />with the desired username.<br /><br />Note: User management is not supported for Caching or Valkey clusters.<br /><br />When adding a user to a MySQL cluster, additional options can be configured in the<br />`mysql_settings` object.<br /><br />When adding a user to a PostgreSQL cluster, additional options can be configured in<br />the `settings` object (for example, `pg_allow_replication`). When<br />`pg_allow_replication` is omitted, it defaults to `false`.<br /><br />When adding a user to a Kafka cluster, additional options can be configured in<br />the `settings` object.<br /><br />When adding a user to a MongoDB cluster, additional options can be configured in<br />the `settings.mongo_user_settings` object.<br /><br />The response will be a JSON object with a key called `user`. The value of this will be an<br />object that contains the standard attributes associated with a database user including<br />its randomly generated password.<br />
 
 ```sql
 INSERT INTO digitalocean.databases.users (
-data__name,
-data__mysql_settings,
-data__settings,
-data__readonly,
+name,
+mysql_settings,
+settings,
+readonly,
 database_cluster_uuid
 )
 SELECT 
@@ -311,31 +312,41 @@ user
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: users
   props:
     - name: database_cluster_uuid
-      value: string (uuid)
+      value: "{{ database_cluster_uuid }}"
       description: Required parameter for the users resource.
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The name of a database user.
-        
     - name: mysql_settings
-      value: object
+      value:
+        auth_plugin: "{{ auth_plugin }}"
     - name: settings
-      value: object
+      value:
+        pg_allow_replication: {{ pg_allow_replication }}
+        opensearch_acl:
+          - index: "{{ index }}"
+            permission: "{{ permission }}"
+        acl:
+          - id: "{{ id }}"
+            topic: "{{ topic }}"
+            permission: "{{ permission }}"
+        mongo_user_settings:
+          databases:
+            - "{{ databases }}"
+          role: "{{ role }}"
     - name: readonly
-      value: boolean
-      description: >
-        (To be deprecated: use settings.mongo_user_settings.role instead for access controls to MongoDB databases). 
-For MongoDB clusters, set to `true` to create a read-only user.
-This option is not currently supported for other database engines.
-           
+      value: {{ readonly }}
+      description: |
+        (To be deprecated: use settings.mongo_user_settings.role instead for access controls to MongoDB databases).
+        For MongoDB clusters, set to \`true\` to create a read-only user.
+        This option is not currently supported for other database engines.
+`}</CodeBlock>
 
-```
 </TabItem>
 </Tabs>
 
@@ -350,16 +361,16 @@ This option is not currently supported for other database engines.
 >
 <TabItem value="databases_update_user">
 
-To update an existing database user, send a PUT request to `/v2/databases/$DATABASE_ID/users/$USERNAME`<br />with the desired settings.<br /><br />**Note**: only `settings` can be updated via this type of request. If you wish to change the name of a user,<br />you must recreate a new user.<br /><br />The response will be a JSON object with a key called `user`. The value of this will be an<br />object that contains the name of the update database user, along with the `settings` object that<br />has been updated.<br />
+To update an existing database user, send a PUT request to `/v2/databases/$DATABASE_ID/users/$USERNAME`<br />with the desired settings.<br /><br />**Note**: only `settings` can be updated via this type of request. If you wish to change the name of a user,<br />you must recreate a new user.<br /><br />For PostgreSQL clusters, you can update `settings.pg_allow_replication` to enable or<br />disable replication privileges for the user. When omitted, the value defaults to `false`.<br /><br />For Kafka and OpenSearch clusters, additional options can be configured in the<br />`settings` object (for example, topic or index ACLs).<br /><br />The response will be a JSON object with a key called `user`. The value of this will be an<br />object that contains the name of the updated database user, along with the `settings` object that<br />has been updated.<br />
 
 ```sql
 REPLACE digitalocean.databases.users
 SET 
-data__settings = '{{ settings }}'
+settings = '{{ settings }}'
 WHERE 
 database_cluster_uuid = '{{ database_cluster_uuid }}' --required
 AND username = '{{ username }}' --required
-AND data__settings = '{{ settings }}' --required
+AND settings = '{{ settings }}' --required
 RETURNING
 user;
 ```

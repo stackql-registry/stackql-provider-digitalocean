@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>applications</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>applications</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="applications" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.oneclick.applications" /></td></tr>
 </tbody></table>
@@ -90,7 +91,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#one_clicks_install_kubernetes"><CopyableCode code="one_clicks_install_kubernetes" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__addon_slugs"><code>data__addon_slugs</code></a>, <a href="#parameter-data__cluster_uuid"><code>data__cluster_uuid</code></a></td>
+    <td><a href="#parameter-addon_slugs"><code>addon_slugs</code></a>, <a href="#parameter-cluster_uuid"><code>cluster_uuid</code></a></td>
     <td></td>
     <td>To install a Kubernetes 1-Click application on a cluster, send a POST request to<br />`/v2/1-clicks/kubernetes`. The `addon_slugs` and `cluster_uuid` must be provided as body<br />parameter in order to specify which 1-Click application(s) to install. To list all available<br />1-Click Kubernetes applications, send a request to `/v2/1-clicks?type=kubernetes`.<br /></td>
 </tr>
@@ -157,8 +158,8 @@ To install a Kubernetes 1-Click application on a cluster, send a POST request to
 
 ```sql
 INSERT INTO digitalocean.oneclick.applications (
-data__addon_slugs,
-data__cluster_uuid
+addon_slugs,
+cluster_uuid
 )
 SELECT 
 '{{ addon_slugs }}' /* required */,
@@ -170,21 +171,20 @@ message
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: applications
   props:
     - name: addon_slugs
-      value: array
-      description: >
+      value:
+        - "{{ addon_slugs }}"
+      description: |
         An array of 1-Click Application slugs to be installed to the Kubernetes cluster.
-        
       default: 
     - name: cluster_uuid
-      value: string
-      description: >
+      value: "{{ cluster_uuid }}"
+      description: |
         A unique ID for the Kubernetes cluster to which the 1-Click Applications will be installed.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>

@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>destinations</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>destinations</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="destinations" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.monitoring.destinations" /></td></tr>
 </tbody></table>
@@ -69,7 +70,7 @@ The response is a JSON object with a `destination` key.
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>The destination type. `opensearch_dbaas` for a DigitalOcean managed OpenSearch cluster or `opensearch_ext` for an externally managed one.  (example: opensearch_dbaas)</td>
+    <td>The destination type. `opensearch_dbaas` for a DigitalOcean managed OpenSearch cluster or `opensearch_ext` for an externally managed one.  (opensearch_dbaas, opensearch_ext) (example: opensearch_dbaas)</td>
 </tr>
 </tbody>
 </table>
@@ -105,7 +106,7 @@ The response is a JSON object with a `destinations` key.
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>The destination type. `opensearch_dbaas` for a DigitalOcean managed OpenSearch cluster or `opensearch_ext` for an externally managed one.  (example: opensearch_dbaas)</td>
+    <td>The destination type. `opensearch_dbaas` for a DigitalOcean managed OpenSearch cluster or `opensearch_ext` for an externally managed one.  (opensearch_dbaas, opensearch_ext) (example: opensearch_dbaas)</td>
 </tr>
 </tbody>
 </table>
@@ -144,14 +145,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#monitoring_update_destination"><CopyableCode code="monitoring_update_destination" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-destination_uuid"><code>destination_uuid</code></a>, <a href="#parameter-data__config"><code>data__config</code></a>, <a href="#parameter-data__type"><code>data__type</code></a></td>
+    <td><a href="#parameter-destination_uuid"><code>destination_uuid</code></a>, <a href="#parameter-config"><code>config</code></a>, <a href="#parameter-type"><code>type</code></a></td>
     <td></td>
     <td>To update the details of a destination, send a PATCH request to `/v2/monitoring/sinks/destinations/$&#123;destination_uuid&#125;`.</td>
 </tr>
 <tr>
     <td><a href="#monitoring_create_destination"><CopyableCode code="monitoring_create_destination" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__config"><code>data__config</code></a>, <a href="#parameter-data__type"><code>data__type</code></a></td>
+    <td><a href="#parameter-config"><code>config</code></a>, <a href="#parameter-type"><code>type</code></a></td>
     <td></td>
     <td>To create a new destination, send a POST request to `/v2/monitoring/sinks/destinations`.</td>
 </tr>
@@ -243,9 +244,9 @@ To update the details of a destination, send a PATCH request to `/v2/monitoring/
 
 ```sql
 INSERT INTO digitalocean.monitoring.destinations (
-data__name,
-data__type,
-data__config,
+name,
+type,
+config,
 destination_uuid
 )
 SELECT 
@@ -262,9 +263,9 @@ To create a new destination, send a POST request to `/v2/monitoring/sinks/destin
 
 ```sql
 INSERT INTO digitalocean.monitoring.destinations (
-data__name,
-data__type,
-data__config
+name,
+type,
+config
 )
 SELECT 
 '{{ name }}',
@@ -277,28 +278,34 @@ destination
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: destinations
   props:
     - name: destination_uuid
-      value: string
+      value: "{{ destination_uuid }}"
       description: Required parameter for the destinations resource.
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         destination name
-        
     - name: type
-      value: string
-      description: >
-        The destination type. `opensearch_dbaas` for a DigitalOcean managed OpenSearch
-cluster or `opensearch_ext` for an externally managed one.
-
+      value: "{{ type }}"
+      description: |
+        The destination type. \`opensearch_dbaas\` for a DigitalOcean managed OpenSearch
+        cluster or \`opensearch_ext\` for an externally managed one.
       valid_values: ['opensearch_dbaas', 'opensearch_ext']
     - name: config
-      value: object
-```
+      value:
+        credentials:
+          username: "{{ username }}"
+          password: "{{ password }}"
+        endpoint: "{{ endpoint }}"
+        cluster_uuid: "{{ cluster_uuid }}"
+        cluster_name: "{{ cluster_name }}"
+        index_name: "{{ index_name }}"
+        retention_days: {{ retention_days }}
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 

@@ -1,299 +1,156 @@
-## `digitalocean` provider for [`stackql`](https://github.com/stackql/stackql)
+# `digitalocean` provider for [`stackql`](https://github.com/stackql/stackql)
 
-This repository is used to generate and document the `digitalocean` provider for StackQL, allowing you to query and manipulate DigitalOcean resources using SQL-like syntax. The provider is built using the `@stackql/provider-utils` package, which provides tools for converting OpenAPI specifications into StackQL-compatible provider schemas.
+This repository is used to generate and document the `digitalocean` provider for StackQL, allowing you to query and manage DigitalOcean resources using SQL. The provider is built from DigitalOcean's public OpenAPI specification using the [`@stackql/provider-utils`](https://www.npmjs.com/package/@stackql/provider-utils) package, and the docs microsite (served at [digitalocean-provider.stackql.io](https://digitalocean-provider.stackql.io)) is built with Docusaurus.
 
-The `@stackql/provider-utils` package offers several utilities that this provider uses:
-- `split` - Divides a large OpenAPI spec into smaller service-specific files
-- `analyze` - Examines OpenAPI specs and generates mapping configuration files
-- `generate` - Creates StackQL provider extensions from OpenAPI specs and mappings
-- `docgen` - Builds documentation for the provider
+## Prerequisites
 
-### Prerequisites
+- Node.js >= 20 and `yarn` (v1) for the website
+- `make` and `bash` (WSL on Windows)
+- [StackQL CLI](https://github.com/stackql/stackql) on the PATH for testing
+- A DigitalOcean personal access token in `DIGITALOCEAN_TOKEN` (or in a local `.env` file) for live tests
 
-To use the DigitalOcean provider with StackQL, you'll need:
-
-1. A DigitalOcean account with appropriate API credentials
-2. A DigitalOcean personal access token with sufficient permissions for the resources you want to access
-3. StackQL CLI installed on your system (see [StackQL](https://github.com/stackql/stackql))
-
-### 1. Download the Open API Specification
-
-First, download the DigitalOcean API OpenAPI specification:
+## Quick start
 
 ```bash
-curl -L https://api-engineering.nyc3.digitaloceanspaces.com/spec-ci/DigitalOcean-public.v2.yaml \
-  -o provider-dev/downloaded/digitalocean-public.v2.yaml
+make all
 ```
 
-This downloads the official DigitalOcean API specification, which defines all available API endpoints, request parameters, and response schemas.
+This runs the full pipeline: install deps, download the latest spec, split it into services, normalize, update mappings, generate the provider (with post-processing), run the read-only smoke test, generate docs, and build the website. Run `make help` for the full target list.
 
-### 2. Split into Service Specs
+## Pipeline steps
 
-Next, split the monolithic OpenAPI specification into service-specific files:
+### 1. Download the OpenAPI spec
 
 ```bash
-npm run split -- \
-  --provider-name digitalocean \
-  --api-doc provider-dev/downloaded/digitalocean-public.v2.yaml \
-  --svc-discriminator tag \
-  --output-dir provider-dev/source \
-  --overwrite \
-  --svc-name-overrides "$(cat <<EOF
-{
-  "1_click_applications": "oneclick",
-  "actions": "account",
-  "gradientai_platform": "genai",
-  "byoip_prefixes": "network",
-  "partner_network_connect": "network",
-  "project_resources": "projects",
-  "vpc_peerings": "vpcs",
-  "spaces_keys": "spaces",
-  "uptime": "monitoring",
-  "droplets": "compute",
-  "droplet_actions": "compute",
-  "droplet_autoscale_pools": "compute",
-  "cdn_endpoints": "compute",
-  "certificates": "compute",
-  "domains": "compute",
-  "domain_records": "compute",
-  "firewalls": "compute",
-  "images": "compute",
-  "image_actions": "compute",                  
-  "load_balancers": "compute",
-  "regions": "compute",
-  "reserved_ips": "compute",
-  "reserved_ip_actions": "compute",
-  "[public_preview]_reserved_ipv6": "compute",
-  "[public_preview]_reserved_ipv6_actions": "compute",
-  "sizes": "compute",
-  "ssh_keys": "compute",  
-  "tags": "compute",  
-  "block_storage": "compute", 
-  "block_storage_actions": "compute", 
-  "[public_preview]_vpc_nat_gateways": "compute",   
-  "snapshots": "compute",
-  "functions": "serverless",
-  "floating_ips": "network",
-  "floating_ip_actions": "network",      
-  "container_registries": "container_registry",
-  "container_registry": "container_registry"
-}
-EOF
-)"
+make download-spec
 ```
 
-This step breaks down the large DigitalOcean API specification into smaller, more manageable service files. The `--svc-discriminator tag` option tells the tool to use the OpenAPI tags to determine which API endpoints belong to which service. For DigitalOcean, this creates separate files for different functional areas like droplets, volumes, load balancers, etc.
+Downloads the official DigitalOcean API spec to `provider-dev/downloaded/digitalocean-public.v2.yaml`.
 
-### 3. Generate Mappings
-
-Generate the mapping configuration that connects OpenAPI operations to StackQL resources:
+### 2. Split into service specs
 
 ```bash
-npm run generate-mappings -- \
-  --provider-name digitalocean \
-  --input-dir provider-dev/source \
-  --output-dir provider-dev/config
+make split
 ```
 
-This step analyzes the service specs and creates a CSV mapping file that defines how OpenAPI operations translate to StackQL resources, methods, and SQL verbs. The mapping process handles two scenarios:
+Splits the monolithic spec into service documents in `provider-dev/source/` using OpenAPI tags as the service discriminator. Tag-to-service assignments are controlled by `provider-dev/config/svc-name-overrides.json` - existing assignments must not change between releases (see [Backwards compatibility](#backwards-compatibility)).
 
-1. **New Provider Development**: If no mapping file exists yet, this creates a new `all_services.csv` file with all operations from the OpenAPI spec. You'll need to edit this file to assign appropriate resource names, method names, and SQL verbs.
-
-2. **Updating Existing Mappings**: If a mapping file already exists, the tool will:
-   - Load the existing mappings
-   - Identify new operations that aren't yet mapped
-   - Flag operations with incomplete mappings (missing resource, method, or SQL verb)
-   - Skip operations that are already fully mapped
-
-Update the resultant `provider-dev/config/all_services.csv` to add the `stackql_resource_name`, `stackql_method_name`, `stackql_verb` values for each operation.
-
-### 4. Generate Provider
-
-This step transforms the split OpenAPI service specs into a fully-functional StackQL provider by applying the resource and method mappings defined in your CSV file.
+### 3. Normalize
 
 ```bash
-npm run generate-provider -- \
-  --provider-name digitalocean \
-  --input-dir provider-dev/source \
-  --output-dir provider-dev/openapi/src/digitalocean \
-  --config-path provider-dev/config/all_services.csv \
-  --servers '[{"url": "https://api.digitalocean.com"}]' \
-  --provider-config '{"auth": {"credentialsenvvar": "DIGITALOCEAN_TOKEN","type": "bearer"}}' \
-  --overwrite
+make normalize
 ```
 
-Make necessary updates to the output docs:
+Reshapes the split specs for relational consumption (flattens `allOf`, renames `oneOf`/`anyOf` variants, strips misplaced keywords). New in provider-utils 0.7.x; replaces the old local `flatten_allOf` post-processing.
+
+### 4. Update mappings
 
 ```bash
-node provider-dev/scripts/flatten_allOf.cjs
-sh provider-dev/scripts/fix_broken_links.sh
+make mappings
 ```
 
-The `--servers` parameter defines the base URL for API requests. For DigitalOcean, this sets the API endpoint to the v2 API.
+Updates `provider-dev/config/all_services.csv`. Existing rows are preserved; new operations are appended with blank `stackql_resource_name`/`stackql_method_name` values that must be filled in by hand. Set the resource name to `skip_this_resource` to exclude an operation from the provider.
 
-The `--provider-config` parameter sets up the authentication method. For DigitalOcean, this configures a bearer token authentication scheme that:
-- Looks for the API token in the `DIGITALOCEAN_TOKEN` environment variable
-- Uses the token as a bearer token in the Authorization header
-
-The generated provider will be structured according to the StackQL conventions, with properly organized resources and methods that map to the underlying API operations.
-
-After running this command, you'll have a complete provider structure in the `provider-dev/openapi/src` directory, ready for testing or packaging.
-
-### 5. Test Provider
-
-#### Starting the StackQL Server
-
-Before running tests, start a StackQL server with your provider:
+### 5. Generate the provider
 
 ```bash
-PROVIDER_REGISTRY_ROOT_DIR="$(pwd)/provider-dev/openapi"
-npm run start-server -- --provider digitalocean --registry $PROVIDER_REGISTRY_ROOT_DIR
+make provider
 ```
 
-#### Test Meta Routes
+Generates the provider into `provider-dev/openapi/src/digitalocean/v00.00.00000/` using:
 
-Test all metadata routes (services, resources, methods) in the provider:
+- `provider-dev/config/servers.json` - base URL (`https://api.digitalocean.com`)
+- `provider-dev/config/provider-config.json` - bearer auth via the `DIGITALOCEAN_TOKEN` env var
+- `provider-dev/config/service-config.json` - injected as `x-stackQL-config` into every service: link-based pagination (`$.links.pages.next`) and SQL `LIMIT` pushdown to the `per_page` query parameter
+
+The provider is generated with naive request body translation (`--naive-req-body-translate`), so INSERT and UPDATE columns bind directly to request body property names (`name`, `region`, `size`, and so on) with no `data__` prefix:
+
+```sql
+INSERT INTO digitalocean.compute.droplets(name, region, size, image)
+SELECT 'my-droplet', 'syd1', 's-1vcpu-512mb-10gb', 'ubuntu-24-04-x64';
+```
+
+Three post-processing scripts then run automatically:
+
+- `restore-op-servers.mjs` - restores operation-level `servers` for the serverless/batch inference endpoints (`https://inference.do-ai.run`) and agent inference (`https://{agent_url}`)
+- `fix-oneof-required.mjs` - relaxes `required` lists that the normalize step over-tightened when flattening `oneOf` request bodies (e.g. droplet create)
+- `generate-lifecycle-ops.mjs` - fabricates named lifecycle methods from DigitalOcean's generic type-discriminated actions endpoints, so lifecycle operations read naturally instead of via a `type` parameter:
+
+```sql
+EXEC digitalocean.compute.droplets.reboot @droplet_id='123';
+EXEC digitalocean.compute.droplets.power_off_by_tag @tag_name='web-fleet';
+EXEC digitalocean.compute.volumes.attach @volume_id='...', @@json='{"droplet_id": 12345, "region": "syd1"}';
+```
+
+Named lifecycle methods are generated for droplets (power on/off, reboot, shutdown, resize, rename, snapshot, rebuild, restore, backups, kernel - plus `_by_tag` variants), images (convert, transfer), reserved IPs / reserved IPv6 / floating IPs (assign, unassign), volumes (attach, detach, resize), and NFS shares (resize, snapshot, attach, detach, reassign, switch_performance_tier).
+
+### 6. Test the provider
 
 ```bash
-npm run test-meta-routes -- digitalocean --verbose
+make test-readonly   # read-only checks against the live API (local provider build)
+make test            # adds a droplet + volume create/verify/delete lifecycle
+make test-live       # full test against the latest published provider
 ```
 
-When you're done testing, stop the StackQL server:
+The mutation test provisions the smallest droplet available (`s-1vcpu-512mb-10gb`) and a 1 GiB volume, then deletes both; a cleanup trap prevents leaked resources on failure. A full run costs less than one cent. Pass `--region` to `test/smoke/smoke.sh` to override the default (`syd1`).
 
-```bash
-npm run stop-server
-```
-
-Use this command to view the server status:
-
-```bash
-npm run server-status
-```
-
-#### Run test queries
-
-Run some test queries against the provider using the `stackql shell`:
+Example ad hoc queries against the local build:
 
 ```bash
 PROVIDER_REGISTRY_ROOT_DIR="$(pwd)/provider-dev/openapi"
 REG_STR='{"url": "file://'${PROVIDER_REGISTRY_ROOT_DIR}'", "localDocRoot": "'${PROVIDER_REGISTRY_ROOT_DIR}'", "verifyConfig": {"nopVerify": true}}'
-./stackql shell --registry="${REG_STR}"
+stackql shell --registry="${REG_STR}"
 ```
 
-Example queries to try:
-
 ```sql
--- List all droplets
-SELECT
-id,
-name,
-status,
-size_slug,
-JSON_EXTRACT(size, '$.vcpus') as vcpus,
-JSON_EXTRACT(size, '$.memory') as memory,
-JSON_EXTRACT(size, '$.disk') as disk_size_gb,
-JSON_EXTRACT(size, '$.price_hourly') as price_hourly,
-JSON_EXTRACT(size, '$.price_monthly') as price_monthly
+-- droplets with size details
+SELECT id, name, status, size_slug,
+  JSON_EXTRACT(size, '$.price_monthly') as price_monthly
 FROM digitalocean.compute.droplets;
 
--- List all Kubernetes clusters
-SELECT 
-  id,
-  name,
-  cluster_subnet,
-  region,
-  JSON_EXTRACT(status, '$.state') as state
-FROM 
-  digitalocean.kubernetes.clusters;
+-- serverless inference model catalog (GradientAI)
+SELECT id FROM digitalocean.inference.models;
+
+-- NFS shares
+SELECT id, name, region, size_gib FROM digitalocean.storage.shares;
 ```
-
-### 6. Publish the provider
-
-To publish the provider push the `digitalocean` dir to `providers/src` in a feature branch of the [`stackql-provider-registry`](https://github.com/stackql/stackql-provider-registry). Follow the [registry release flow](https://github.com/stackql/stackql-provider-registry/blob/dev/docs/build-and-deployment.md).  
-
-Launch the StackQL shell:
-
-```bash
-export DEV_REG="{ \"url\": \"https://registry-dev.stackql.app/providers\" }"
-./stackql --registry="${DEV_REG}" shell
-```
-
-pull the latest dev `digitalocean` provider:
-
-```sql
-registry pull digitalocean;
-```
-
-Run some test queries to verify the provider works as expected.
 
 ### 7. Generate web docs
 
 ```bash
-npm run generate-docs -- \
-  --provider-name digitalocean \
-  --provider-dir ./provider-dev/openapi/src/digitalocean/v00.00.00000 \
-  --output-dir ./website \
-  --provider-data-dir ./provider-dev/docgen/provider-data
-```  
+make docs
+```
 
-Make sure to create the provider data directory with appropriate header files:
+Generates the documentation site content into `website/docs` from the generated provider, using header templates in `provider-dev/docgen/provider-data/`.
+
+### 8. Build and preview the website
 
 ```bash
-mkdir -p ./provider-dev/docgen/provider-data
+make website        # production build
+make website-start  # dev server
 ```
 
-Create `headerContent1.txt`:
-```
----
-title: digitalocean
-hide_title: false
-hide_table_of_contents: false
-keywords:
-  - digitalocean
-  - stackql
-  - infrastructure-as-code
-  - configuration-as-data
-description: Query and manage DigitalOcean resources using SQL
----
+The site uses the shared StackQL Docusaurus config, vendored at build time: the `prebuild`/`prestart` hooks clone [`stackql/docusaurus-config`](https://github.com/stackql/docusaurus-config) into `website/.shared-config` (gitignored). Per-provider identity lives in `website/provider.js`.
 
-# DigitalOcean Provider
+### 9. Publish the provider
 
-The DigitalOcean provider for StackQL allows you to query, deploy, and manage DigitalOcean resources using SQL. This provider supports droplets, volumes, Kubernetes clusters, load balancers, and more.
-```
+To publish the provider, push the `digitalocean` dir to `providers/src` in a feature branch of the [`stackql-provider-registry`](https://github.com/stackql/stackql-provider-registry). Follow the [registry release flow](https://github.com/stackql/stackql-provider-registry/blob/dev/docs/build-and-deployment.md).
 
-Create `headerContent2.txt`:
-```
-## Authentication
+### 10. Publish web docs to GitHub Pages
 
-DigitalOcean requires a personal access token for authentication. You can create one in the DigitalOcean control panel under API > Tokens/Keys.
+Handled by `.github/workflows/prod-web-deploy.yml` on push to `main` (paths `website/**`). Under __Pages__ in the repository settings select __GitHub Actions__ as the source, and create a `CNAME` record for `digitalocean-provider.stackql.io` pointing to `stackql.github.io.`.
 
-Set your token as an environment variable:
+## Backwards compatibility
+
+`provider-dev/config/all_services.csv` is the compatibility contract: once a resource is published, it remains available with the same service, resource name, method names, and SQL verbs in subsequent releases. Provider updates only add new services/resources/operations and remove operations that are dead upstream.
+
+## stackql-deploy example
+
+An example [stackql-deploy](https://stackql.io/stackql-deploy) stack (VPC + smallest droplet running nginx) is in [`examples/stackql-deploy/digitalocean-web-server`](examples/stackql-deploy/digitalocean-web-server/):
 
 ```bash
-export DIGITALOCEAN_TOKEN="your_token_here"
+stackql-deploy build examples/stackql-deploy/digitalocean-web-server dev
 ```
-
-For more information, see the [DigitalOcean API documentation](https://docs.digitalocean.com/reference/api/).
-```
-
-### 8. Test web docs locally
-
-```bash
-cd website
-# test build
-yarn build
-
-# run local dev server
-yarn start
-```
-
-### 9. Publish web docs to GitHub Pages
-
-Under __Pages__ in the repository, in the __Build and deployment__ section select __GitHub Actions__ as the __Source__. In Netlify DNS create the following records:
-
-| Source Domain | Record Type  | Target |
-|---------------|--------------|--------|
-| digitalocean-provider.stackql.io | CNAME | stackql.github.io. |
 
 ## License
 

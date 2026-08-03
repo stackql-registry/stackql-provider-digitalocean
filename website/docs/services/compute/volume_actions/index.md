@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>volume_actions</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>volume_actions</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="volume_actions" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.volume_actions" /></td></tr>
 </tbody></table>
@@ -59,7 +60,7 @@ The response will be an object with a key called `action`. The value of this wil
 <tr>
     <td><CopyableCode code="resource_id" /></td>
     <td><code>integer</code></td>
-    <td>A unique identifier for the resource that the action is associated with.</td>
+    <td></td>
 </tr>
 <tr>
     <td><CopyableCode code="completed_at" /></td>
@@ -89,12 +90,12 @@ The response will be an object with a key called `action`. The value of this wil
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>The current status of the action. This can be "in-progress", "completed", or "errored". (example: completed, default: in-progress)</td>
+    <td>The current status of the action. This can be "in-progress", "completed", or "errored". (in-progress, completed, errored) (example: completed, default: in-progress)</td>
 </tr>
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>This is the type of action that the object represents. For example, this could be "transfer" to represent the state of an image transfer action. (example: create)</td>
+    <td>This is the type of action that the object represents. For example, this could be "attach_volume" to represent the state of a volume attach action. (example: attach_volume)</td>
 </tr>
 </tbody>
 </table>
@@ -120,7 +121,7 @@ The response will be an object with a key called `action`. The value of this wil
 <tr>
     <td><CopyableCode code="resource_id" /></td>
     <td><code>integer</code></td>
-    <td>A unique identifier for the resource that the action is associated with.</td>
+    <td></td>
 </tr>
 <tr>
     <td><CopyableCode code="completed_at" /></td>
@@ -150,12 +151,12 @@ The response will be an object with a key called `action`. The value of this wil
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>The current status of the action. This can be "in-progress", "completed", or "errored". (example: completed, default: in-progress)</td>
+    <td>The current status of the action. This can be "in-progress", "completed", or "errored". (in-progress, completed, errored) (example: completed, default: in-progress)</td>
 </tr>
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>This is the type of action that the object represents. For example, this could be "transfer" to represent the state of an image transfer action. (example: create)</td>
+    <td>This is the type of action that the object represents. For example, this could be "attach_volume" to represent the state of a volume attach action. (example: attach_volume)</td>
 </tr>
 </tbody>
 </table>
@@ -316,7 +317,8 @@ EXEC digitalocean.compute.volume_actions.volume_actions_post_by_id
 "type": "{{ type }}", 
 "region": "{{ region }}", 
 "droplet_id": {{ droplet_id }}, 
-"tags": "{{ tags }}"
+"tags": "{{ tags }}", 
+"size_gigabytes": {{ size_gigabytes }}
 }'
 ;
 ```

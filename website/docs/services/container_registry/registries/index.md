@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>registries</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>registries</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="registries" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.container_registry.registries" /></td></tr>
 </tbody></table>
@@ -54,7 +55,7 @@ The response will be a JSON object with the key `registry` containing informatio
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>A globally unique name for the container registry. Must be lowercase and be composed only of numbers, letters and `-`, up to a limit of 63 characters. (pattern: <code>^[a-z0-9-]&#123;1,63&#125;$</code>, example: example)</td>
+    <td>A globally unique name for the container registry. Must be lowercase and be composed only of numbers, letters and `-`, up to a limit of 63 characters. (pattern: <code>^&#91;a-z0-9-&#93;&#123;1,63&#125;$</code>, example: example)</td>
 </tr>
 <tr>
     <td><CopyableCode code="created_at" /></td>
@@ -129,7 +130,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#registries_create"><CopyableCode code="registries_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__name"><code>data__name</code></a></td>
+    <td><a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>To create your container registry, send a POST request to `/v2/registries`.<br /><br />The `name` becomes part of the URL for images stored in the registry. For<br />example, if your registry is called `example`, an image in it will have the<br />URL `registry.digitalocean.com/example/image:tag`.<br /></td>
 </tr>
@@ -145,35 +146,35 @@ The following methods are available for this resource:
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-name"><code>name</code></a></td>
     <td></td>
-    <td>To validate that a container registry name is available for use, send a POST<br />request to `/v2/registries/validate-name`.<br /><br />If the name is both formatted correctly and available, the response code will<br />be 204 and contain no body. If the name is already in use, the response will<br />be a 409 Conflict. <br /><br />It is similar to `/v2/registry/validate-name` and exists for backward compatibility.<br /></td>
+    <td>To validate that a container registry name is available for use, send a POST<br />request to `/v2/registries/validate-name`.<br /><br />If the name is both formatted correctly and available, the response code will<br />be 204 and contain no body. If the name is already in use, the response will<br />be a 409 Conflict. <br /><br />It is similar to `/v2/registry/validate-name`.<br /></td>
 </tr>
 <tr>
     <td><a href="#registry_get_legacy"><CopyableCode code="registry_get_legacy" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td></td>
     <td></td>
-    <td>To get information about your container registry, send a GET request to `/v2/registry`.<br />This operation is not compatible with multiple registries in a DO account. You should use `/v2/registries/&#123;registry_name&#125;` instead.</td>
+    <td>**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To get information about your container registry, send a GET<br />request to `/v2/registry`.<br /><br />This operation is not compatible with multiple registries in a DO account. You should use `/v2/registries/&#123;registry_name&#125;` instead.<br /></td>
 </tr>
 <tr>
     <td><a href="#registry_create_legacy"><CopyableCode code="registry_create_legacy" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-name"><code>name</code></a>, <a href="#parameter-subscription_tier_slug"><code>subscription_tier_slug</code></a></td>
     <td></td>
-    <td>To create your container registry, send a POST request to `/v2/registry`.<br /><br />The `name` becomes part of the URL for images stored in the registry. For<br />example, if your registry is called `example`, an image in it will have the<br />URL `registry.digitalocean.com/example/image:tag`.<br /></td>
+    <td>**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To create your container registry, send a POST request to `/v2/registry`.<br /><br />The `name` becomes part of the URL for images stored in the registry. For<br />example, if your registry is called `example`, an image in it will have the<br />URL `registry.digitalocean.com/example/image:tag`.<br /></td>
 </tr>
 <tr>
     <td><a href="#registry_delete_legacy"><CopyableCode code="registry_delete_legacy" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td></td>
     <td></td>
-    <td>To delete your container registry, destroying all container image data stored in it, send a DELETE request to `/v2/registry`.<br />This operation is not compatible with multiple registries in a DO account. You should use `/v2/registries/&#123;registry_name&#125;` instead.</td>
+    <td>**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To delete your container registry, destroying all container image<br />data stored in it, send a DELETE request to `/v2/registry`.<br /><br />This operation is not compatible with multiple registries in a DO account. You should use `/v2/registries/&#123;registry_name&#125;` instead.<br /></td>
 </tr>
 <tr>
     <td><a href="#registry_validate_name_legacy"><CopyableCode code="registry_validate_name_legacy" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-name"><code>name</code></a></td>
     <td></td>
-    <td>To validate that a container registry name is available for use, send a POST<br />request to `/v2/registry/validate-name`.<br /><br />If the name is both formatted correctly and available, the response code will<br />be 204 and contain no body. If the name is already in use, the response will<br />be a 409 Conflict.<br /></td>
+    <td>**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br /> To validate that a container registry name is available for use, send a POST<br /> request to `/v2/registry/validate-name`.<br /><br /> If the name is both formatted correctly and available, the response code will<br /> be 204 and contain no body. If the name is already in use, the response will<br /> be a 409 Conflict.<br /></td>
 </tr>
 </tbody>
 </table>
@@ -253,9 +254,9 @@ To create your container registry, send a POST request to `/v2/registries`.<br /
 
 ```sql
 INSERT INTO digitalocean.container_registry.registries (
-data__name,
-data__subscription_tier_slug,
-data__region
+name,
+subscription_tier_slug,
+region
 )
 SELECT 
 '{{ name }}' /* required */,
@@ -268,28 +269,25 @@ registry
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: registries
   props:
     - name: name
-      value: string
-      description: >
-        A globally unique name for the container registry. Must be lowercase and be composed only of numbers, letters and `-`, up to a limit of 63 characters.
-        
+      value: "{{ name }}"
+      description: |
+        A globally unique name for the container registry. Must be lowercase and be composed only of numbers, letters and \`-\`, up to a limit of 63 characters.
     - name: subscription_tier_slug
-      value: string
-      description: >
+      value: "{{ subscription_tier_slug }}"
+      description: |
         The slug of the subscription tier to sign up for. Valid values can be retrieved using the options endpoint.
-        
       valid_values: ['starter', 'basic', 'professional']
     - name: region
-      value: string
-      description: >
+      value: "{{ region }}"
+      description: |
         Slug of the region where registry data is stored. When not provided, a region will be selected.
-        
       valid_values: ['nyc3', 'sfo3', 'sfo2', 'ams3', 'sgp1', 'fra1', 'blr1', 'syd1']
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -329,7 +327,7 @@ WHERE registry_name = '{{ registry_name }}' --required
 >
 <TabItem value="registries_validate_name">
 
-To validate that a container registry name is available for use, send a POST<br />request to `/v2/registries/validate-name`.<br /><br />If the name is both formatted correctly and available, the response code will<br />be 204 and contain no body. If the name is already in use, the response will<br />be a 409 Conflict. <br /><br />It is similar to `/v2/registry/validate-name` and exists for backward compatibility.<br />
+To validate that a container registry name is available for use, send a POST<br />request to `/v2/registries/validate-name`.<br /><br />If the name is both formatted correctly and available, the response code will<br />be 204 and contain no body. If the name is already in use, the response will<br />be a 409 Conflict. <br /><br />It is similar to `/v2/registry/validate-name`.<br />
 
 ```sql
 EXEC digitalocean.container_registry.registries.registries_validate_name 
@@ -342,7 +340,7 @@ EXEC digitalocean.container_registry.registries.registries_validate_name
 </TabItem>
 <TabItem value="registry_get_legacy">
 
-To get information about your container registry, send a GET request to `/v2/registry`.<br />This operation is not compatible with multiple registries in a DO account. You should use `/v2/registries/&#123;registry_name&#125;` instead.
+**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To get information about your container registry, send a GET<br />request to `/v2/registry`.<br /><br />This operation is not compatible with multiple registries in a DO account. You should use `/v2/registries/&#123;registry_name&#125;` instead.<br />
 
 ```sql
 EXEC digitalocean.container_registry.registries.registry_get_legacy 
@@ -352,7 +350,7 @@ EXEC digitalocean.container_registry.registries.registry_get_legacy
 </TabItem>
 <TabItem value="registry_create_legacy">
 
-To create your container registry, send a POST request to `/v2/registry`.<br /><br />The `name` becomes part of the URL for images stored in the registry. For<br />example, if your registry is called `example`, an image in it will have the<br />URL `registry.digitalocean.com/example/image:tag`.<br />
+**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To create your container registry, send a POST request to `/v2/registry`.<br /><br />The `name` becomes part of the URL for images stored in the registry. For<br />example, if your registry is called `example`, an image in it will have the<br />URL `registry.digitalocean.com/example/image:tag`.<br />
 
 ```sql
 EXEC digitalocean.container_registry.registries.registry_create_legacy 
@@ -367,7 +365,7 @@ EXEC digitalocean.container_registry.registries.registry_create_legacy
 </TabItem>
 <TabItem value="registry_delete_legacy">
 
-To delete your container registry, destroying all container image data stored in it, send a DELETE request to `/v2/registry`.<br />This operation is not compatible with multiple registries in a DO account. You should use `/v2/registries/&#123;registry_name&#125;` instead.
+**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To delete your container registry, destroying all container image<br />data stored in it, send a DELETE request to `/v2/registry`.<br /><br />This operation is not compatible with multiple registries in a DO account. You should use `/v2/registries/&#123;registry_name&#125;` instead.<br />
 
 ```sql
 EXEC digitalocean.container_registry.registries.registry_delete_legacy 
@@ -377,7 +375,7 @@ EXEC digitalocean.container_registry.registries.registry_delete_legacy
 </TabItem>
 <TabItem value="registry_validate_name_legacy">
 
-To validate that a container registry name is available for use, send a POST<br />request to `/v2/registry/validate-name`.<br /><br />If the name is both formatted correctly and available, the response code will<br />be 204 and contain no body. If the name is already in use, the response will<br />be a 409 Conflict.<br />
+**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br /> To validate that a container registry name is available for use, send a POST<br /> request to `/v2/registry/validate-name`.<br /><br /> If the name is both formatted correctly and available, the response code will<br /> be 204 and contain no body. If the name is already in use, the response will<br /> be a 409 Conflict.<br />
 
 ```sql
 EXEC digitalocean.container_registry.registries.registry_validate_name_legacy 

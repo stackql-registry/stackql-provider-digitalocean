@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>sql_mode</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>sql_mode</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="sql_mode" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.sql_mode" /></td></tr>
 </tbody></table>
@@ -85,7 +86,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#databases_update_sql_mode"><CopyableCode code="databases_update_sql_mode" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-data__sql_mode"><code>data__sql_mode</code></a></td>
+    <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a>, <a href="#parameter-sql_mode"><code>sql_mode</code></a></td>
     <td></td>
     <td>To configure the SQL modes for an existing MySQL cluster, send a PUT request to `/v2/databases/$DATABASE_ID/sql_mode` specifying the desired modes. See the official MySQL 8 documentation for a [full list of supported SQL modes](https://dev.mysql.com/doc/refman/8.0/en/sql-mode.html#sql-mode-full).<br />A successful request will receive a 204 No Content status code with no body in response.</td>
 </tr>
@@ -151,10 +152,10 @@ To configure the SQL modes for an existing MySQL cluster, send a PUT request to 
 ```sql
 REPLACE digitalocean.databases.sql_mode
 SET 
-data__sql_mode = '{{ sql_mode }}'
+sql_mode = '{{ sql_mode }}'
 WHERE 
 database_cluster_uuid = '{{ database_cluster_uuid }}' --required
-AND data__sql_mode = '{{ sql_mode }}' --required;
+AND sql_mode = '{{ sql_mode }}' --required;
 ```
 </TabItem>
 </Tabs>

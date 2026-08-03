@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>droplets_neighbors</code> resou
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>droplets_neighbors</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="droplets_neighbors" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.droplets_neighbors" /></td></tr>
 </tbody></table>
@@ -143,7 +144,7 @@ A JSON object with an `droplets` key.
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>A status string indicating the state of the Droplet instance. This may be "new", "active", "off", or "archive". (example: active)</td>
+    <td>A status string indicating the state of the Droplet instance. This may be "new", "active", "off", or "archive". (new, active, off, archive) (example: active)</td>
 </tr>
 <tr>
     <td><CopyableCode code="tags" /></td>

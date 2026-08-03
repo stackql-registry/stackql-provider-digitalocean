@@ -18,16 +18,17 @@ account service documentation.
 
 :::info[Service Summary]
 
-total resources: __2__  
+total resources: __3__  
 
 :::
 
 ## Resources
 <div class="row">
 <div class="providerDocColumn">
-<a href="/services/account/account/">account</a>
+<a href="/services/account/account/">account</a><br />
+<a href="/services/account/actions/">actions</a>
 </div>
 <div class="providerDocColumn">
-<a href="/services/account/actions/">actions</a>
+<a href="/services/account/teams/">teams</a>
 </div>
 </div>

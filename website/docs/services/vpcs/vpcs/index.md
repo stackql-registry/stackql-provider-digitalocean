@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>vpcs</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>vpcs</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="vpcs" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.vpcs.vpcs" /></td></tr>
 </tbody></table>
@@ -59,7 +60,7 @@ The response will be a JSON object with a key called `vpc`. The value of this wi
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The name of the VPC. Must be unique and may only contain alphanumeric characters, dashes, and periods. (pattern: <code>^[a-zA-Z0-9\-\.]+$</code>, example: env.prod-vpc)</td>
+    <td>The name of the VPC. Must be unique and may only contain alphanumeric characters, dashes, and periods. (pattern: <code>^&#91;a-zA-Z0-9\-\.&#93;+$</code>, example: env.prod-vpc)</td>
 </tr>
 <tr>
     <td><CopyableCode code="created_at" /></td>
@@ -89,7 +90,7 @@ The response will be a JSON object with a key called `vpc`. The value of this wi
 <tr>
     <td><CopyableCode code="urn" /></td>
     <td><code>string</code></td>
-    <td>The uniform resource name (URN) for the resource in the format do:resource_type:resource_id. (pattern: <code>^do:(dbaas|domain|droplet|floatingip|loadbalancer|space|volume|kubernetes|vpc):.*</code>, example: do:droplet:13457723)</td>
+    <td>The uniform resource name (URN) for the resource in the format do:resource_type:resource_id. (pattern: <code>^do:(dbaas|domain|droplet|floatingip|loadbalancer|space|volume|kubernetes|vpc):.*</code>, example: do:vpc:5a4981aa-9653-4bd1-bef5-d6bff52042e4)</td>
 </tr>
 </tbody>
 </table>
@@ -115,7 +116,7 @@ The response will be a JSON object with a key called `vpcs`. This will be set to
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The name of the VPC. Must be unique and may only contain alphanumeric characters, dashes, and periods. (pattern: <code>^[a-zA-Z0-9\-\.]+$</code>, example: env.prod-vpc)</td>
+    <td>The name of the VPC. Must be unique and may only contain alphanumeric characters, dashes, and periods. (pattern: <code>^&#91;a-zA-Z0-9\-\.&#93;+$</code>, example: env.prod-vpc)</td>
 </tr>
 <tr>
     <td><CopyableCode code="created_at" /></td>
@@ -145,7 +146,7 @@ The response will be a JSON object with a key called `vpcs`. This will be set to
 <tr>
     <td><CopyableCode code="urn" /></td>
     <td><code>string</code></td>
-    <td>The uniform resource name (URN) for the resource in the format do:resource_type:resource_id. (pattern: <code>^do:(dbaas|domain|droplet|floatingip|loadbalancer|space|volume|kubernetes|vpc):.*</code>, example: do:droplet:13457723)</td>
+    <td>The uniform resource name (URN) for the resource in the format do:resource_type:resource_id. (pattern: <code>^do:(dbaas|domain|droplet|floatingip|loadbalancer|space|volume|kubernetes|vpc):.*</code>, example: do:vpc:5a4981aa-9653-4bd1-bef5-d6bff52042e4)</td>
 </tr>
 </tbody>
 </table>
@@ -184,7 +185,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#vpcs_create"><CopyableCode code="vpcs_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__region"><code>data__region</code></a></td>
+    <td><a href="#parameter-name"><code>name</code></a>, <a href="#parameter-region"><code>region</code></a></td>
     <td></td>
     <td>To create a VPC, send a POST request to `/v2/vpcs` specifying the attributes<br />in the table below in the JSON body.<br /><br />**Note:** If you do not currently have a VPC network in a specific datacenter<br />region, the first one that you create will be set as the default for that<br />region. The default VPC for a region cannot be changed or deleted.<br /></td>
 </tr>
@@ -198,7 +199,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#vpcs_update"><CopyableCode code="vpcs_update" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-vpc_id"><code>vpc_id</code></a>, <a href="#parameter-data__name"><code>data__name</code></a></td>
+    <td><a href="#parameter-vpc_id"><code>vpc_id</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>To update information about a VPC, send a PUT request to `/v2/vpcs/$VPC_ID`.<br /></td>
 </tr>
@@ -309,10 +310,10 @@ To create a VPC, send a POST request to `/v2/vpcs` specifying the attributes<br 
 
 ```sql
 INSERT INTO digitalocean.vpcs.vpcs (
-data__name,
-data__description,
-data__region,
-data__ip_range
+name,
+description,
+region,
+ip_range
 )
 SELECT 
 '{{ name }}' /* required */,
@@ -326,31 +327,27 @@ vpc
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: vpcs
   props:
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The name of the VPC. Must be unique and may only contain alphanumeric characters, dashes, and periods.
-        
     - name: description
-      value: string
-      description: >
+      value: "{{ description }}"
+      description: |
         A free-form text field for describing the VPC's purpose. It may be a maximum of 255 characters.
-        
     - name: region
-      value: string
-      description: >
+      value: "{{ region }}"
+      description: |
         The slug identifier for the region where the VPC will be created.
-        
     - name: ip_range
-      value: string
-      description: >
-        The range of IP addresses in the VPC in CIDR notation. Network ranges cannot overlap with other networks in the same account and must be in range of private addresses as defined in RFC1918. It may not be smaller than `/28` nor larger than `/16`. If no IP range is specified, a `/20` network range is generated that won't conflict with other VPC networks in your account.
-        
-```
+      value: "{{ ip_range }}"
+      description: |
+        The range of IP addresses in the VPC in CIDR notation. Network ranges cannot overlap with other networks in the same account and must be in range of private addresses as defined in RFC1918. It may not be smaller than \`/28\` nor larger than \`/16\`. If no IP range is specified, a \`/20\` network range is generated that won't conflict with other VPC networks in your account.
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -370,9 +367,9 @@ To update a subset of information about a VPC, send a PATCH request to<br />`/v2
 ```sql
 UPDATE digitalocean.vpcs.vpcs
 SET 
-data__name = '{{ name }}',
-data__description = '{{ description }}',
-data__default = {{ default }}
+name = '{{ name }}',
+description = '{{ description }}',
+default = {{ default }}
 WHERE 
 vpc_id = '{{ vpc_id }}' --required
 RETURNING
@@ -397,12 +394,12 @@ To update information about a VPC, send a PUT request to `/v2/vpcs/$VPC_ID`.<br 
 ```sql
 REPLACE digitalocean.vpcs.vpcs
 SET 
-data__name = '{{ name }}',
-data__description = '{{ description }}',
-data__default = {{ default }}
+name = '{{ name }}',
+description = '{{ description }}',
+default = {{ default }}
 WHERE 
 vpc_id = '{{ vpc_id }}' --required
-AND data__name = '{{ name }}' --required
+AND name = '{{ name }}' --required
 RETURNING
 vpc;
 ```

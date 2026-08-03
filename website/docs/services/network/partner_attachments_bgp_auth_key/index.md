@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>partner_attachments_bgp_auth_ke
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>partner_attachments_bgp_auth_key</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="partner_attachments_bgp_auth_key" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.network.partner_attachments_bgp_auth_key" /></td></tr>
 </tbody></table>
@@ -50,21 +51,6 @@ The response will be a JSON object with a `bgp_auth_key` object containing a <br
     </tr>
 </thead>
 <tbody>
-<tr>
-    <td><CopyableCode code="created_at" /></td>
-    <td><code>string (date-time)</code></td>
-    <td>A time value given in the ISO 8601 combined date and time format. (example: 2020-03-13T19:20:47.442049222Z)</td>
-</tr>
-<tr>
-    <td><CopyableCode code="state" /></td>
-    <td><code>string</code></td>
-    <td> (example: CREATED)</td>
-</tr>
-<tr>
-    <td><CopyableCode code="value" /></td>
-    <td><code>string</code></td>
-    <td> (example: 5a4981aa-9653-4bd1-bef5-d6bff52042e4)</td>
-</tr>
 </tbody>
 </table>
 </TabItem>
@@ -130,9 +116,7 @@ To get the current BGP auth key for a partner attachment, send a `GET` request t
 
 ```sql
 SELECT
-created_at,
-state,
-value
+*
 FROM digitalocean.network.partner_attachments_bgp_auth_key
 WHERE pa_id = '{{ pa_id }}' -- required
 ;

@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>evaluation_test_cases</code> r
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>evaluation_test_cases</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="evaluation_test_cases" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.genai.evaluation_test_cases" /></td></tr>
 </tbody></table>
@@ -57,6 +58,11 @@ A successful response.
     <td><CopyableCode code="created_by_user_id" /></td>
     <td><code>string (uint64)</code></td>
     <td> (example: 12345)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="agent_deployment_name" /></td>
+    <td><code>string</code></td>
+    <td>The agent deployment name (example: example name)</td>
 </tr>
 <tr>
     <td><CopyableCode code="agent_name" /></td>
@@ -146,7 +152,7 @@ A successful response.
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>Evaluation Run Statuses (default: EVALUATION_RUN_STATUS_UNSPECIFIED, example: EVALUATION_RUN_STATUS_UNSPECIFIED)</td>
+    <td>Evaluation Run Statuses (EVALUATION_RUN_STATUS_UNSPECIFIED, EVALUATION_RUN_QUEUED, EVALUATION_RUN_RUNNING_DATASET, EVALUATION_RUN_EVALUATING_RESULTS, EVALUATION_RUN_CANCELLING, EVALUATION_RUN_CANCELLED, EVALUATION_RUN_SUCCESSFUL, EVALUATION_RUN_PARTIALLY_SUCCESSFUL, EVALUATION_RUN_FAILED) (default: EVALUATION_RUN_STATUS_UNSPECIFIED, example: EVALUATION_RUN_STATUS_UNSPECIFIED)</td>
 </tr>
 <tr>
     <td><CopyableCode code="test_case_description" /></td>
@@ -600,6 +606,7 @@ To list all evaluation runs by test case, send a GET request to `/v2/gen-ai/eval
 ```sql
 SELECT
 created_by_user_id,
+agent_deployment_name,
 agent_name,
 run_name,
 test_case_name,
@@ -732,14 +739,16 @@ To create an evaluation test-case send a POST request to `/v2/gen-ai/evaluation_
 
 ```sql
 INSERT INTO digitalocean.genai.evaluation_test_cases (
-data__dataset_uuid,
-data__description,
-data__metrics,
-data__name,
-data__star_metric,
-data__workspace_uuid
+agent_workspace_name,
+dataset_uuid,
+description,
+metrics,
+name,
+star_metric,
+workspace_uuid
 )
 SELECT 
+'{{ agent_workspace_name }}',
 '{{ dataset_uuid }}',
 '{{ description }}',
 '{{ metrics }}',
@@ -753,38 +762,40 @@ test_case_uuid
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: evaluation_test_cases
   props:
+    - name: agent_workspace_name
+      value: "{{ agent_workspace_name }}"
     - name: dataset_uuid
-      value: string
-      description: >
+      value: "{{ dataset_uuid }}"
+      description: |
         Dataset against which the test‑case is executed.
-        
     - name: description
-      value: string
-      description: >
+      value: "{{ description }}"
+      description: |
         Description of the test case.
-        
     - name: metrics
-      value: array
-      description: >
+      value:
+        - "{{ metrics }}"
+      description: |
         Full metric list to use for evaluation test case.
-        
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         Name of the test case.
-        
     - name: star_metric
-      value: object
+      value:
+        metric_uuid: "{{ metric_uuid }}"
+        name: "{{ name }}"
+        success_threshold: {{ success_threshold }}
+        success_threshold_pct: {{ success_threshold_pct }}
     - name: workspace_uuid
-      value: string
-      description: >
+      value: "{{ workspace_uuid }}"
+      description: |
         The workspace uuid.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -804,12 +815,12 @@ To update an evaluation test-case send a PUT request to `/v2/gen-ai/evaluation_t
 ```sql
 REPLACE digitalocean.genai.evaluation_test_cases
 SET 
-data__dataset_uuid = '{{ dataset_uuid }}',
-data__description = '{{ description }}',
-data__metrics = '{{ metrics }}',
-data__name = '{{ name }}',
-data__star_metric = '{{ star_metric }}',
-data__test_case_uuid = '{{ test_case_uuid }}'
+dataset_uuid = '{{ dataset_uuid }}',
+description = '{{ description }}',
+metrics = '{{ metrics }}',
+name = '{{ name }}',
+star_metric = '{{ star_metric }}',
+test_case_uuid = '{{ test_case_uuid }}'
 WHERE 
 test_case_uuid = '{{ test_case_uuid }}' --required
 RETURNING

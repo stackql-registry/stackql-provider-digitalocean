@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>vpc_nat_gateways</code> resourc
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>vpc_nat_gateways</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="vpc_nat_gateways" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.vpc_nat_gateways" /></td></tr>
 </tbody></table>
@@ -79,7 +80,7 @@ The response will be a JSON object with a key called `vpc_nat_gateway`. This wil
 <tr>
     <td><CopyableCode code="region" /></td>
     <td><code>string</code></td>
-    <td>The region in which the VPC NAT gateway is created. (example: tor1)</td>
+    <td>The region in which the VPC NAT gateway is created. (nyc1, nyc2, nyc3, ams2, ams3, sfo1, sfo2, sfo3, sgp1, lon1, fra1, tor1, blr1, syd1, atl1) (example: tor1)</td>
 </tr>
 <tr>
     <td><CopyableCode code="size" /></td>
@@ -89,7 +90,7 @@ The response will be a JSON object with a key called `vpc_nat_gateway`. This wil
 <tr>
     <td><CopyableCode code="state" /></td>
     <td><code>string</code></td>
-    <td>The current state of the VPC NAT gateway. (example: ACTIVE)</td>
+    <td>The current state of the VPC NAT gateway. (NEW, PROVISIONING, ACTIVE, DELETING, ERROR, INVALID) (example: ACTIVE)</td>
 </tr>
 <tr>
     <td><CopyableCode code="tcp_timeout_seconds" /></td>
@@ -99,7 +100,7 @@ The response will be a JSON object with a key called `vpc_nat_gateway`. This wil
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>The type of the VPC NAT gateway. (example: PUBLIC)</td>
+    <td>The type of the VPC NAT gateway. (PUBLIC) (example: PUBLIC)</td>
 </tr>
 <tr>
     <td><CopyableCode code="udp_timeout_seconds" /></td>
@@ -160,7 +161,7 @@ A JSON object with a key of `vpc_nat_gateways`.
 <tr>
     <td><CopyableCode code="region" /></td>
     <td><code>string</code></td>
-    <td>The region in which the VPC NAT gateway is created. (example: tor1)</td>
+    <td>The region in which the VPC NAT gateway is created. (nyc1, nyc2, nyc3, ams2, ams3, sfo1, sfo2, sfo3, sgp1, lon1, fra1, tor1, blr1, syd1, atl1) (example: tor1)</td>
 </tr>
 <tr>
     <td><CopyableCode code="size" /></td>
@@ -170,7 +171,7 @@ A JSON object with a key of `vpc_nat_gateways`.
 <tr>
     <td><CopyableCode code="state" /></td>
     <td><code>string</code></td>
-    <td>The current state of the VPC NAT gateway. (example: ACTIVE)</td>
+    <td>The current state of the VPC NAT gateway. (NEW, PROVISIONING, ACTIVE, DELETING, ERROR, INVALID) (example: ACTIVE)</td>
 </tr>
 <tr>
     <td><CopyableCode code="tcp_timeout_seconds" /></td>
@@ -180,7 +181,7 @@ A JSON object with a key of `vpc_nat_gateways`.
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>The type of the VPC NAT gateway. (example: PUBLIC)</td>
+    <td>The type of the VPC NAT gateway. (PUBLIC) (example: PUBLIC)</td>
 </tr>
 <tr>
     <td><CopyableCode code="udp_timeout_seconds" /></td>
@@ -234,14 +235,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#vpcnatgateways_create"><CopyableCode code="vpcnatgateways_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__type"><code>data__type</code></a>, <a href="#parameter-data__region"><code>data__region</code></a>, <a href="#parameter-data__size"><code>data__size</code></a>, <a href="#parameter-data__vpcs"><code>data__vpcs</code></a></td>
+    <td><a href="#parameter-name"><code>name</code></a>, <a href="#parameter-type"><code>type</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-size"><code>size</code></a>, <a href="#parameter-vpcs"><code>vpcs</code></a></td>
     <td></td>
     <td>To create a new VPC NAT gateway, send a POST request to `/v2/vpc_nat_gateways` setting the required attributes.<br /><br />The response body will contain a JSON object with a key called `vpc_nat_gateway` containing the standard attributes for the new VPC NAT gateway.<br /></td>
 </tr>
 <tr>
     <td><a href="#vpcnatgateways_update"><CopyableCode code="vpcnatgateways_update" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-id"><code>id</code></a>, <a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__size"><code>data__size</code></a></td>
+    <td><a href="#parameter-id"><code>id</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-size"><code>size</code></a></td>
     <td></td>
     <td>To update the configuration of an existing VPC NAT Gateway, send a PUT request to<br />`/v2/vpc_nat_gateways/$VPC_NAT_GATEWAY_ID`. The request must contain a full representation<br />of the VPC NAT Gateway including existing attributes. <br /></td>
 </tr>
@@ -386,14 +387,14 @@ To create a new VPC NAT gateway, send a POST request to `/v2/vpc_nat_gateways` s
 
 ```sql
 INSERT INTO digitalocean.compute.vpc_nat_gateways (
-data__name,
-data__type,
-data__region,
-data__size,
-data__vpcs,
-data__udp_timeout_seconds,
-data__icmp_timeout_seconds,
-data__tcp_timeout_seconds
+name,
+type,
+region,
+size,
+vpcs,
+udp_timeout_seconds,
+icmp_timeout_seconds,
+tcp_timeout_seconds
 )
 SELECT 
 '{{ name }}' /* required */,
@@ -411,53 +412,47 @@ vpc_nat_gateway
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: vpc_nat_gateways
   props:
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The human-readable name of the VPC NAT gateway.
-        
     - name: type
-      value: string
-      description: >
+      value: "{{ type }}"
+      description: |
         The type of the VPC NAT gateway.
-        
       valid_values: ['PUBLIC']
     - name: region
-      value: string
-      description: >
+      value: "{{ region }}"
+      description: |
         The region in which the VPC NAT gateway is created.
-        
       valid_values: ['nyc1', 'nyc2', 'nyc3', 'ams2', 'ams3', 'sfo1', 'sfo2', 'sfo3', 'sgp1', 'lon1', 'fra1', 'tor1', 'blr1', 'syd1', 'atl1']
     - name: size
-      value: integer
-      description: >
+      value: {{ size }}
+      description: |
         The size of the VPC NAT gateway.
-        
     - name: vpcs
-      value: array
-      description: >
+      description: |
         An array of VPCs associated with the VPC NAT gateway.
-        
+      value:
+        - vpc_uuid: "{{ vpc_uuid }}"
+          default_gateway: {{ default_gateway }}
     - name: udp_timeout_seconds
-      value: integer
-      description: >
+      value: {{ udp_timeout_seconds }}
+      description: |
         The UDP timeout in seconds for the VPC NAT gateway.
-        
     - name: icmp_timeout_seconds
-      value: integer
-      description: >
+      value: {{ icmp_timeout_seconds }}
+      description: |
         The ICMP timeout in seconds for the VPC NAT gateway.
-        
     - name: tcp_timeout_seconds
-      value: integer
-      description: >
+      value: {{ tcp_timeout_seconds }}
+      description: |
         The TCP timeout in seconds for the VPC NAT gateway.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -477,15 +472,16 @@ To update the configuration of an existing VPC NAT Gateway, send a PUT request t
 ```sql
 REPLACE digitalocean.compute.vpc_nat_gateways
 SET 
-data__name = '{{ name }}',
-data__size = {{ size }},
-data__udp_timeout_seconds = {{ udp_timeout_seconds }},
-data__icmp_timeout_seconds = {{ icmp_timeout_seconds }},
-data__tcp_timeout_seconds = {{ tcp_timeout_seconds }}
+name = '{{ name }}',
+size = {{ size }},
+vpcs = '{{ vpcs }}',
+udp_timeout_seconds = {{ udp_timeout_seconds }},
+icmp_timeout_seconds = {{ icmp_timeout_seconds }},
+tcp_timeout_seconds = {{ tcp_timeout_seconds }}
 WHERE 
 id = '{{ id }}' --required
-AND data__name = '{{ name }}' --required
-AND data__size = '{{ size }}' --required
+AND name = '{{ name }}' --required
+AND size = '{{ size }}' --required
 RETURNING
 vpc_nat_gateway;
 ```

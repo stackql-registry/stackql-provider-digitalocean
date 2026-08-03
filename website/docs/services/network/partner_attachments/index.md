@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>partner_attachments</code> reso
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>partner_attachments</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="partner_attachments" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.network.partner_attachments" /></td></tr>
 </tbody></table>
@@ -59,7 +60,7 @@ The response will be a JSON object with details about the partner attachment<br 
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The name of the partner attachment. Must be unique and may only contain alphanumeric characters, dashes, and periods. (pattern: <code>^[a-zA-Z0-9\-\.]+$</code>, example: env.prod-partner-network-connect)</td>
+    <td>The name of the partner attachment. Must be unique and may only contain alphanumeric characters, dashes, and periods. (pattern: <code>^&#91;a-zA-Z0-9\-\.&#93;+$</code>, example: env.prod-partner-network-connect)</td>
 </tr>
 <tr>
     <td><CopyableCode code="bgp" /></td>
@@ -130,7 +131,7 @@ The response will be a JSON object with a `partner_attachments` key<br />that co
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The name of the partner attachment. Must be unique and may only contain alphanumeric characters, dashes, and periods. (pattern: <code>^[a-zA-Z0-9\-\.]+$</code>, example: env.prod-partner-network-connect)</td>
+    <td>The name of the partner attachment. Must be unique and may only contain alphanumeric characters, dashes, and periods. (pattern: <code>^&#91;a-zA-Z0-9\-\.&#93;+$</code>, example: env.prod-partner-network-connect)</td>
 </tr>
 <tr>
     <td><CopyableCode code="bgp" /></td>
@@ -214,14 +215,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#partner_attachments_create"><CopyableCode code="partner_attachments_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__connection_bandwidth_in_mbps"><code>data__connection_bandwidth_in_mbps</code></a>, <a href="#parameter-data__region"><code>data__region</code></a>, <a href="#parameter-data__naas_provider"><code>data__naas_provider</code></a>, <a href="#parameter-data__vpc_ids"><code>data__vpc_ids</code></a></td>
+    <td><a href="#parameter-name"><code>name</code></a>, <a href="#parameter-connection_bandwidth_in_mbps"><code>connection_bandwidth_in_mbps</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-naas_provider"><code>naas_provider</code></a>, <a href="#parameter-vpc_ids"><code>vpc_ids</code></a></td>
     <td></td>
     <td>To create a new partner attachment, send a `POST` request to<br />`/v2/partner_network_connect/attachments` with a JSON object containing the<br />required configuration details.<br /></td>
 </tr>
 <tr>
     <td><a href="#partner_attachments_patch"><CopyableCode code="partner_attachments_patch" /></a></td>
     <td><CopyableCode code="update" /></td>
-    <td><a href="#parameter-pa_id"><code>pa_id</code></a>, <a href="#parameter-data__name"><code>data__name</code></a></td>
+    <td><a href="#parameter-pa_id"><code>pa_id</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-vpc_ids"><code>vpc_ids</code></a></td>
     <td></td>
     <td>To update an existing partner attachment, send a `PATCH` request to<br />`/v2/partner_network_connect/attachments/&#123;pa_id&#125;` with a JSON object containing the<br />fields to be updated.<br /></td>
 </tr>
@@ -338,14 +339,14 @@ To create a new partner attachment, send a `POST` request to<br />`/v2/partner_n
 
 ```sql
 INSERT INTO digitalocean.network.partner_attachments (
-data__name,
-data__connection_bandwidth_in_mbps,
-data__region,
-data__naas_provider,
-data__vpc_ids,
-data__parent_uuid,
-data__bgp,
-data__redundancy_zone
+name,
+connection_bandwidth_in_mbps,
+region,
+naas_provider,
+vpc_ids,
+parent_uuid,
+bgp,
+redundancy_zone
 )
 SELECT 
 '{{ name }}' /* required */,
@@ -363,51 +364,49 @@ partner_attachment
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: partner_attachments
   props:
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The name of the partner attachment. Must be unique and may only contain alphanumeric characters, dashes, and periods.
-        
     - name: connection_bandwidth_in_mbps
-      value: integer
-      description: >
+      value: {{ connection_bandwidth_in_mbps }}
+      description: |
         Bandwidth (in Mbps) of the connection.
-        
       valid_values: ['1000', '2000', '5000', '10000']
     - name: region
-      value: string
-      description: >
+      value: "{{ region }}"
+      description: |
         The region to create the partner attachment.
-        
       valid_values: ['nyc', 'sfo', 'fra', 'ams', 'sgp']
     - name: naas_provider
-      value: string
+      value: "{{ naas_provider }}"
     - name: vpc_ids
-      value: array
-      description: >
+      value:
+        - "{{ vpc_ids }}"
+      description: |
         An array of VPCs IDs.
-        
     - name: parent_uuid
-      value: string
-      description: >
+      value: "{{ parent_uuid }}"
+      description: |
         Optional associated partner attachment UUID
-        
     - name: bgp
-      value: object
-      description: >
+      description: |
         Optional BGP configurations
-        
+      value:
+        local_router_ip: "{{ local_router_ip }}"
+        peer_router_ip: "{{ peer_router_ip }}"
+        peer_router_asn: {{ peer_router_asn }}
+        auth_key: "{{ auth_key }}"
     - name: redundancy_zone
-      value: string
-      description: >
+      value: "{{ redundancy_zone }}"
+      description: |
         Optional redundancy zone for the partner attachment.
-        
       valid_values: ['MEGAPORT_BLUE', 'MEGAPORT_RED']
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -427,10 +426,13 @@ To update an existing partner attachment, send a `PATCH` request to<br />`/v2/pa
 ```sql
 UPDATE digitalocean.network.partner_attachments
 SET 
-data__name = '{{ name }}'
+name = '{{ name }}',
+vpc_ids = '{{ vpc_ids }}',
+bgp = '{{ bgp }}'
 WHERE 
 pa_id = '{{ pa_id }}' --required
-AND data__name = '{{ name }}' --required
+AND name = '{{ name }}' --required
+AND vpc_ids = '{{ vpc_ids }}' --required
 RETURNING
 partner_attachment;
 ```

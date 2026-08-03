@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>images</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>images</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="images" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.images" /></td></tr>
 </tbody></table>
@@ -74,7 +75,7 @@ The response will be a JSON object with a key called `image`.  The value of this
 <tr>
     <td><CopyableCode code="distribution" /></td>
     <td><code>string</code></td>
-    <td>The name of a custom image's distribution. Currently, the valid values are  `Arch Linux`, `CentOS`, `CoreOS`, `Debian`, `Fedora`, `Fedora Atomic`,  `FreeBSD`, `Gentoo`, `openSUSE`, `RancherOS`, `Rocky Linux`, `Ubuntu`, and `Unknown`.  Any other value will be accepted but ignored, and `Unknown` will be used in its place. (example: Ubuntu)</td>
+    <td>The name of a custom image's distribution. Currently, the valid values are  `Arch Linux`, `CentOS`, `CoreOS`, `Debian`, `Fedora`, `Fedora Atomic`,  `FreeBSD`, `Gentoo`, `openSUSE`, `RancherOS`, `Rocky Linux`, `Ubuntu`, and `Unknown`.  Any other value will be accepted but ignored, and `Unknown` will be used in its place. (Arch Linux, CentOS, CoreOS, Debian, Fedora, Fedora Atomic, FreeBSD, Gentoo, openSUSE, RancherOS, Rocky Linux, Ubuntu, Unknown) (example: Ubuntu)</td>
 </tr>
 <tr>
     <td><CopyableCode code="error_message" /></td>
@@ -109,7 +110,7 @@ The response will be a JSON object with a key called `image`.  The value of this
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>A status string indicating the state of a custom image. This may be `NEW`,  `available`, `pending`, `deleted`, or `retired`. (example: NEW)</td>
+    <td>A status string indicating the state of a custom image. This may be `NEW`,  `available`, `pending`, `deleted`, or `retired`. (NEW, available, pending, deleted, retired) (example: NEW)</td>
 </tr>
 <tr>
     <td><CopyableCode code="tags" /></td>
@@ -119,7 +120,7 @@ The response will be a JSON object with a key called `image`.  The value of this
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>Describes the kind of image. It may be one of `base`, `snapshot`, `backup`, `custom`, or `admin`. Respectively, this specifies whether an image is a DigitalOcean base OS image, user-generated Droplet snapshot, automatically created Droplet backup, user-provided virtual machine image, or an image used for DigitalOcean managed resources (e.g. DOKS worker nodes). (example: snapshot)</td>
+    <td>Describes the kind of image. It may be one of `base`, `snapshot`, `backup`, `custom`, or `admin`. Respectively, this specifies whether an image is a DigitalOcean base OS image, user-generated Droplet snapshot, automatically created Droplet backup, user-provided virtual machine image, or an image used for DigitalOcean managed resources (e.g. DOKS worker nodes). (base, snapshot, backup, custom, admin) (example: snapshot)</td>
 </tr>
 </tbody>
 </table>
@@ -160,7 +161,7 @@ The response will be a JSON object with a key called `images`.  This will be set
 <tr>
     <td><CopyableCode code="distribution" /></td>
     <td><code>string</code></td>
-    <td>The name of a custom image's distribution. Currently, the valid values are  `Arch Linux`, `CentOS`, `CoreOS`, `Debian`, `Fedora`, `Fedora Atomic`,  `FreeBSD`, `Gentoo`, `openSUSE`, `RancherOS`, `Rocky Linux`, `Ubuntu`, and `Unknown`.  Any other value will be accepted but ignored, and `Unknown` will be used in its place. (example: Ubuntu)</td>
+    <td>The name of a custom image's distribution. Currently, the valid values are  `Arch Linux`, `CentOS`, `CoreOS`, `Debian`, `Fedora`, `Fedora Atomic`,  `FreeBSD`, `Gentoo`, `openSUSE`, `RancherOS`, `Rocky Linux`, `Ubuntu`, and `Unknown`.  Any other value will be accepted but ignored, and `Unknown` will be used in its place. (Arch Linux, CentOS, CoreOS, Debian, Fedora, Fedora Atomic, FreeBSD, Gentoo, openSUSE, RancherOS, Rocky Linux, Ubuntu, Unknown) (example: Ubuntu)</td>
 </tr>
 <tr>
     <td><CopyableCode code="error_message" /></td>
@@ -195,7 +196,7 @@ The response will be a JSON object with a key called `images`.  This will be set
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>A status string indicating the state of a custom image. This may be `NEW`,  `available`, `pending`, `deleted`, or `retired`. (example: NEW)</td>
+    <td>A status string indicating the state of a custom image. This may be `NEW`,  `available`, `pending`, `deleted`, or `retired`. (NEW, available, pending, deleted, retired) (example: NEW)</td>
 </tr>
 <tr>
     <td><CopyableCode code="tags" /></td>
@@ -205,7 +206,7 @@ The response will be a JSON object with a key called `images`.  This will be set
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>Describes the kind of image. It may be one of `base`, `snapshot`, `backup`, `custom`, or `admin`. Respectively, this specifies whether an image is a DigitalOcean base OS image, user-generated Droplet snapshot, automatically created Droplet backup, user-provided virtual machine image, or an image used for DigitalOcean managed resources (e.g. DOKS worker nodes). (example: snapshot)</td>
+    <td>Describes the kind of image. It may be one of `base`, `snapshot`, `backup`, `custom`, or `admin`. Respectively, this specifies whether an image is a DigitalOcean base OS image, user-generated Droplet snapshot, automatically created Droplet backup, user-provided virtual machine image, or an image used for DigitalOcean managed resources (e.g. DOKS worker nodes). (base, snapshot, backup, custom, admin) (example: snapshot)</td>
 </tr>
 </tbody>
 </table>
@@ -244,7 +245,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#images_create_custom"><CopyableCode code="images_create_custom" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__url"><code>data__url</code></a>, <a href="#parameter-data__region"><code>data__region</code></a></td>
+    <td><a href="#parameter-name"><code>name</code></a>, <a href="#parameter-url"><code>url</code></a>, <a href="#parameter-region"><code>region</code></a></td>
     <td></td>
     <td>To create a new custom image, send a POST request to /v2/images.<br />The body must contain a url attribute pointing to a Linux virtual machine<br />image to be imported into DigitalOcean.<br />The image must be in the raw, qcow2, vhdx, vdi, or vmdk format.<br />It may be compressed using gzip or bzip2 and must be smaller than 100 GB after<br /> being decompressed.<br /></td>
 </tr>
@@ -261,6 +262,20 @@ The following methods are available for this resource:
     <td><a href="#parameter-image_id"><code>image_id</code></a></td>
     <td></td>
     <td>To delete a snapshot or custom image, send a `DELETE` request to `/v2/images/$IMAGE_ID`.<br /></td>
+</tr>
+<tr>
+    <td><a href="#convert"><CopyableCode code="convert" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-image_id"><code>image_id</code></a></td>
+    <td></td>
+    <td>Invokes the `convert` action. Fabricated lifecycle operation over `POST /v2/images/&#123;image_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#transfer"><CopyableCode code="transfer" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-image_id"><code>image_id</code></a></td>
+    <td></td>
+    <td>Invokes the `transfer` action. Fabricated lifecycle operation over `POST /v2/images/&#123;image_id&#125;/actions`.</td>
 </tr>
 </tbody>
 </table>
@@ -280,7 +295,7 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
 <tbody>
 <tr id="parameter-image_id">
     <td><CopyableCode code="image_id" /></td>
-    <td><code>integer</code></td>
+    <td><code>string</code></td>
     <td>A unique number that can be used to identify and reference a specific image. (example: 62137902)</td>
 </tr>
 <tr id="parameter-page">
@@ -392,12 +407,12 @@ To create a new custom image, send a POST request to /v2/images.<br />The body m
 
 ```sql
 INSERT INTO digitalocean.compute.images (
-data__name,
-data__distribution,
-data__description,
-data__url,
-data__region,
-data__tags
+name,
+distribution,
+description,
+url,
+region,
+tags
 )
 SELECT 
 '{{ name }}' /* required */,
@@ -413,43 +428,38 @@ image
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: images
   props:
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The display name that has been given to an image.  This is what is shown in the control panel and is generally a descriptive title for the image in question.
-        
     - name: distribution
-      value: string
-      description: >
-        The name of a custom image's distribution. Currently, the valid values are  `Arch Linux`, `CentOS`, `CoreOS`, `Debian`, `Fedora`, `Fedora Atomic`,  `FreeBSD`, `Gentoo`, `openSUSE`, `RancherOS`, `Rocky Linux`, `Ubuntu`, and `Unknown`.  Any other value will be accepted but ignored, and `Unknown` will be used in its place.
-        
+      value: "{{ distribution }}"
+      description: |
+        The name of a custom image's distribution. Currently, the valid values are  \`Arch Linux\`, \`CentOS\`, \`CoreOS\`, \`Debian\`, \`Fedora\`, \`Fedora Atomic\`,  \`FreeBSD\`, \`Gentoo\`, \`openSUSE\`, \`RancherOS\`, \`Rocky Linux\`, \`Ubuntu\`, and \`Unknown\`.  Any other value will be accepted but ignored, and \`Unknown\` will be used in its place.
       valid_values: ['Arch Linux', 'CentOS', 'CoreOS', 'Debian', 'Fedora', 'Fedora Atomic', 'FreeBSD', 'Gentoo', 'openSUSE', 'RancherOS', 'Rocky Linux', 'Ubuntu', 'Unknown']
     - name: description
-      value: string
-      description: >
+      value: "{{ description }}"
+      description: |
         An optional free-form text field to describe an image.
-        
     - name: url
-      value: string
-      description: >
+      value: "{{ url }}"
+      description: |
         A URL from which the custom Linux virtual machine image may be retrieved.  The image it points to must be in the raw, qcow2, vhdx, vdi, or vmdk format.  It may be compressed using gzip or bzip2 and must be smaller than 100 GB after being decompressed.
-        
     - name: region
-      value: string
-      description: >
+      value: "{{ region }}"
+      description: |
         The slug identifier for the region where the resource will initially be  available.
-        
       valid_values: ['ams1', 'ams2', 'ams3', 'blr1', 'fra1', 'lon1', 'nyc1', 'nyc2', 'nyc3', 'sfo1', 'sfo2', 'sfo3', 'sgp1', 'tor1', 'syd1']
     - name: tags
-      value: array
-      description: >
-        A flat array of tag names as strings to be applied to the resource. Tag names may be for either existing or new tags. <br><br>Requires `tag:create` scope.
-        
-```
+      value:
+        - "{{ tags }}"
+      description: |
+        A flat array of tag names as strings to be applied to the resource. Tag names may be for either existing or new tags. <br><br>Requires \`tag:create\` scope.
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -469,9 +479,9 @@ To update an image, send a `PUT` request to `/v2/images/$IMAGE_ID`.<br />Set the
 ```sql
 REPLACE digitalocean.compute.images
 SET 
-data__name = '{{ name }}',
-data__distribution = '{{ distribution }}',
-data__description = '{{ description }}'
+name = '{{ name }}',
+distribution = '{{ distribution }}',
+description = '{{ description }}'
 WHERE 
 image_id = '{{ image_id }}' --required
 RETURNING
@@ -496,6 +506,42 @@ To delete a snapshot or custom image, send a `DELETE` request to `/v2/images/$IM
 ```sql
 DELETE FROM digitalocean.compute.images
 WHERE image_id = '{{ image_id }}' --required
+;
+```
+</TabItem>
+</Tabs>
+
+
+## Lifecycle Methods
+
+<Tabs
+    defaultValue="convert"
+    values={[
+        { label: 'convert', value: 'convert' },
+        { label: 'transfer', value: 'transfer' }
+    ]}
+>
+<TabItem value="convert">
+
+Invokes the `convert` action. Fabricated lifecycle operation over `POST /v2/images/&#123;image_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.images.convert 
+@image_id='{{ image_id }}' --required
+;
+```
+</TabItem>
+<TabItem value="transfer">
+
+Invokes the `transfer` action. Fabricated lifecycle operation over `POST /v2/images/&#123;image_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.images.transfer 
+@image_id='{{ image_id }}' --required 
+@@json=
+'{
+"region": "{{ region }}"
+}'
 ;
 ```
 </TabItem>

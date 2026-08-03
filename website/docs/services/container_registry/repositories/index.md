@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>repositories</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>repositories</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="repositories" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.container_registry.repositories" /></td></tr>
 </tbody></table>
@@ -100,7 +101,7 @@ The following methods are available for this resource:
     <td><CopyableCode code="select" /></td>
     <td><a href="#parameter-registry_name"><code>registry_name</code></a></td>
     <td><a href="#parameter-per_page"><code>per_page</code></a>, <a href="#parameter-page"><code>page</code></a>, <a href="#parameter-page_token"><code>page_token</code></a></td>
-    <td>To list all repositories in your container registry, send a GET request to `/v2/registries/$REGISTRY_NAME/repositoriesV2`. It is similar to GET `/v2/registry/$REGISTRY_NAME/repositoriesV2` and exists for backward compatibility.</td>
+    <td>To list all repositories in your container registry, send a GET request to `/v2/registries/$REGISTRY_NAME/repositoriesV2`. It is similar to GET `/v2/registry/$REGISTRY_NAME/repositoriesV2`.</td>
 </tr>
 <tr>
     <td><a href="#registries_delete_repository"><CopyableCode code="registries_delete_repository" /></a></td>
@@ -114,14 +115,14 @@ The following methods are available for this resource:
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-registry_name"><code>registry_name</code></a></td>
     <td><a href="#parameter-per_page"><code>per_page</code></a>, <a href="#parameter-page"><code>page</code></a></td>
-    <td>This endpoint has been deprecated in favor of the _List All Container Registry Repositories [V2]_ endpoint.<br /><br />To list all repositories in your container registry, send a GET<br />request to `/v2/registry/$REGISTRY_NAME/repositories`.<br /></td>
+    <td>**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />This endpoint has been deprecated in favor of the _List All Container Registry Repositories [V2]_ endpoint.<br /><br />To list all repositories in your container registry, send a GET<br />request to `/v2/registry/$REGISTRY_NAME/repositories`.<br /></td>
 </tr>
 <tr>
     <td><a href="#registry_list_repositories_v2_legacy"><CopyableCode code="registry_list_repositories_v2_legacy" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td><a href="#parameter-registry_name"><code>registry_name</code></a></td>
     <td><a href="#parameter-per_page"><code>per_page</code></a>, <a href="#parameter-page"><code>page</code></a>, <a href="#parameter-page_token"><code>page_token</code></a></td>
-    <td>To list all repositories in your container registry, send a GET request to `/v2/registry/$REGISTRY_NAME/repositoriesV2`.</td>
+    <td>**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To list all repositories in your container registry, send a GET<br />request to `/v2/registry/$REGISTRY_NAME/repositoriesV2`.<br /></td>
 </tr>
 </tbody>
 </table>
@@ -177,7 +178,7 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
 >
 <TabItem value="registries_list_repositories_v2">
 
-To list all repositories in your container registry, send a GET request to `/v2/registries/$REGISTRY_NAME/repositoriesV2`. It is similar to GET `/v2/registry/$REGISTRY_NAME/repositoriesV2` and exists for backward compatibility.
+To list all repositories in your container registry, send a GET request to `/v2/registries/$REGISTRY_NAME/repositoriesV2`. It is similar to GET `/v2/registry/$REGISTRY_NAME/repositoriesV2`.
 
 ```sql
 SELECT
@@ -230,7 +231,7 @@ AND repository_name = '{{ repository_name }}' --required
 >
 <TabItem value="registry_list_repositories_legacy">
 
-This endpoint has been deprecated in favor of the _List All Container Registry Repositories [V2]_ endpoint.<br /><br />To list all repositories in your container registry, send a GET<br />request to `/v2/registry/$REGISTRY_NAME/repositories`.<br />
+**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />This endpoint has been deprecated in favor of the _List All Container Registry Repositories [V2]_ endpoint.<br /><br />To list all repositories in your container registry, send a GET<br />request to `/v2/registry/$REGISTRY_NAME/repositories`.<br />
 
 ```sql
 EXEC digitalocean.container_registry.repositories.registry_list_repositories_legacy 
@@ -242,7 +243,7 @@ EXEC digitalocean.container_registry.repositories.registry_list_repositories_leg
 </TabItem>
 <TabItem value="registry_list_repositories_v2_legacy">
 
-To list all repositories in your container registry, send a GET request to `/v2/registry/$REGISTRY_NAME/repositoriesV2`.
+**Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />To list all repositories in your container registry, send a GET<br />request to `/v2/registry/$REGISTRY_NAME/repositoriesV2`.<br />
 
 ```sql
 EXEC digitalocean.container_registry.repositories.registry_list_repositories_v2_legacy 

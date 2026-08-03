@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>firewall_rules</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>firewall_rules</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="firewall_rules" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.firewall_rules" /></td></tr>
 </tbody></table>
@@ -53,7 +54,7 @@ A JSON object with a key of `rules`.
 <tr>
     <td><CopyableCode code="cluster_uuid" /></td>
     <td><code>string</code></td>
-    <td>A unique ID for the database cluster to which the rule is applied. (pattern: <code>^$|[0-9a-f]&#123;8&#125;\b-[0-9a-f]&#123;4&#125;-[0-9a-f]&#123;4&#125;-[0-9a-f]&#123;4&#125;-\b[0-9a-f]&#123;12&#125;</code>, example: 9cc10173-e9ea-4176-9dbc-a4cee4c4ff30)</td>
+    <td>A unique ID for the database cluster to which the rule is applied. (pattern: <code>^$|&#91;0-9a-f&#93;&#123;8&#125;\b-&#91;0-9a-f&#93;&#123;4&#125;-&#91;0-9a-f&#93;&#123;4&#125;-&#91;0-9a-f&#93;&#123;4&#125;-\b&#91;0-9a-f&#93;&#123;12&#125;</code>, example: 9cc10173-e9ea-4176-9dbc-a4cee4c4ff30)</td>
 </tr>
 <tr>
     <td><CopyableCode code="created_at" /></td>
@@ -61,14 +62,19 @@ A JSON object with a key of `rules`.
     <td>A time value given in ISO8601 combined date and time format that represents when the firewall rule was created. (example: 2019-01-11T18:37:36Z)</td>
 </tr>
 <tr>
+    <td><CopyableCode code="description" /></td>
+    <td><code>string</code></td>
+    <td>A human-readable description of the rule. (example: an IP address for local development)</td>
+</tr>
+<tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>The type of resource that the firewall rule allows to access the database cluster. (example: droplet)</td>
+    <td>The type of resource that the firewall rule allows to access the database cluster. (droplet, k8s, ip_addr, tag, app) (example: droplet)</td>
 </tr>
 <tr>
     <td><CopyableCode code="uuid" /></td>
     <td><code>string</code></td>
-    <td>A unique ID for the firewall rule itself. (pattern: <code>^$|[0-9a-f]&#123;8&#125;\b-[0-9a-f]&#123;4&#125;-[0-9a-f]&#123;4&#125;-[0-9a-f]&#123;4&#125;-\b[0-9a-f]&#123;12&#125;</code>, example: 79f26d28-ea8a-41f2-8ad8-8cfcdd020095)</td>
+    <td>A unique ID for the firewall rule itself. (pattern: <code>^$|&#91;0-9a-f&#93;&#123;8&#125;\b-&#91;0-9a-f&#93;&#123;4&#125;-&#91;0-9a-f&#93;&#123;4&#125;-&#91;0-9a-f&#93;&#123;4&#125;-\b&#91;0-9a-f&#93;&#123;12&#125;</code>, example: 79f26d28-ea8a-41f2-8ad8-8cfcdd020095)</td>
 </tr>
 <tr>
     <td><CopyableCode code="value" /></td>
@@ -107,7 +113,7 @@ The following methods are available for this resource:
     <td><CopyableCode code="replace" /></td>
     <td><a href="#parameter-database_cluster_uuid"><code>database_cluster_uuid</code></a></td>
     <td></td>
-    <td>To update a database cluster's firewall rules (known as "trusted sources" in the control panel), send a PUT request to `/v2/databases/$DATABASE_ID/firewall` specifying which resources should be able to open connections to the database. You may limit connections to specific Droplets, Kubernetes clusters, or IP addresses. When a tag is provided, any Droplet or Kubernetes node with that tag applied to it will have access. The firewall is limited to 100 rules (or trusted sources). When possible, we recommend [placing your databases into a VPC network](https://docs.digitalocean.com/products/networking/vpc/) to limit access to them instead of using a firewall.<br />A successful</td>
+    <td>To update a database cluster's firewall rules (known as "trusted sources" in the control panel), send a PUT request to `/v2/databases/$DATABASE_ID/firewall` specifying which resources should be able to open connections to the database. You may limit connections to specific Droplets, Kubernetes clusters, or IP addresses. When a tag is provided, any Droplet or Kubernetes node with that tag applied to it will have access. The firewall is limited to 100 rules (or trusted sources). You cannot add IPv6 addresses as trusted sources. For additional limits, see your database engine's limits page. When possible, we recommend [placing your databases into a VPC network](https://docs.digitalocean.com/products/networking/vpc/) to limit access to them instead of using a firewall.<br />A successful request returns a 204 status code with no content.</td>
 </tr>
 </tbody>
 </table>
@@ -149,6 +155,7 @@ To list all of a database cluster's firewall rules (known as "trusted sources" i
 SELECT
 cluster_uuid,
 created_at,
+description,
 type,
 uuid,
 value
@@ -170,12 +177,12 @@ WHERE database_cluster_uuid = '{{ database_cluster_uuid }}' -- required
 >
 <TabItem value="databases_update_firewall_rules">
 
-To update a database cluster's firewall rules (known as "trusted sources" in the control panel), send a PUT request to `/v2/databases/$DATABASE_ID/firewall` specifying which resources should be able to open connections to the database. You may limit connections to specific Droplets, Kubernetes clusters, or IP addresses. When a tag is provided, any Droplet or Kubernetes node with that tag applied to it will have access. The firewall is limited to 100 rules (or trusted sources). When possible, we recommend [placing your databases into a VPC network](https://docs.digitalocean.com/products/networking/vpc/) to limit access to them instead of using a firewall.<br />A successful
+To update a database cluster's firewall rules (known as "trusted sources" in the control panel), send a PUT request to `/v2/databases/$DATABASE_ID/firewall` specifying which resources should be able to open connections to the database. You may limit connections to specific Droplets, Kubernetes clusters, or IP addresses. When a tag is provided, any Droplet or Kubernetes node with that tag applied to it will have access. The firewall is limited to 100 rules (or trusted sources). You cannot add IPv6 addresses as trusted sources. For additional limits, see your database engine's limits page. When possible, we recommend [placing your databases into a VPC network](https://docs.digitalocean.com/products/networking/vpc/) to limit access to them instead of using a firewall.<br />A successful request returns a 204 status code with no content.
 
 ```sql
 REPLACE digitalocean.databases.firewall_rules
 SET 
-data__rules = '{{ rules }}'
+rules = '{{ rules }}'
 WHERE 
 database_cluster_uuid = '{{ database_cluster_uuid }}' --required;
 ```

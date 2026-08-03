@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>firewall_rules</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>firewall_rules</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="firewall_rules" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.firewall_rules" /></td></tr>
 </tbody></table>
@@ -52,7 +53,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#firewalls_add_rules"><CopyableCode code="firewalls_add_rules" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-firewall_id"><code>firewall_id</code></a>, <a href="#parameter-data__inbound_rules"><code>data__inbound_rules</code></a></td>
+    <td><a href="#parameter-firewall_id"><code>firewall_id</code></a>, <a href="#parameter-inbound_rules"><code>inbound_rules</code></a></td>
     <td></td>
     <td>To add additional access rules to a firewall, send a POST request to<br />`/v2/firewalls/$FIREWALL_ID/rules`. The body of the request may include an<br />inbound_rules and/or outbound_rules attribute containing an array of rules to<br />be added.<br /><br />No response body will be sent back, but the response code will indicate<br />success. Specifically, the response code will be a 204, which means that the<br />action was successful with no returned body data.<br /></td>
 </tr>
@@ -102,8 +103,8 @@ To add additional access rules to a firewall, send a POST request to<br />`/v2/f
 
 ```sql
 INSERT INTO digitalocean.compute.firewall_rules (
-data__inbound_rules,
-data__outbound_rules,
+inbound_rules,
+outbound_rules,
 firewall_id
 )
 SELECT 
@@ -115,18 +116,44 @@ SELECT
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: firewall_rules
   props:
     - name: firewall_id
-      value: string (uuid)
+      value: "{{ firewall_id }}"
       description: Required parameter for the firewall_rules resource.
     - name: inbound_rules
-      value: array
+      value:
+        - protocol: "{{ protocol }}"
+          ports: "{{ ports }}"
+          sources:
+            addresses:
+              - "{{ addresses }}"
+            droplet_ids:
+              - {{ droplet_ids }}
+            load_balancer_uids:
+              - "{{ load_balancer_uids }}"
+            kubernetes_ids:
+              - "{{ kubernetes_ids }}"
+            tags:
+              - "{{ tags }}"
     - name: outbound_rules
-      value: array
-```
+      value:
+        - protocol: "{{ protocol }}"
+          ports: "{{ ports }}"
+          destinations:
+            addresses:
+              - "{{ addresses }}"
+            droplet_ids:
+              - {{ droplet_ids }}
+            load_balancer_uids:
+              - "{{ load_balancer_uids }}"
+            kubernetes_ids:
+              - "{{ kubernetes_ids }}"
+            tags:
+              - "{{ tags }}"
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 

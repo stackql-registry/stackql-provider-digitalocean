@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>backups</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>backups</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="backups" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.backups" /></td></tr>
 </tbody></table>
@@ -54,6 +55,11 @@ A JSON object with a key of `database_backups`.
     <td><CopyableCode code="created_at" /></td>
     <td><code>string (date-time)</code></td>
     <td>A time value given in ISO8601 combined date and time format at which the backup was created. (example: 2019-01-31T19:25:22Z)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="incremental" /></td>
+    <td><code>boolean</code></td>
+    <td>Indicates if this backup is a full or an incremental one (available only for MySQL).</td>
 </tr>
 <tr>
     <td><CopyableCode code="size_gigabytes" /></td>
@@ -126,6 +132,7 @@ To list all of the available backups of a PostgreSQL or MySQL database cluster, 
 ```sql
 SELECT
 created_at,
+incremental,
 size_gigabytes
 FROM digitalocean.databases.backups
 WHERE database_cluster_uuid = '{{ database_cluster_uuid }}' -- required

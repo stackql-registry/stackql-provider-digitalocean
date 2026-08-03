@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>domain_records</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>domain_records</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="domain_records" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.domain_records" /></td></tr>
 </tbody></table>
@@ -204,23 +205,23 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#domains_create_record"><CopyableCode code="domains_create_record" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-domain_name"><code>domain_name</code></a>, <a href="#parameter-data__type"><code>data__type</code></a></td>
+    <td><a href="#parameter-domain_name"><code>domain_name</code></a>, <a href="#parameter-type"><code>type</code></a></td>
     <td></td>
-    <td>To create a new record to a domain, send a POST request to<br />`/v2/domains/$DOMAIN_NAME/records`.<br /><br />The request must include all of the required fields for the domain record type<br />being added.<br /><br />See the [attribute table]https://docs.digitalocean.com/products/networking/dns/how-to/manage-records/ for details regarding record<br />types and their respective required attributes.<br /></td>
+    <td>To create a new record to a domain, send a POST request to<br />`/v2/domains/$DOMAIN_NAME/records`.<br /><br />The request must include all of the required fields for the domain record type<br />being added.<br /><br />See the [attribute table](#tag/Domain-Records) for details regarding record<br />types and their respective required attributes.<br /></td>
 </tr>
 <tr>
     <td><a href="#domains_patch_record"><CopyableCode code="domains_patch_record" /></a></td>
     <td><CopyableCode code="update" /></td>
-    <td><a href="#parameter-domain_name"><code>domain_name</code></a>, <a href="#parameter-domain_record_id"><code>domain_record_id</code></a>, <a href="#parameter-data__type"><code>data__type</code></a></td>
+    <td><a href="#parameter-domain_name"><code>domain_name</code></a>, <a href="#parameter-domain_record_id"><code>domain_record_id</code></a>, <a href="#parameter-type"><code>type</code></a></td>
     <td></td>
-    <td>To update an existing record, send a PATCH request to<br />`/v2/domains/$DOMAIN_NAME/records/$DOMAIN_RECORD_ID`. Any attribute valid for<br />the record type can be set to a new value for the record.<br /><br />See the [attribute table]https://docs.digitalocean.com/products/networking/dns/how-to/manage-records/ for details regarding record<br />types and their respective attributes.<br /></td>
+    <td>To update an existing record, send a PATCH request to<br />`/v2/domains/$DOMAIN_NAME/records/$DOMAIN_RECORD_ID`. Any attribute valid for<br />the record type can be set to a new value for the record.<br /><br />See the [attribute table](#tag/Domain-Records) for details regarding record<br />types and their respective attributes.<br /></td>
 </tr>
 <tr>
     <td><a href="#domains_update_record"><CopyableCode code="domains_update_record" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-domain_name"><code>domain_name</code></a>, <a href="#parameter-domain_record_id"><code>domain_record_id</code></a>, <a href="#parameter-data__type"><code>data__type</code></a></td>
+    <td><a href="#parameter-domain_name"><code>domain_name</code></a>, <a href="#parameter-domain_record_id"><code>domain_record_id</code></a>, <a href="#parameter-type"><code>type</code></a></td>
     <td></td>
-    <td>To update an existing record, send a PUT request to<br />`/v2/domains/$DOMAIN_NAME/records/$DOMAIN_RECORD_ID`. Any attribute valid for<br />the record type can be set to a new value for the record.<br /><br />See the [attribute table]https://docs.digitalocean.com/products/networking/dns/how-to/manage-records/ for details regarding record<br />types and their respective attributes.<br /></td>
+    <td>To update an existing record, send a PUT request to<br />`/v2/domains/$DOMAIN_NAME/records/$DOMAIN_RECORD_ID`. Any attribute valid for<br />the record type can be set to a new value for the record.<br /><br />See the [attribute table](#tag/Domain-Records) for details regarding record<br />types and their respective attributes.<br /></td>
 </tr>
 <tr>
     <td><a href="#domains_delete_record"><CopyableCode code="domains_delete_record" /></a></td>
@@ -348,19 +349,19 @@ AND page = '{{ page }}'
 >
 <TabItem value="domains_create_record">
 
-To create a new record to a domain, send a POST request to<br />`/v2/domains/$DOMAIN_NAME/records`.<br /><br />The request must include all of the required fields for the domain record type<br />being added.<br /><br />See the [attribute table]https://docs.digitalocean.com/products/networking/dns/how-to/manage-records/ for details regarding record<br />types and their respective required attributes.<br />
+To create a new record to a domain, send a POST request to<br />`/v2/domains/$DOMAIN_NAME/records`.<br /><br />The request must include all of the required fields for the domain record type<br />being added.<br /><br />See the [attribute table](#tag/Domain-Records) for details regarding record<br />types and their respective required attributes.<br />
 
 ```sql
 INSERT INTO digitalocean.compute.domain_records (
-data__type,
-data__name,
-data__data,
-data__priority,
-data__port,
-data__ttl,
-data__weight,
-data__flags,
-data__tag,
+type,
+name,
+data,
+priority,
+port,
+ttl,
+weight,
+flags,
+tag,
 domain_name
 )
 SELECT 
@@ -381,59 +382,50 @@ domain_record
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: domain_records
   props:
     - name: domain_name
-      value: string
+      value: "{{ domain_name }}"
       description: Required parameter for the domain_records resource.
     - name: type
-      value: string
-      description: >
+      value: "{{ type }}"
+      description: |
         The type of the DNS record. For example: A, CNAME, TXT, ...
-        
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The host name, alias, or service being defined by the record.
-        
     - name: data
-      value: string
-      description: >
+      value: "{{ data }}"
+      description: |
         Variable data depending on record type. For example, the "data" value for an A record would be the IPv4 address to which the domain will be mapped. For a CAA record, it would contain the domain name of the CA being granted permission to issue certificates.
-        
     - name: priority
-      value: integer
-      description: >
+      value: {{ priority }}
+      description: |
         The priority for SRV and MX records.
-        
     - name: port
-      value: integer
-      description: >
+      value: {{ port }}
+      description: |
         The port for SRV records.
-        
     - name: ttl
-      value: integer
-      description: >
+      value: {{ ttl }}
+      description: |
         This value is the time to live for the record, in seconds. This defines the time frame that clients can cache queried information before a refresh should be requested.
-        
     - name: weight
-      value: integer
-      description: >
+      value: {{ weight }}
+      description: |
         The weight for SRV records.
-        
     - name: flags
-      value: integer
-      description: >
+      value: {{ flags }}
+      description: |
         An unsigned integer between 0-255 used for CAA records.
-        
     - name: tag
-      value: string
-      description: >
+      value: "{{ tag }}"
+      description: |
         The parameter tag for CAA records. Valid values are "issue", "issuewild", or "iodef"
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -448,24 +440,24 @@ domain_record
 >
 <TabItem value="domains_patch_record">
 
-To update an existing record, send a PATCH request to<br />`/v2/domains/$DOMAIN_NAME/records/$DOMAIN_RECORD_ID`. Any attribute valid for<br />the record type can be set to a new value for the record.<br /><br />See the [attribute table]https://docs.digitalocean.com/products/networking/dns/how-to/manage-records/ for details regarding record<br />types and their respective attributes.<br />
+To update an existing record, send a PATCH request to<br />`/v2/domains/$DOMAIN_NAME/records/$DOMAIN_RECORD_ID`. Any attribute valid for<br />the record type can be set to a new value for the record.<br /><br />See the [attribute table](#tag/Domain-Records) for details regarding record<br />types and their respective attributes.<br />
 
 ```sql
 UPDATE digitalocean.compute.domain_records
 SET 
-data__type = '{{ type }}',
-data__name = '{{ name }}',
-data__data = '{{ data }}',
-data__priority = {{ priority }},
-data__port = {{ port }},
-data__ttl = {{ ttl }},
-data__weight = {{ weight }},
-data__flags = {{ flags }},
-data__tag = '{{ tag }}'
+type = '{{ type }}',
+name = '{{ name }}',
+data = '{{ data }}',
+priority = {{ priority }},
+port = {{ port }},
+ttl = {{ ttl }},
+weight = {{ weight }},
+flags = {{ flags }},
+tag = '{{ tag }}'
 WHERE 
 domain_name = '{{ domain_name }}' --required
 AND domain_record_id = '{{ domain_record_id }}' --required
-AND data__type = '{{ type }}' --required
+AND type = '{{ type }}' --required
 RETURNING
 domain_record;
 ```
@@ -483,24 +475,24 @@ domain_record;
 >
 <TabItem value="domains_update_record">
 
-To update an existing record, send a PUT request to<br />`/v2/domains/$DOMAIN_NAME/records/$DOMAIN_RECORD_ID`. Any attribute valid for<br />the record type can be set to a new value for the record.<br /><br />See the [attribute table]https://docs.digitalocean.com/products/networking/dns/how-to/manage-records/ for details regarding record<br />types and their respective attributes.<br />
+To update an existing record, send a PUT request to<br />`/v2/domains/$DOMAIN_NAME/records/$DOMAIN_RECORD_ID`. Any attribute valid for<br />the record type can be set to a new value for the record.<br /><br />See the [attribute table](#tag/Domain-Records) for details regarding record<br />types and their respective attributes.<br />
 
 ```sql
 REPLACE digitalocean.compute.domain_records
 SET 
-data__type = '{{ type }}',
-data__name = '{{ name }}',
-data__data = '{{ data }}',
-data__priority = {{ priority }},
-data__port = {{ port }},
-data__ttl = {{ ttl }},
-data__weight = {{ weight }},
-data__flags = {{ flags }},
-data__tag = '{{ tag }}'
+type = '{{ type }}',
+name = '{{ name }}',
+data = '{{ data }}',
+priority = {{ priority }},
+port = {{ port }},
+ttl = {{ ttl }},
+weight = {{ weight }},
+flags = {{ flags }},
+tag = '{{ tag }}'
 WHERE 
 domain_name = '{{ domain_name }}' --required
 AND domain_record_id = '{{ domain_record_id }}' --required
-AND data__type = '{{ type }}' --required
+AND type = '{{ type }}' --required
 RETURNING
 domain_record;
 ```

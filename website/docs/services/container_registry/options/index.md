@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>options</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>options</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="options" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.container_registry.options" /></td></tr>
 </tbody></table>
@@ -85,14 +86,14 @@ The following methods are available for this resource:
     <td><CopyableCode code="select" /></td>
     <td></td>
     <td></td>
-    <td>This endpoint serves to provide additional information as to which option values are available when creating a container registry.<br />There are multiple subscription tiers available for container registry. Each tier allows a different number of image repositories to be created in your registry, and has a different amount of storage and transfer included.<br />There are multiple regions available for container registry and controls where your data is stored.<br />To list the available options, send a GET request to `/v2/registries/options`. This is similar to GET `/v2/registry/options` and exists for backward compatibility.</td>
+    <td>This endpoint serves to provide additional information as to which option values are available when creating a container registry.<br />There are multiple subscription tiers available for container registry. Each tier allows a different number of image repositories to be created in your registry, and has a different amount of storage and transfer included.<br />There are multiple regions available for container registry and controls where your data is stored.<br />To list the available options, send a GET request to `/v2/registries/options`. This is similar to GET `/v2/registry/options`.</td>
 </tr>
 <tr>
     <td><a href="#registry_get_options_legacy"><CopyableCode code="registry_get_options_legacy" /></a></td>
     <td><CopyableCode code="exec" /></td>
     <td></td>
     <td></td>
-    <td>This endpoint serves to provide additional information as to which option values are available when creating a container registry.<br />There are multiple subscription tiers available for container registry. Each tier allows a different number of image repositories to be created in your registry, and has a different amount of storage and transfer included.<br />There are multiple regions available for container registry and controls where your data is stored.<br />To list the available options, send a GET request to `/v2/registry/options`.</td>
+    <td>**Note: This endpoint is deprecated and may be removed in a future version. There is no alternative.****Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />This endpoint serves to provide additional information as to which option values<br />are available when creating a container registry.<br /><br />There are multiple subscription tiers available for container registry. Each<br />tier allows a different number of image repositories to be created in your<br />registry, and has a different amount of storage and transfer included.<br /><br />There are multiple regions available for container registry and controls<br />where your data is stored.<br /><br />To list the available options, send a GET request to<br />`/v2/registry/options`.<br /></td>
 </tr>
 </tbody>
 </table>
@@ -123,7 +124,7 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
 >
 <TabItem value="registries_get_options">
 
-This endpoint serves to provide additional information as to which option values are available when creating a container registry.<br />There are multiple subscription tiers available for container registry. Each tier allows a different number of image repositories to be created in your registry, and has a different amount of storage and transfer included.<br />There are multiple regions available for container registry and controls where your data is stored.<br />To list the available options, send a GET request to `/v2/registries/options`. This is similar to GET `/v2/registry/options` and exists for backward compatibility.
+This endpoint serves to provide additional information as to which option values are available when creating a container registry.<br />There are multiple subscription tiers available for container registry. Each tier allows a different number of image repositories to be created in your registry, and has a different amount of storage and transfer included.<br />There are multiple regions available for container registry and controls where your data is stored.<br />To list the available options, send a GET request to `/v2/registries/options`. This is similar to GET `/v2/registry/options`.
 
 ```sql
 SELECT
@@ -146,7 +147,7 @@ FROM digitalocean.container_registry.options
 >
 <TabItem value="registry_get_options_legacy">
 
-This endpoint serves to provide additional information as to which option values are available when creating a container registry.<br />There are multiple subscription tiers available for container registry. Each tier allows a different number of image repositories to be created in your registry, and has a different amount of storage and transfer included.<br />There are multiple regions available for container registry and controls where your data is stored.<br />To list the available options, send a GET request to `/v2/registry/options`.
+**Note: This endpoint is deprecated and may be removed in a future version. There is no alternative.****Note: This endpoint is deprecated. Please use the `/v2/registries` endpoint instead.**<br /><br />This endpoint serves to provide additional information as to which option values<br />are available when creating a container registry.<br /><br />There are multiple subscription tiers available for container registry. Each<br />tier allows a different number of image repositories to be created in your<br />registry, and has a different amount of storage and transfer included.<br /><br />There are multiple regions available for container registry and controls<br />where your data is stored.<br /><br />To list the available options, send a GET request to<br />`/v2/registry/options`.<br />
 
 ```sql
 EXEC digitalocean.container_registry.options.registry_get_options_legacy 

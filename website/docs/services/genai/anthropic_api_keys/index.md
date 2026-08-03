@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>anthropic_api_keys</code> reso
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>anthropic_api_keys</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="anthropic_api_keys" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.genai.anthropic_api_keys" /></td></tr>
 </tbody></table>
@@ -260,8 +261,8 @@ To create an Anthropic API key, send a POST request to `/v2/gen-ai/anthropic/key
 
 ```sql
 INSERT INTO digitalocean.genai.anthropic_api_keys (
-data__api_key,
-data__name
+api_key,
+name
 )
 SELECT 
 '{{ api_key }}',
@@ -273,21 +274,19 @@ api_key_info
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: anthropic_api_keys
   props:
     - name: api_key
-      value: string
-      description: >
+      value: "{{ api_key }}"
+      description: |
         Anthropic API key
-        
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         Name of the key
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -307,9 +306,9 @@ To update an Anthropic API key, send a PUT request to `/v2/gen-ai/anthropic/keys
 ```sql
 REPLACE digitalocean.genai.anthropic_api_keys
 SET 
-data__api_key = '{{ api_key }}',
-data__api_key_uuid = '{{ api_key_uuid }}',
-data__name = '{{ name }}'
+api_key = '{{ api_key }}',
+api_key_uuid = '{{ api_key_uuid }}',
+name = '{{ name }}'
 WHERE 
 api_key_uuid = '{{ api_key_uuid }}' --required
 RETURNING

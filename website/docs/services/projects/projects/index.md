@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>projects</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>projects</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="projects" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.projects.projects" /></td></tr>
 </tbody></table>
@@ -79,7 +80,7 @@ The response will be a JSON object with a key called `project`. The value of thi
 <tr>
     <td><CopyableCode code="environment" /></td>
     <td><code>string</code></td>
-    <td>The environment of the project's resources. (example: Production)</td>
+    <td>The environment of the project's resources. (Development, Staging, Production) (example: Production)</td>
 </tr>
 <tr>
     <td><CopyableCode code="is_default" /></td>
@@ -145,7 +146,7 @@ The response will be a JSON object with a key called `projects`. The value of th
 <tr>
     <td><CopyableCode code="environment" /></td>
     <td><code>string</code></td>
-    <td>The environment of the project's resources. (example: Production)</td>
+    <td>The environment of the project's resources. (Development, Staging, Production) (example: Production)</td>
 </tr>
 <tr>
     <td><CopyableCode code="is_default" /></td>
@@ -204,7 +205,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#projects_create"><CopyableCode code="projects_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__purpose"><code>data__purpose</code></a></td>
+    <td><a href="#parameter-name"><code>name</code></a>, <a href="#parameter-purpose"><code>purpose</code></a></td>
     <td></td>
     <td>To create a project, send a POST request to `/v2/projects`.</td>
 </tr>
@@ -218,7 +219,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#projects_update"><CopyableCode code="projects_update" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-project_id"><code>project_id</code></a>, <a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__description"><code>data__description</code></a>, <a href="#parameter-data__purpose"><code>data__purpose</code></a>, <a href="#parameter-data__environment"><code>data__environment</code></a>, <a href="#parameter-data__is_default"><code>data__is_default</code></a></td>
+    <td><a href="#parameter-project_id"><code>project_id</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-description"><code>description</code></a>, <a href="#parameter-purpose"><code>purpose</code></a>, <a href="#parameter-environment"><code>environment</code></a>, <a href="#parameter-is_default"><code>is_default</code></a></td>
     <td></td>
     <td>To update a project, send a PUT request to `/v2/projects/$PROJECT_ID`. All of the following attributes must be sent.</td>
 </tr>
@@ -333,10 +334,10 @@ To create a project, send a POST request to `/v2/projects`.
 
 ```sql
 INSERT INTO digitalocean.projects.projects (
-data__name,
-data__description,
-data__purpose,
-data__environment
+name,
+description,
+purpose,
+environment
 )
 SELECT 
 '{{ name }}' /* required */,
@@ -350,46 +351,40 @@ project
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: projects
   props:
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         The human-readable name for the project. The maximum length is 175 characters and the name must be unique.
-        
     - name: description
-      value: string
-      description: >
+      value: "{{ description }}"
+      description: |
         The description of the project. The maximum length is 255 characters.
-        
     - name: purpose
-      value: string
-      description: >
+      value: "{{ purpose }}"
+      description: |
         The purpose of the project. The maximum length is 255 characters. It can
-have one of the following values:
-
-- Just trying out DigitalOcean
-- Class project / Educational purposes
-- Website or blog
-- Web Application
-- Service or API
-- Mobile Application
-- Machine learning / AI / Data processing
-- IoT
-- Operational / Developer tooling
-
-If another value for purpose is specified, for example, "your custom purpose",
-your purpose will be stored as `Other: your custom purpose`.
-
+        have one of the following values:
+        - Just trying out DigitalOcean
+        - Class project / Educational purposes
+        - Website or blog
+        - Web Application
+        - Service or API
+        - Mobile Application
+        - Machine learning / AI / Data processing
+        - IoT
+        - Operational / Developer tooling
+        If another value for purpose is specified, for example, "your custom purpose",
+        your purpose will be stored as \`Other: your custom purpose\`.
     - name: environment
-      value: string
-      description: >
+      value: "{{ environment }}"
+      description: |
         The environment of the project's resources.
-        
       valid_values: ['Development', 'Staging', 'Production']
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -409,11 +404,11 @@ To update only specific attributes of a project, send a PATCH request to `/v2/pr
 ```sql
 UPDATE digitalocean.projects.projects
 SET 
-data__name = '{{ name }}',
-data__description = '{{ description }}',
-data__purpose = '{{ purpose }}',
-data__environment = '{{ environment }}',
-data__is_default = {{ is_default }}
+name = '{{ name }}',
+description = '{{ description }}',
+purpose = '{{ purpose }}',
+environment = '{{ environment }}',
+is_default = {{ is_default }}
 WHERE 
 project_id = '{{ project_id }}' --required
 RETURNING
@@ -438,18 +433,18 @@ To update a project, send a PUT request to `/v2/projects/$PROJECT_ID`. All of th
 ```sql
 REPLACE digitalocean.projects.projects
 SET 
-data__name = '{{ name }}',
-data__description = '{{ description }}',
-data__purpose = '{{ purpose }}',
-data__environment = '{{ environment }}',
-data__is_default = {{ is_default }}
+name = '{{ name }}',
+description = '{{ description }}',
+purpose = '{{ purpose }}',
+environment = '{{ environment }}',
+is_default = {{ is_default }}
 WHERE 
 project_id = '{{ project_id }}' --required
-AND data__name = '{{ name }}' --required
-AND data__description = '{{ description }}' --required
-AND data__purpose = '{{ purpose }}' --required
-AND data__environment = '{{ environment }}' --required
-AND data__is_default = {{ is_default }} --required
+AND name = '{{ name }}' --required
+AND description = '{{ description }}' --required
+AND purpose = '{{ purpose }}' --required
+AND environment = '{{ environment }}' --required
+AND is_default = {{ is_default }} --required
 RETURNING
 project;
 ```

@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>knowledge_bases</code> resource
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>knowledge_bases</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="knowledge_bases" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.genai.knowledge_bases" /></td></tr>
 </tbody></table>
@@ -54,7 +55,7 @@ A successful response.
 <tr>
     <td><CopyableCode code="database_status" /></td>
     <td><code>string</code></td>
-    <td> (default: CREATING, example: CREATING)</td>
+    <td> (CREATING, ONLINE, POWEROFF, REBUILDING, REBALANCING, DECOMMISSIONED, FORKING, MIGRATING, RESIZING, RESTORING, POWERING_ON, UNHEALTHY, UPGRADING) (default: CREATING, example: CREATING)</td>
 </tr>
 <tr>
     <td><CopyableCode code="knowledge_base" /></td>
@@ -267,14 +268,16 @@ To create a knowledge base, send a POST request to `/v2/gen-ai/knowledge_bases`.
 
 ```sql
 INSERT INTO digitalocean.genai.knowledge_bases (
-data__database_id,
-data__datasources,
-data__embedding_model_uuid,
-data__name,
-data__project_id,
-data__region,
-data__tags,
-data__vpc_uuid
+database_id,
+datasources,
+embedding_model_uuid,
+name,
+project_id,
+region,
+reranking_config,
+size,
+tags,
+vpc_uuid
 )
 SELECT 
 '{{ database_id }}',
@@ -283,6 +286,8 @@ SELECT
 '{{ name }}',
 '{{ project_id }}',
 '{{ region }}',
+'{{ reranking_config }}',
+'{{ size }}',
 '{{ tags }}',
 '{{ vpc_uuid }}'
 RETURNING
@@ -292,53 +297,91 @@ knowledge_base
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: knowledge_bases
   props:
     - name: database_id
-      value: string
-      description: >
+      value: "{{ database_id }}"
+      description: |
         Identifier of the DigitalOcean OpenSearch database this knowledge base will use, optional.
-If not provided, we create a new database for the knowledge base in
-the same region as the knowledge base.
-        
+        If not provided, we create a new database for the knowledge base in
+        the same region as the knowledge base.
     - name: datasources
-      value: array
-      description: >
-        The data sources to use for this knowledge base. See [Organize Data Sources](https://docs.digitalocean.com/products/genai-platform/concepts/best-practices/#spaces-buckets) for more information on data sources best practices.
-        
+      description: |
+        Optional data sources to attach at creation. Omit or use an empty list to create the knowledge base without sources, then add sources (with chunking strategy and sizes) using [Add a Data Source to a Knowledge Base](#operation/create_knowledge_base_data_source). When provided, see [Organize Data Sources](https://docs.digitalocean.com/products/gradient-ai-platform/how-to/create-manage-agent-knowledge-bases/#add-data-sources) for best practices.
+      value:
+        - aws_data_source:
+            bucket_name: "{{ bucket_name }}"
+            item_path: "{{ item_path }}"
+            key_id: "{{ key_id }}"
+            region: "{{ region }}"
+            secret_key: "{{ secret_key }}"
+          bucket_name: "{{ bucket_name }}"
+          bucket_region: "{{ bucket_region }}"
+          chunking_algorithm: "{{ chunking_algorithm }}"
+          chunking_options:
+            child_chunk_size: {{ child_chunk_size }}
+            max_chunk_size: {{ max_chunk_size }}
+            parent_chunk_size: {{ parent_chunk_size }}
+            semantic_threshold: {{ semantic_threshold }}
+          dropbox_data_source:
+            folder: "{{ folder }}"
+            refresh_token: "{{ refresh_token }}"
+          file_upload_data_source:
+            original_file_name: "{{ original_file_name }}"
+            size_in_bytes: "{{ size_in_bytes }}"
+            stored_object_key: "{{ stored_object_key }}"
+          google_drive_data_source:
+            folder_id: "{{ folder_id }}"
+            refresh_token: "{{ refresh_token }}"
+          item_path: "{{ item_path }}"
+          spaces_data_source:
+            bucket_name: "{{ bucket_name }}"
+            item_path: "{{ item_path }}"
+            region: "{{ region }}"
+          web_crawler_data_source:
+            base_url: "{{ base_url }}"
+            crawling_option: "{{ crawling_option }}"
+            embed_media: {{ embed_media }}
+            exclude_tags:
+              - "{{ exclude_tags }}"
     - name: embedding_model_uuid
-      value: string
-      description: >
+      value: "{{ embedding_model_uuid }}"
+      description: |
         Identifier for the [embedding model](https://docs.digitalocean.com/products/genai-platform/details/models/#embedding-models).
-        
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         Name of the knowledge base.
-        
     - name: project_id
-      value: string
-      description: >
+      value: "{{ project_id }}"
+      description: |
         Identifier of the DigitalOcean project this knowledge base will belong to.
-        
     - name: region
-      value: string
-      description: >
+      value: "{{ region }}"
+      description: |
         The datacenter region to deploy the knowledge base in.
-        
+    - name: reranking_config
+      description: |
+        Configuration for cross-encoder reranking during retrieval.
+      value:
+        enabled: {{ enabled }}
+        model: "{{ model }}"
+    - name: size
+      value: "{{ size }}"
+      valid_values: ['OPEN_SEARCH_PLAN_SIZE_UNSPECIFIED', 'OPEN_SEARCH_PLAN_SIZE_SMALL', 'OPEN_SEARCH_PLAN_SIZE_MEDIUM', 'OPEN_SEARCH_PLAN_SIZE_LARGE', 'OPEN_SEARCH_PLAN_SIZE_EXTRA_LARGE']
+      default: OPEN_SEARCH_PLAN_SIZE_UNSPECIFIED
     - name: tags
-      value: array
-      description: >
+      value:
+        - "{{ tags }}"
+      description: |
         Tags to organize your knowledge base.
-        
     - name: vpc_uuid
-      value: string
-      description: >
+      value: "{{ vpc_uuid }}"
+      description: |
         The VPC to deploy the knowledge base database in
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -358,12 +401,12 @@ To update a knowledge base, send a PUT request to `/v2/gen-ai/knowledge_bases/&#
 ```sql
 REPLACE digitalocean.genai.knowledge_bases
 SET 
-data__database_id = '{{ database_id }}',
-data__embedding_model_uuid = '{{ embedding_model_uuid }}',
-data__name = '{{ name }}',
-data__project_id = '{{ project_id }}',
-data__tags = '{{ tags }}',
-data__uuid = '{{ uuid }}'
+database_id = '{{ database_id }}',
+name = '{{ name }}',
+project_id = '{{ project_id }}',
+reranking_config = '{{ reranking_config }}',
+tags = '{{ tags }}',
+uuid = '{{ uuid }}'
 WHERE 
 uuid = '{{ uuid }}' --required
 RETURNING

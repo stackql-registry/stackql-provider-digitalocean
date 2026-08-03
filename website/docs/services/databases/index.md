@@ -18,7 +18,7 @@ databases service documentation.
 
 :::info[Service Summary]
 
-total resources: __23__  
+total resources: __27__  
 
 :::
 
@@ -33,13 +33,14 @@ total resources: __23__
 <a href="/services/databases/clusters/">clusters</a><br />
 <a href="/services/databases/connection_pools/">connection_pools</a><br />
 <a href="/services/databases/dbs/">dbs</a><br />
+<a href="/services/databases/do_settings/">do_settings</a><br />
 <a href="/services/databases/events_logs/">events_logs</a><br />
 <a href="/services/databases/eviction_policies/">eviction_policies</a><br />
 <a href="/services/databases/firewall_rules/">firewall_rules</a><br />
-<a href="/services/databases/kafka_schema_config/">kafka_schema_config</a>
+<a href="/services/databases/kafka_schema_config/">kafka_schema_config</a><br />
+<a href="/services/databases/kafka_schema_subject_config/">kafka_schema_subject_config</a>
 </div>
 <div class="providerDocColumn">
-<a href="/services/databases/kafka_schema_subject_config/">kafka_schema_subject_config</a><br />
 <a href="/services/databases/kafka_schema_version/">kafka_schema_version</a><br />
 <a href="/services/databases/kafka_schemas/">kafka_schemas</a><br />
 <a href="/services/databases/kafka_topics/">kafka_topics</a><br />
@@ -49,6 +50,9 @@ total resources: __23__
 <a href="/services/databases/options/">options</a><br />
 <a href="/services/databases/replicas/">replicas</a><br />
 <a href="/services/databases/sql_mode/">sql_mode</a><br />
-<a href="/services/databases/users/">users</a>
+<a href="/services/databases/users/">users</a><br />
+<a href="/services/databases/vector_database_backups/">vector_database_backups</a><br />
+<a href="/services/databases/vector_database_credentials/">vector_database_credentials</a><br />
+<a href="/services/databases/vector_databases/">vector_databases</a>
 </div>
 </div>

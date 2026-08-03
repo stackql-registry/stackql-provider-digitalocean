@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>load_balancers</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>load_balancers</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="load_balancers" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.load_balancers" /></td></tr>
 </tbody></table>
@@ -69,7 +70,7 @@ The response will be a JSON object with a key called `load_balancer`. The<br />v
 <tr>
     <td><CopyableCode code="algorithm" /></td>
     <td><code>string</code></td>
-    <td>This field has been deprecated. You can no longer specify an algorithm for load balancers. (example: round_robin, default: round_robin)</td>
+    <td>This field has been deprecated. You can no longer specify an algorithm for load balancers. (round_robin, least_connections) (example: round_robin, default: round_robin)</td>
 </tr>
 <tr>
     <td><CopyableCode code="created_at" /></td>
@@ -129,7 +130,7 @@ The response will be a JSON object with a key called `load_balancer`. The<br />v
 <tr>
     <td><CopyableCode code="ip" /></td>
     <td><code>string</code></td>
-    <td>An attribute containing the public-facing IP address of the load balancer. (pattern: <code>^$|^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.)&#123;3&#125;(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$</code>, example: 104.131.186.241)</td>
+    <td>An attribute containing the public-facing IP address of the load balancer. (pattern: <code>^$|^((25&#91;0-5&#93;|2&#91;0-4&#93;&#91;0-9&#93;|&#91;01&#93;?&#91;0-9&#93;&#91;0-9&#93;?)\.)&#123;3&#125;(25&#91;0-5&#93;|2&#91;0-4&#93;&#91;0-9&#93;|&#91;01&#93;?&#91;0-9&#93;&#91;0-9&#93;?)$</code>, example: 104.131.186.241)</td>
 </tr>
 <tr>
     <td><CopyableCode code="ipv6" /></td>
@@ -139,12 +140,12 @@ The response will be a JSON object with a key called `load_balancer`. The<br />v
 <tr>
     <td><CopyableCode code="network" /></td>
     <td><code>string</code></td>
-    <td>A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer. (example: EXTERNAL, default: EXTERNAL)</td>
+    <td>A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer. (EXTERNAL, INTERNAL) (example: EXTERNAL, default: EXTERNAL)</td>
 </tr>
 <tr>
     <td><CopyableCode code="network_stack" /></td>
     <td><code>string</code></td>
-    <td>A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer. (example: IPV4, default: IPV4)</td>
+    <td>A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer. (IPV4, DUALSTACK) (example: IPV4, default: IPV4)</td>
 </tr>
 <tr>
     <td><CopyableCode code="redirect_http_to_https" /></td>
@@ -159,7 +160,7 @@ The response will be a JSON object with a key called `load_balancer`. The<br />v
 <tr>
     <td><CopyableCode code="size" /></td>
     <td><code>string</code></td>
-    <td>This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes. * `lb-small` = 1 node * `lb-medium` = 3 nodes * `lb-large` = 6 nodes  You can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation. (default: lb-small, example: lb-small)</td>
+    <td>This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes. * `lb-small` = 1 node * `lb-medium` = 3 nodes * `lb-large` = 6 nodes  You can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation. (lb-small, lb-medium, lb-large) (default: lb-small, example: lb-small)</td>
 </tr>
 <tr>
     <td><CopyableCode code="size_unit" /></td>
@@ -169,7 +170,7 @@ The response will be a JSON object with a key called `load_balancer`. The<br />v
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>A status string indicating the current state of the load balancer. This can be `new`, `active`, or `errored`. (example: new)</td>
+    <td>A status string indicating the current state of the load balancer. This can be `new`, `active`, or `errored`. (new, active, errored) (example: new)</td>
 </tr>
 <tr>
     <td><CopyableCode code="sticky_sessions" /></td>
@@ -189,12 +190,12 @@ The response will be a JSON object with a key called `load_balancer`. The<br />v
 <tr>
     <td><CopyableCode code="tls_cipher_policy" /></td>
     <td><code>string</code></td>
-    <td>A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`. (example: STRONG, default: DEFAULT)</td>
+    <td>A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`. (DEFAULT, STRONG) (example: STRONG, default: DEFAULT)</td>
 </tr>
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer. (example: REGIONAL, default: REGIONAL)</td>
+    <td>A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer. (REGIONAL, REGIONAL_NETWORK, GLOBAL) (example: REGIONAL, default: REGIONAL)</td>
 </tr>
 <tr>
     <td><CopyableCode code="vpc_uuid" /></td>
@@ -235,7 +236,7 @@ A JSON object with a key of `load_balancers`. This will be set to an array of ob
 <tr>
     <td><CopyableCode code="algorithm" /></td>
     <td><code>string</code></td>
-    <td>This field has been deprecated. You can no longer specify an algorithm for load balancers. (example: round_robin, default: round_robin)</td>
+    <td>This field has been deprecated. You can no longer specify an algorithm for load balancers. (round_robin, least_connections) (example: round_robin, default: round_robin)</td>
 </tr>
 <tr>
     <td><CopyableCode code="created_at" /></td>
@@ -295,7 +296,7 @@ A JSON object with a key of `load_balancers`. This will be set to an array of ob
 <tr>
     <td><CopyableCode code="ip" /></td>
     <td><code>string</code></td>
-    <td>An attribute containing the public-facing IP address of the load balancer. (pattern: <code>^$|^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.)&#123;3&#125;(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$</code>, example: 104.131.186.241)</td>
+    <td>An attribute containing the public-facing IP address of the load balancer. (pattern: <code>^$|^((25&#91;0-5&#93;|2&#91;0-4&#93;&#91;0-9&#93;|&#91;01&#93;?&#91;0-9&#93;&#91;0-9&#93;?)\.)&#123;3&#125;(25&#91;0-5&#93;|2&#91;0-4&#93;&#91;0-9&#93;|&#91;01&#93;?&#91;0-9&#93;&#91;0-9&#93;?)$</code>, example: 104.131.186.241)</td>
 </tr>
 <tr>
     <td><CopyableCode code="ipv6" /></td>
@@ -305,12 +306,12 @@ A JSON object with a key of `load_balancers`. This will be set to an array of ob
 <tr>
     <td><CopyableCode code="network" /></td>
     <td><code>string</code></td>
-    <td>A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer. (example: EXTERNAL, default: EXTERNAL)</td>
+    <td>A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer. (EXTERNAL, INTERNAL) (example: EXTERNAL, default: EXTERNAL)</td>
 </tr>
 <tr>
     <td><CopyableCode code="network_stack" /></td>
     <td><code>string</code></td>
-    <td>A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer. (example: IPV4, default: IPV4)</td>
+    <td>A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer. (IPV4, DUALSTACK) (example: IPV4, default: IPV4)</td>
 </tr>
 <tr>
     <td><CopyableCode code="redirect_http_to_https" /></td>
@@ -325,7 +326,7 @@ A JSON object with a key of `load_balancers`. This will be set to an array of ob
 <tr>
     <td><CopyableCode code="size" /></td>
     <td><code>string</code></td>
-    <td>This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes. * `lb-small` = 1 node * `lb-medium` = 3 nodes * `lb-large` = 6 nodes  You can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation. (default: lb-small, example: lb-small)</td>
+    <td>This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes. * `lb-small` = 1 node * `lb-medium` = 3 nodes * `lb-large` = 6 nodes  You can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation. (lb-small, lb-medium, lb-large) (default: lb-small, example: lb-small)</td>
 </tr>
 <tr>
     <td><CopyableCode code="size_unit" /></td>
@@ -335,7 +336,7 @@ A JSON object with a key of `load_balancers`. This will be set to an array of ob
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>A status string indicating the current state of the load balancer. This can be `new`, `active`, or `errored`. (example: new)</td>
+    <td>A status string indicating the current state of the load balancer. This can be `new`, `active`, or `errored`. (new, active, errored) (example: new)</td>
 </tr>
 <tr>
     <td><CopyableCode code="sticky_sessions" /></td>
@@ -355,12 +356,12 @@ A JSON object with a key of `load_balancers`. This will be set to an array of ob
 <tr>
     <td><CopyableCode code="tls_cipher_policy" /></td>
     <td><code>string</code></td>
-    <td>A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`. (example: STRONG, default: DEFAULT)</td>
+    <td>A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`. (DEFAULT, STRONG) (example: STRONG, default: DEFAULT)</td>
 </tr>
 <tr>
     <td><CopyableCode code="type" /></td>
     <td><code>string</code></td>
-    <td>A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer. (example: REGIONAL, default: REGIONAL)</td>
+    <td>A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer. (REGIONAL, REGIONAL_NETWORK, GLOBAL) (example: REGIONAL, default: REGIONAL)</td>
 </tr>
 <tr>
     <td><CopyableCode code="vpc_uuid" /></td>
@@ -404,14 +405,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#load_balancers_create"><CopyableCode code="load_balancers_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__droplet_ids"><code>data__droplet_ids</code></a>, <a href="#parameter-data__region"><code>data__region</code></a></td>
+    <td><a href="#parameter-droplet_ids"><code>droplet_ids</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-forwarding_rules"><code>forwarding_rules</code></a>, <a href="#parameter-tag"><code>tag</code></a></td>
     <td></td>
     <td>To create a new load balancer instance, send a POST request to<br />`/v2/load_balancers`.<br /><br />You can specify the Droplets that will sit behind the load balancer using one<br />of two methods:<br /><br />* Set `droplet_ids` to a list of specific Droplet IDs.<br />* Set `tag` to the name of a tag. All Droplets with this tag applied will be<br />  assigned to the load balancer. Additional Droplets will be automatically<br />  assigned as they are tagged.<br /><br />These methods are mutually exclusive.<br /></td>
 </tr>
 <tr>
     <td><a href="#load_balancers_update"><CopyableCode code="load_balancers_update" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-lb_id"><code>lb_id</code></a>, <a href="#parameter-data__droplet_ids"><code>data__droplet_ids</code></a>, <a href="#parameter-data__region"><code>data__region</code></a></td>
+    <td><a href="#parameter-lb_id"><code>lb_id</code></a>, <a href="#parameter-droplet_ids"><code>droplet_ids</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-forwarding_rules"><code>forwarding_rules</code></a>, <a href="#parameter-tag"><code>tag</code></a></td>
     <td></td>
     <td>To update a load balancer's settings, send a PUT request to<br />`/v2/load_balancers/$LOAD_BALANCER_ID`. The request should contain a full<br />representation of the load balancer including existing attributes. It may<br />contain _one of_ the `droplets_ids` or `tag` attributes as they are mutually<br />exclusive. **Note that any attribute that is not provided will be reset to its<br />default value.**<br /></td>
 </tr>
@@ -601,30 +602,31 @@ To create a new load balancer instance, send a POST request to<br />`/v2/load_ba
 
 ```sql
 INSERT INTO digitalocean.compute.load_balancers (
-data__droplet_ids,
-data__region,
-data__name,
-data__project_id,
-data__size_unit,
-data__size,
-data__algorithm,
-data__forwarding_rules,
-data__health_check,
-data__sticky_sessions,
-data__redirect_http_to_https,
-data__enable_proxy_protocol,
-data__enable_backend_keepalive,
-data__http_idle_timeout_seconds,
-data__vpc_uuid,
-data__disable_lets_encrypt_dns_records,
-data__firewall,
-data__network,
-data__network_stack,
-data__type,
-data__domains,
-data__glb_settings,
-data__target_load_balancer_ids,
-data__tls_cipher_policy
+droplet_ids,
+region,
+name,
+project_id,
+size_unit,
+size,
+algorithm,
+forwarding_rules,
+health_check,
+sticky_sessions,
+redirect_http_to_https,
+enable_proxy_protocol,
+enable_backend_keepalive,
+http_idle_timeout_seconds,
+vpc_uuid,
+disable_lets_encrypt_dns_records,
+firewall,
+network,
+network_stack,
+type,
+domains,
+glb_settings,
+target_load_balancer_ids,
+tls_cipher_policy,
+tag
 )
 SELECT 
 '{{ droplet_ids }}' /* required */,
@@ -634,7 +636,7 @@ SELECT
 {{ size_unit }},
 '{{ size }}',
 '{{ algorithm }}',
-'{{ forwarding_rules }}',
+'{{ forwarding_rules }}' /* required */,
 '{{ health_check }}',
 '{{ sticky_sessions }}',
 {{ redirect_http_to_https }},
@@ -650,7 +652,8 @@ SELECT
 '{{ domains }}',
 '{{ glb_settings }}',
 '{{ target_load_balancer_ids }}',
-'{{ tls_cipher_policy }}'
+'{{ tls_cipher_policy }}',
+'{{ tag }}' /* required */
 RETURNING
 load_balancer
 ;
@@ -658,155 +661,165 @@ load_balancer
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: load_balancers
   props:
     - name: droplet_ids
-      value: array
-      description: >
+      value:
+        - {{ droplet_ids }}
+      description: |
         An array containing the IDs of the Droplets assigned to the load balancer.
-        
     - name: region
-      value: string
-      description: >
+      value: "{{ region }}"
+      description: |
         The slug identifier for the region where the resource will initially be  available.
-        
       valid_values: ['ams1', 'ams2', 'ams3', 'blr1', 'fra1', 'lon1', 'nyc1', 'nyc2', 'nyc3', 'sfo1', 'sfo2', 'sfo3', 'sgp1', 'tor1', 'syd1']
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         A human-readable name for a load balancer instance.
-        
     - name: project_id
-      value: string
-      description: >
+      value: "{{ project_id }}"
+      description: |
         The ID of the project that the load balancer is associated with. If no ID is provided at creation, the load balancer associates with the user's default project. If an invalid project ID is provided, the load balancer will not be created.
-        
     - name: size_unit
-      value: integer
-      description: >
-        How many nodes the load balancer contains. Each additional node increases the load balancer's ability to manage more connections. Load balancers can be scaled up or down, and you can change the number of nodes after creation up to once per hour. This field is currently not available in the AMS2, NYC2, or SFO1 regions. Use the `size` field to scale load balancers that reside in these regions.
-        
+      value: {{ size_unit }}
+      description: |
+        How many nodes the load balancer contains. Each additional node increases the load balancer's ability to manage more connections. Load balancers can be scaled up or down, and you can change the number of nodes after creation up to once per hour. This field is currently not available in the AMS2, NYC2, or SFO1 regions. Use the \`size\` field to scale load balancers that reside in these regions.
       default: 1
     - name: size
-      value: string
-      description: >
-        This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes.
-* `lb-small` = 1 node
-* `lb-medium` = 3 nodes
-* `lb-large` = 6 nodes
-
-You can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation.
-        
+      value: "{{ size }}"
+      description: |
+        This field has been replaced by the \`size_unit\` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes.
+        * \`lb-small\` = 1 node
+        * \`lb-medium\` = 3 nodes
+        * \`lb-large\` = 6 nodes
+        You can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation.
       valid_values: ['lb-small', 'lb-medium', 'lb-large']
       default: lb-small
     - name: algorithm
-      value: string
-      description: >
+      value: "{{ algorithm }}"
+      description: |
         This field has been deprecated. You can no longer specify an algorithm for load balancers.
-        
       valid_values: ['round_robin', 'least_connections']
       default: round_robin
     - name: forwarding_rules
-      value: array
-      description: >
+      description: |
         An array of objects specifying the forwarding rules for a load balancer.
-        
+      value:
+        - entry_protocol: "{{ entry_protocol }}"
+          entry_port: {{ entry_port }}
+          target_protocol: "{{ target_protocol }}"
+          target_port: {{ target_port }}
+          certificate_id: "{{ certificate_id }}"
+          tls_passthrough: {{ tls_passthrough }}
     - name: health_check
-      value: object
-      description: >
+      description: |
         An object specifying health check settings for the load balancer.
-        
+      value:
+        protocol: "{{ protocol }}"
+        port: {{ port }}
+        path: "{{ path }}"
+        check_interval_seconds: {{ check_interval_seconds }}
+        response_timeout_seconds: {{ response_timeout_seconds }}
+        unhealthy_threshold: {{ unhealthy_threshold }}
+        healthy_threshold: {{ healthy_threshold }}
     - name: sticky_sessions
-      value: object
-      description: >
+      description: |
         An object specifying sticky sessions settings for the load balancer.
-        
+      value:
+        type: "{{ type }}"
+        cookie_name: "{{ cookie_name }}"
+        cookie_ttl_seconds: {{ cookie_ttl_seconds }}
     - name: redirect_http_to_https
-      value: boolean
-      description: >
+      value: {{ redirect_http_to_https }}
+      description: |
         A boolean value indicating whether HTTP requests to the load balancer on port 80 will be redirected to HTTPS on port 443.
-        
       default: false
     - name: enable_proxy_protocol
-      value: boolean
-      description: >
+      value: {{ enable_proxy_protocol }}
+      description: |
         A boolean value indicating whether PROXY Protocol is in use.
-        
       default: false
     - name: enable_backend_keepalive
-      value: boolean
-      description: >
+      value: {{ enable_backend_keepalive }}
+      description: |
         A boolean value indicating whether HTTP keepalive connections are maintained to target Droplets.
-        
       default: false
     - name: http_idle_timeout_seconds
-      value: integer
-      description: >
+      value: {{ http_idle_timeout_seconds }}
+      description: |
         An integer value which configures the idle timeout for HTTP requests to the target droplets.
-        
       default: 60
     - name: vpc_uuid
-      value: string
-      description: >
+      value: "{{ vpc_uuid }}"
+      description: |
         A string specifying the UUID of the VPC to which the load balancer is assigned.
-        
     - name: disable_lets_encrypt_dns_records
-      value: boolean
-      description: >
+      value: {{ disable_lets_encrypt_dns_records }}
+      description: |
         A boolean value indicating whether to disable automatic DNS record creation for Let's Encrypt certificates that are added to the load balancer.
-        
       default: false
     - name: firewall
-      value: object
-      description: >
+      description: |
         An object specifying allow and deny rules to control traffic to the load balancer.
-        
+      value:
+        deny:
+          - "{{ deny }}"
+        allow:
+          - "{{ allow }}"
     - name: network
-      value: string
-      description: >
+      value: "{{ network }}"
+      description: |
         A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer.
-        
       valid_values: ['EXTERNAL', 'INTERNAL']
       default: EXTERNAL
     - name: network_stack
-      value: string
-      description: >
+      value: "{{ network_stack }}"
+      description: |
         A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer.
-        
       valid_values: ['IPV4', 'DUALSTACK']
       default: IPV4
     - name: type
-      value: string
-      description: >
+      value: "{{ type }}"
+      description: |
         A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer.
-        
       valid_values: ['REGIONAL', 'REGIONAL_NETWORK', 'GLOBAL']
       default: REGIONAL
     - name: domains
-      value: array
-      description: >
+      description: |
         An array of objects specifying the domain configurations for a Global load balancer.
-        
+      value:
+        - name: "{{ name }}"
+          is_managed: {{ is_managed }}
+          certificate_id: "{{ certificate_id }}"
     - name: glb_settings
-      value: object
-      description: >
+      description: |
         An object specifying forwarding configurations for a Global load balancer.
-        
+      value:
+        target_protocol: "{{ target_protocol }}"
+        target_port: {{ target_port }}
+        cdn:
+          is_enabled: {{ is_enabled }}
+        region_priorities: "{{ region_priorities }}"
+        failover_threshold: {{ failover_threshold }}
     - name: target_load_balancer_ids
-      value: array
-      description: >
+      value:
+        - "{{ target_load_balancer_ids }}"
+      description: |
         An array containing the UUIDs of the Regional load balancers to be used as target backends for a Global load balancer.
-        
     - name: tls_cipher_policy
-      value: string
-      description: >
-        A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`.
-        
+      value: "{{ tls_cipher_policy }}"
+      description: |
+        A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are \`DEFAULT\` or \`STRONG\`. The default value is \`DEFAULT\`.
       valid_values: ['DEFAULT', 'STRONG']
       default: DEFAULT
-```
+    - name: tag
+      value: "{{ tag }}"
+      description: |
+        The name of a Droplet tag corresponding to Droplets assigned to the load balancer.
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -826,34 +839,37 @@ To update a load balancer's settings, send a PUT request to<br />`/v2/load_balan
 ```sql
 REPLACE digitalocean.compute.load_balancers
 SET 
-data__droplet_ids = '{{ droplet_ids }}',
-data__region = '{{ region }}',
-data__name = '{{ name }}',
-data__project_id = '{{ project_id }}',
-data__size_unit = {{ size_unit }},
-data__size = '{{ size }}',
-data__algorithm = '{{ algorithm }}',
-data__forwarding_rules = '{{ forwarding_rules }}',
-data__health_check = '{{ health_check }}',
-data__sticky_sessions = '{{ sticky_sessions }}',
-data__redirect_http_to_https = {{ redirect_http_to_https }},
-data__enable_proxy_protocol = {{ enable_proxy_protocol }},
-data__enable_backend_keepalive = {{ enable_backend_keepalive }},
-data__http_idle_timeout_seconds = {{ http_idle_timeout_seconds }},
-data__vpc_uuid = '{{ vpc_uuid }}',
-data__disable_lets_encrypt_dns_records = {{ disable_lets_encrypt_dns_records }},
-data__firewall = '{{ firewall }}',
-data__network = '{{ network }}',
-data__network_stack = '{{ network_stack }}',
-data__type = '{{ type }}',
-data__domains = '{{ domains }}',
-data__glb_settings = '{{ glb_settings }}',
-data__target_load_balancer_ids = '{{ target_load_balancer_ids }}',
-data__tls_cipher_policy = '{{ tls_cipher_policy }}'
+droplet_ids = '{{ droplet_ids }}',
+region = '{{ region }}',
+name = '{{ name }}',
+project_id = '{{ project_id }}',
+size_unit = {{ size_unit }},
+size = '{{ size }}',
+algorithm = '{{ algorithm }}',
+forwarding_rules = '{{ forwarding_rules }}',
+health_check = '{{ health_check }}',
+sticky_sessions = '{{ sticky_sessions }}',
+redirect_http_to_https = {{ redirect_http_to_https }},
+enable_proxy_protocol = {{ enable_proxy_protocol }},
+enable_backend_keepalive = {{ enable_backend_keepalive }},
+http_idle_timeout_seconds = {{ http_idle_timeout_seconds }},
+vpc_uuid = '{{ vpc_uuid }}',
+disable_lets_encrypt_dns_records = {{ disable_lets_encrypt_dns_records }},
+firewall = '{{ firewall }}',
+network = '{{ network }}',
+network_stack = '{{ network_stack }}',
+type = '{{ type }}',
+domains = '{{ domains }}',
+glb_settings = '{{ glb_settings }}',
+target_load_balancer_ids = '{{ target_load_balancer_ids }}',
+tls_cipher_policy = '{{ tls_cipher_policy }}',
+tag = '{{ tag }}'
 WHERE 
 lb_id = '{{ lb_id }}' --required
-AND data__droplet_ids = '{{ droplet_ids }}' --required
-AND data__region = '{{ region }}' --required
+AND droplet_ids = '{{ droplet_ids }}' --required
+AND region = '{{ region }}' --required
+AND forwarding_rules = '{{ forwarding_rules }}' --required
+AND tag = '{{ tag }}' --required
 RETURNING
 load_balancer;
 ```

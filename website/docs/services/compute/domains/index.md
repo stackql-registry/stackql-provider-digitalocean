@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>domains</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>domains</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="domains" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.domains" /></td></tr>
 </tbody></table>
@@ -247,8 +248,8 @@ To create a new domain, send a POST request to `/v2/domains`. Set the "name"<br 
 
 ```sql
 INSERT INTO digitalocean.compute.domains (
-data__name,
-data__ip_address
+name,
+ip_address
 )
 SELECT 
 '{{ name }}',
@@ -260,21 +261,19 @@ domain
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: domains
   props:
     - name: name
-      value: string
-      description: >
-        The name of the domain itself. This should follow the standard domain format of domain.TLD. For instance, `example.com` is a valid domain name.
-        
+      value: "{{ name }}"
+      description: |
+        The name of the domain itself. This should follow the standard domain format of domain.TLD. For instance, \`example.com\` is a valid domain name.
     - name: ip_address
-      value: string
-      description: >
+      value: "{{ ip_address }}"
+      description: |
         This optional attribute may contain an IP address. When provided, an A record will be automatically created pointing to the apex domain.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 

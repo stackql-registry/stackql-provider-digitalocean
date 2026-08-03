@@ -84,3 +84,6 @@ nohup.out
 **/test-output/
 # Ignore everything in source directory except .gitkeep
 source/*
+
+# smoke test approots
+.stackql-live/

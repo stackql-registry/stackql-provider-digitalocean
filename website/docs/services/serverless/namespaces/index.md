@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>namespaces</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>namespaces</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="namespaces" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.serverless.namespaces" /></td></tr>
 </tbody></table>
@@ -184,7 +185,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#functions_create_namespace"><CopyableCode code="functions_create_namespace" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__region"><code>data__region</code></a>, <a href="#parameter-data__label"><code>data__label</code></a></td>
+    <td><a href="#parameter-region"><code>region</code></a>, <a href="#parameter-label"><code>label</code></a></td>
     <td></td>
     <td>Creates a new serverless functions namespace in the desired region and associates it with the provided label. A namespace is a collection of functions and their associated packages, triggers, and project specifications. To create a namespace, send a POST request to `/v2/functions/namespaces` with the `region` and `label` properties.</td>
 </tr>
@@ -283,8 +284,8 @@ Creates a new serverless functions namespace in the desired region and associate
 
 ```sql
 INSERT INTO digitalocean.serverless.namespaces (
-data__region,
-data__label
+region,
+label
 )
 SELECT 
 '{{ region }}' /* required */,
@@ -296,21 +297,19 @@ namespace
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: namespaces
   props:
     - name: region
-      value: string
-      description: >
+      value: "{{ region }}"
+      description: |
         The [datacenter region](https://docs.digitalocean.com/products/platform/availability-matrix/#available-datacenters) in which to create the namespace.
-        
     - name: label
-      value: string
-      description: >
+      value: "{{ label }}"
+      description: |
         The namespace's unique name.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 

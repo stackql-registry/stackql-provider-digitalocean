@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>volumes</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>volumes</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="volumes" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.volumes" /></td></tr>
 </tbody></table>
@@ -204,7 +205,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#volumes_create"><CopyableCode code="volumes_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__name"><code>data__name</code></a>, <a href="#parameter-data__size_gigabytes"><code>data__size_gigabytes</code></a>, <a href="#parameter-data__region"><code>data__region</code></a></td>
+    <td><a href="#parameter-name"><code>name</code></a>, <a href="#parameter-size_gigabytes"><code>size_gigabytes</code></a>, <a href="#parameter-region"><code>region</code></a></td>
     <td></td>
     <td>To create a new volume, send a POST request to `/v2/volumes`. Optionally, a `filesystem_type` attribute may be provided in order to automatically format the volume's filesystem. Pre-formatted volumes are automatically mounted when attached to Ubuntu, Debian, Fedora, Fedora Atomic, and CentOS Droplets created on or after April 26, 2018. Attaching pre-formatted volumes to Droplets without support for auto-mounting is not recommended.</td>
 </tr>
@@ -225,9 +226,30 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#volume_actions_post"><CopyableCode code="volume_actions_post" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td><a href="#parameter-type"><code>type</code></a></td>
+    <td><a href="#parameter-type"><code>type</code></a>, <a href="#parameter-droplet_id"><code>droplet_id</code></a></td>
     <td><a href="#parameter-per_page"><code>per_page</code></a>, <a href="#parameter-page"><code>page</code></a></td>
     <td>To initiate an action on a block storage volume by Name, send a POST request to<br />`~/v2/volumes/actions`. The body should contain the appropriate<br />attributes for the respective action.<br /><br />## Attach a Block Storage Volume to a Droplet<br /><br />| Attribute   | Details                                                             |<br />| ----------- | ------------------------------------------------------------------- |<br />| type        | This must be `attach`                                               |<br />| volume_name | The name of the block storage volume                                |<br />| droplet_id  | Set to the Droplet's ID                                             |<br />| region      | Set to the slug representing the region where the volume is located |<br /><br />Each volume may only be attached to a single Droplet. However, up to fifteen<br />volumes may be attached to a Droplet at a time. Pre-formatted volumes will be<br />automatically mounted to Ubuntu, Debian, Fedora, Fedora Atomic, and CentOS<br />Droplets created on or after April 26, 2018 when attached. On older Droplets,<br />[additional configuration](https://docs.digitalocean.com/products/volumes/how-to/mount/)<br />is required.<br /><br />## Remove a Block Storage Volume from a Droplet<br /><br />| Attribute   | Details                                                             |<br />| ----------- | ------------------------------------------------------------------- |<br />| type        | This must be `detach`                                               |<br />| volume_name | The name of the block storage volume                                |<br />| droplet_id  | Set to the Droplet's ID                                             |<br />| region      | Set to the slug representing the region where the volume is located |<br /></td>
+</tr>
+<tr>
+    <td><a href="#attach"><CopyableCode code="attach" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-volume_id"><code>volume_id</code></a></td>
+    <td><a href="#parameter-per_page"><code>per_page</code></a>, <a href="#parameter-page"><code>page</code></a></td>
+    <td>Invokes the `attach` action. Fabricated lifecycle operation over `POST /v2/volumes/&#123;volume_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#detach"><CopyableCode code="detach" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-volume_id"><code>volume_id</code></a></td>
+    <td><a href="#parameter-per_page"><code>per_page</code></a>, <a href="#parameter-page"><code>page</code></a></td>
+    <td>Invokes the `detach` action. Fabricated lifecycle operation over `POST /v2/volumes/&#123;volume_id&#125;/actions`.</td>
+</tr>
+<tr>
+    <td><a href="#resize"><CopyableCode code="resize" /></a></td>
+    <td><CopyableCode code="exec" /></td>
+    <td><a href="#parameter-volume_id"><code>volume_id</code></a></td>
+    <td><a href="#parameter-per_page"><code>per_page</code></a>, <a href="#parameter-page"><code>page</code></a></td>
+    <td>Invokes the `resize` action. Fabricated lifecycle operation over `POST /v2/volumes/&#123;volume_id&#125;/actions`.</td>
 </tr>
 </tbody>
 </table>
@@ -345,14 +367,14 @@ To create a new volume, send a POST request to `/v2/volumes`. Optionally, a `fil
 
 ```sql
 INSERT INTO digitalocean.compute.volumes (
-data__name,
-data__description,
-data__size_gigabytes,
-data__tags,
-data__snapshot_id,
-data__filesystem_type,
-data__region,
-data__filesystem_label
+name,
+description,
+size_gigabytes,
+tags,
+snapshot_id,
+filesystem_type,
+region,
+filesystem_label
 )
 SELECT 
 '{{ name }}' /* required */,
@@ -370,52 +392,45 @@ volume
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: volumes
   props:
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         A human-readable name for the block storage volume. Must be lowercase and be composed only of numbers, letters and "-", up to a limit of 64 characters. The name must begin with a letter.
-        
     - name: description
-      value: string
-      description: >
+      value: "{{ description }}"
+      description: |
         An optional free-form text field to describe a block storage volume.
-        
     - name: size_gigabytes
-      value: integer
-      description: >
+      value: {{ size_gigabytes }}
+      description: |
         The size of the block storage volume in GiB (1024^3). This field does not apply  when creating a volume from a snapshot.
-        
     - name: tags
-      value: array
-      description: >
-        A flat array of tag names as strings to be applied to the resource. Tag names may be for either existing or new tags. <br><br>Requires `tag:create` scope.
-        
+      value:
+        - "{{ tags }}"
+      description: |
+        A flat array of tag names as strings to be applied to the resource. Tag names may be for either existing or new tags. <br><br>Requires \`tag:create\` scope.
     - name: snapshot_id
-      value: string
-      description: >
+      value: "{{ snapshot_id }}"
+      description: |
         The unique identifier for the volume snapshot from which to create the volume.
-        
     - name: filesystem_type
-      value: string
-      description: >
-        The name of the filesystem type to be used on the volume. When provided, the volume will automatically be formatted to the specified filesystem type. Currently, the available options are `ext4` and `xfs`. Pre-formatted volumes are automatically mounted when attached to Ubuntu, Debian, Fedora, Fedora Atomic, and CentOS Droplets created on or after April 26, 2018. Attaching pre-formatted volumes to other Droplets is not recommended.
-        
+      value: "{{ filesystem_type }}"
+      description: |
+        The name of the filesystem type to be used on the volume. When provided, the volume will automatically be formatted to the specified filesystem type. Currently, the available options are \`ext4\` and \`xfs\`. Pre-formatted volumes are automatically mounted when attached to Ubuntu, Debian, Fedora, Fedora Atomic, and CentOS Droplets created on or after April 26, 2018. Attaching pre-formatted volumes to other Droplets is not recommended.
     - name: region
-      value: string
-      description: >
+      value: "{{ region }}"
+      description: |
         The slug identifier for the region where the resource will initially be  available.
-        
       valid_values: ['ams1', 'ams2', 'ams3', 'blr1', 'fra1', 'lon1', 'nyc1', 'nyc2', 'nyc3', 'sfo1', 'sfo2', 'sfo3', 'sgp1', 'tor1', 'syd1']
     - name: filesystem_label
-      value: string
-      description: >
+      value: "{{ filesystem_label }}"
+      description: |
         The label applied to the filesystem. Labels for ext4 type filesystems may contain 16 characters while labels for xfs type filesystems are limited to 12 characters. May only be used in conjunction with filesystem_type.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -458,7 +473,10 @@ AND region = '{{ region }}'
 <Tabs
     defaultValue="volume_actions_post"
     values={[
-        { label: 'volume_actions_post', value: 'volume_actions_post' }
+        { label: 'volume_actions_post', value: 'volume_actions_post' },
+        { label: 'attach', value: 'attach' },
+        { label: 'detach', value: 'detach' },
+        { label: 'resize', value: 'resize' }
     ]}
 >
 <TabItem value="volume_actions_post">
@@ -475,6 +493,58 @@ EXEC digitalocean.compute.volumes.volume_actions_post
 "region": "{{ region }}", 
 "droplet_id": {{ droplet_id }}, 
 "tags": "{{ tags }}"
+}'
+;
+```
+</TabItem>
+<TabItem value="attach">
+
+Invokes the `attach` action. Fabricated lifecycle operation over `POST /v2/volumes/&#123;volume_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.volumes.attach 
+@volume_id='{{ volume_id }}' --required, 
+@per_page='{{ per_page }}', 
+@page='{{ page }}' 
+@@json=
+'{
+"droplet_id": {{ droplet_id }}, 
+"region": "{{ region }}", 
+"tags": "{{ tags }}"
+}'
+;
+```
+</TabItem>
+<TabItem value="detach">
+
+Invokes the `detach` action. Fabricated lifecycle operation over `POST /v2/volumes/&#123;volume_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.volumes.detach 
+@volume_id='{{ volume_id }}' --required, 
+@per_page='{{ per_page }}', 
+@page='{{ page }}' 
+@@json=
+'{
+"droplet_id": {{ droplet_id }}, 
+"region": "{{ region }}"
+}'
+;
+```
+</TabItem>
+<TabItem value="resize">
+
+Invokes the `resize` action. Fabricated lifecycle operation over `POST /v2/volumes/&#123;volume_id&#125;/actions`.
+
+```sql
+EXEC digitalocean.compute.volumes.resize 
+@volume_id='{{ volume_id }}' --required, 
+@per_page='{{ per_page }}', 
+@page='{{ page }}' 
+@@json=
+'{
+"size_gigabytes": {{ size_gigabytes }}, 
+"region": "{{ region }}"
 }'
 ;
 ```

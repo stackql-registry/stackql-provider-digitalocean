@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>agent_api_keys</code> resource
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>agent_api_keys</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="agent_api_keys" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.genai.agent_api_keys" /></td></tr>
 </tbody></table>
@@ -201,8 +202,8 @@ To create an agent API key, send a POST request to `/v2/gen-ai/agents/&#123;agen
 
 ```sql
 INSERT INTO digitalocean.genai.agent_api_keys (
-data__agent_uuid,
-data__name,
+agent_uuid,
+name,
 agent_uuid
 )
 SELECT 
@@ -216,24 +217,22 @@ api_key_info
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: agent_api_keys
   props:
     - name: agent_uuid
-      value: string
+      value: "{{ agent_uuid }}"
       description: Required parameter for the agent_api_keys resource.
     - name: agent_uuid
-      value: string
-      description: >
+      value: "{{ agent_uuid }}"
+      description: |
         Agent id
-        
     - name: name
-      value: string
-      description: >
+      value: "{{ name }}"
+      description: |
         A human friendly name to identify the key
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -253,9 +252,9 @@ To update an agent API key, send a PUT request to `/v2/gen-ai/agents/&#123;agent
 ```sql
 REPLACE digitalocean.genai.agent_api_keys
 SET 
-data__agent_uuid = '{{ agent_uuid }}',
-data__api_key_uuid = '{{ api_key_uuid }}',
-data__name = '{{ name }}'
+agent_uuid = '{{ agent_uuid }}',
+api_key_uuid = '{{ api_key_uuid }}',
+name = '{{ name }}'
 WHERE 
 agent_uuid = '{{ agent_uuid }}' --required
 AND api_key_uuid = '{{ api_key_uuid }}' --required

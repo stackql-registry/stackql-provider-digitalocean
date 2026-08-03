@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>partner_attachment_service_keys
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>partner_attachment_service_keys</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="partner_attachment_service_keys" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.network.partner_attachment_service_keys" /></td></tr>
 </tbody></table>
@@ -50,21 +51,6 @@ The response will be a JSON object with a `service_key` object containing <br />
     </tr>
 </thead>
 <tbody>
-<tr>
-    <td><CopyableCode code="created_at" /></td>
-    <td><code>string (date-time)</code></td>
-    <td>A time value given in the ISO 8601 combined date and time format. (example: 2020-03-13T19:20:47.442049222Z)</td>
-</tr>
-<tr>
-    <td><CopyableCode code="state" /></td>
-    <td><code>string</code></td>
-    <td> (example: CREATED)</td>
-</tr>
-<tr>
-    <td><CopyableCode code="value" /></td>
-    <td><code>string</code></td>
-    <td> (example: 5a4981aa-9653-4bd1-bef5-d6bff52042e4)</td>
-</tr>
 </tbody>
 </table>
 </TabItem>
@@ -137,9 +123,7 @@ To get the current service key for a partner attachment, send a `GET` request to
 
 ```sql
 SELECT
-created_at,
-state,
-value
+*
 FROM digitalocean.network.partner_attachment_service_keys
 WHERE pa_id = '{{ pa_id }}' -- required
 ;
@@ -172,13 +156,13 @@ SELECT
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: partner_attachment_service_keys
   props:
     - name: pa_id
-      value: string (string)
+      value: "{{ pa_id }}"
       description: Required parameter for the partner_attachment_service_keys resource.
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>

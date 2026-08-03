@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>opensearch_indexes</code> reso
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>opensearch_indexes</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="opensearch_indexes" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.opensearch_indexes" /></td></tr>
 </tbody></table>
@@ -63,7 +64,7 @@ A JSON object with a key of `indexes`.
 <tr>
     <td><CopyableCode code="health" /></td>
     <td><code>string</code></td>
-    <td>The health of the OpenSearch index. (example: green)</td>
+    <td>The health of the OpenSearch index. (unknown, green, yellow, red, red*) (example: green)</td>
 </tr>
 <tr>
     <td><CopyableCode code="number_of_replicas" /></td>
@@ -83,7 +84,7 @@ A JSON object with a key of `indexes`.
 <tr>
     <td><CopyableCode code="status" /></td>
     <td><code>string</code></td>
-    <td>The status of the OpenSearch index. (example: open)</td>
+    <td>The status of the OpenSearch index. (unknown, open, close, none) (example: open)</td>
 </tr>
 </tbody>
 </table>

@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists an <code>autoscale_config</code> resour
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>autoscale_config</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="autoscale_config" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.databases.autoscale_config" /></td></tr>
 </tbody></table>
@@ -151,7 +152,7 @@ To configure autoscale settings for an existing database cluster, send a PUT req
 ```sql
 REPLACE digitalocean.databases.autoscale_config
 SET 
-data__storage = '{{ storage }}'
+storage = '{{ storage }}'
 WHERE 
 database_cluster_uuid = '{{ database_cluster_uuid }}' --required;
 ```

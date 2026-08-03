@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>byoip_prefixes</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>byoip_prefixes</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="byoip_prefixes" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.network.byoip_prefixes" /></td></tr>
 </tbody></table>
@@ -204,7 +205,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#byoip_prefixes_create"><CopyableCode code="byoip_prefixes_create" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__prefix"><code>data__prefix</code></a>, <a href="#parameter-data__region"><code>data__region</code></a>, <a href="#parameter-data__signature"><code>data__signature</code></a></td>
+    <td><a href="#parameter-prefix"><code>prefix</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-signature"><code>signature</code></a></td>
     <td></td>
     <td>To create a BYOIP prefix, send a POST request to `/v2/byoip_prefixes`.<br /><br />A successful request will initiate the process of bringing your BYOIP Prefix into your account.<br />The response will include the details of the created prefix, including its UUID and status.<br /></td>
 </tr>
@@ -326,9 +327,9 @@ To create a BYOIP prefix, send a POST request to `/v2/byoip_prefixes`.<br /><br 
 
 ```sql
 INSERT INTO digitalocean.network.byoip_prefixes (
-data__prefix,
-data__region,
-data__signature
+prefix,
+region,
+signature
 )
 SELECT 
 '{{ prefix }}' /* required */,
@@ -343,26 +344,23 @@ uuid
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: byoip_prefixes
   props:
     - name: prefix
-      value: string
-      description: >
+      value: "{{ prefix }}"
+      description: |
         The IP prefix in CIDR notation to bring
-        
     - name: region
-      value: string
-      description: >
+      value: "{{ region }}"
+      description: |
         The region where the prefix will be created
-        
     - name: signature
-      value: string
-      description: >
+      value: "{{ signature }}"
+      description: |
         The signature hash for the prefix creation request
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -382,7 +380,7 @@ To update a BYOIP prefix, send a PATCH request to `/v2/byoip_prefixes/$byoip_pre
 ```sql
 UPDATE digitalocean.network.byoip_prefixes
 SET 
-data__advertise = {{ advertise }}
+advertise = {{ advertise }}
 WHERE 
 byoip_prefix_uuid = '{{ byoip_prefix_uuid }}' --required
 RETURNING

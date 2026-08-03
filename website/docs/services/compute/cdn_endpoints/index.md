@@ -15,6 +15,7 @@ image: /img/stackql-digitalocean-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,7 +23,7 @@ Creates, updates, deletes, gets or lists a <code>cdn_endpoints</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>cdn_endpoints</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="cdn_endpoints" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="digitalocean.compute.cdn_endpoints" /></td></tr>
 </tbody></table>
@@ -84,7 +85,7 @@ The response will be a JSON object with an `endpoint` key. This will be set to a
 <tr>
     <td><CopyableCode code="ttl" /></td>
     <td><code>integer</code></td>
-    <td>The amount of time the content is cached by the CDN's edge servers in seconds. TTL must be one of 60, 600, 3600, 86400, or 604800. Defaults to 3600 (one hour) when excluded.</td>
+    <td>The amount of time the content is cached by the CDN's edge servers in seconds. TTL must be one of 60, 600, 3600, 86400, or 604800. Defaults to 3600 (one hour) when excluded. (60, 600, 3600, 86400, 604800)</td>
 </tr>
 </tbody>
 </table>
@@ -135,7 +136,7 @@ The result will be a JSON object with an `endpoints` key. This will be set to an
 <tr>
     <td><CopyableCode code="ttl" /></td>
     <td><code>integer</code></td>
-    <td>The amount of time the content is cached by the CDN's edge servers in seconds. TTL must be one of 60, 600, 3600, 86400, or 604800. Defaults to 3600 (one hour) when excluded.</td>
+    <td>The amount of time the content is cached by the CDN's edge servers in seconds. TTL must be one of 60, 600, 3600, 86400, or 604800. Defaults to 3600 (one hour) when excluded. (60, 600, 3600, 86400, 604800)</td>
 </tr>
 </tbody>
 </table>
@@ -174,7 +175,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#cdn_create_endpoint"><CopyableCode code="cdn_create_endpoint" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-data__origin"><code>data__origin</code></a></td>
+    <td><a href="#parameter-origin"><code>origin</code></a></td>
     <td></td>
     <td>To create a new CDN endpoint, send a POST request to `/v2/cdn/endpoints`. The<br />origin attribute must be set to the fully qualified domain name (FQDN) of a<br />DigitalOcean Space. Optionally, the TTL may be configured by setting the `ttl`<br />attribute.<br /><br />A custom subdomain may be configured by specifying the `custom_domain` and<br />`certificate_id` attributes.<br /></td>
 </tr>
@@ -297,10 +298,10 @@ To create a new CDN endpoint, send a POST request to `/v2/cdn/endpoints`. The<br
 
 ```sql
 INSERT INTO digitalocean.compute.cdn_endpoints (
-data__origin,
-data__ttl,
-data__certificate_id,
-data__custom_domain
+origin,
+ttl,
+certificate_id,
+custom_domain
 )
 SELECT 
 '{{ origin }}' /* required */,
@@ -314,33 +315,29 @@ endpoint
 </TabItem>
 <TabItem value="manifest">
 
-```yaml
-# Description fields are for documentation purposes
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: cdn_endpoints
   props:
     - name: origin
-      value: string
-      description: >
+      value: "{{ origin }}"
+      description: |
         The fully qualified domain name (FQDN) for the origin server which provides the content for the CDN. This is currently restricted to a Space.
-        
     - name: ttl
-      value: integer
-      description: >
+      value: {{ ttl }}
+      description: |
         The amount of time the content is cached by the CDN's edge servers in seconds. TTL must be one of 60, 600, 3600, 86400, or 604800. Defaults to 3600 (one hour) when excluded.
-        
       valid_values: ['60', '600', '3600', '86400', '604800']
       default: 3600
     - name: certificate_id
-      value: string
-      description: >
+      value: "{{ certificate_id }}"
+      description: |
         The ID of a DigitalOcean managed TLS certificate used for SSL when a custom subdomain is provided.
-        
     - name: custom_domain
-      value: string
-      description: >
+      value: "{{ custom_domain }}"
+      description: |
         The fully qualified domain name (FQDN) of the custom subdomain used with the CDN endpoint.
-        
-```
+`}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -360,9 +357,9 @@ To update the TTL, certificate ID, or the FQDN of the custom subdomain for<br />
 ```sql
 REPLACE digitalocean.compute.cdn_endpoints
 SET 
-data__ttl = {{ ttl }},
-data__certificate_id = '{{ certificate_id }}',
-data__custom_domain = '{{ custom_domain }}'
+ttl = {{ ttl }},
+certificate_id = '{{ certificate_id }}',
+custom_domain = '{{ custom_domain }}'
 WHERE 
 cdn_id = '{{ cdn_id }}' --required
 RETURNING
