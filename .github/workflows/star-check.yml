@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
     - name: Get PR author username and repo info
       id: get-info
       run: |
@@ -15,21 +15,21 @@ jobs:
         echo "current_repo=${{ github.event.repository.name }}" >> $GITHUB_ENV
         echo "current_owner=${{ github.repository_owner }}" >> $GITHUB_ENV
     - name: Pull github provider
-      uses: stackql/stackql-exec@v2.2.1
+      uses: stackql/stackql-exec@v2
       with:
         is_command: 'true'
         query: "REGISTRY PULL github;"
     - name: Run stackql query
       id: check-star
-      uses: stackql/stackql-assert@v2.2.1
+      uses: stackql/stackql-assert@v2
       with:
         test_query: |
           SELECT repo, count(*) as has_starred
           FROM github.activity.repo_stargazers
-          WHERE owner = '${{ env.current_owner }}' and repo IN ('stackql','${{ env.current_repo }}')
+          WHERE owner = 'stackql' and repo = 'stackql'
           AND login = '${{ env.username }}'
           GROUP BY repo;
-        expected_results_str: '[{"has_starred":"1","repo":"stackql"},{"has_starred":"1","repo":"${{ env.current_repo }}"}]'
+        expected_results_str: '[{"has_starred":"1","repo":"stackql"}]'
       continue-on-error: true
     - name: Check if starred
       if: always() # Ensures this runs regardless of check-star outcome
