@@ -68,6 +68,156 @@ stackql.exe shell --auth=$Auth
 ```
 </details>
 
+## Example Queries
+
+Try the following queries using `stackql shell`, or run them from a script or CI pipeline with `stackql exec`.
+
+### Droplet inventory
+
+Every droplet with its status, size, region, base image and public IPv4 address:
+
+```sql
+SELECT id, name, status, size_slug,
+       json_extract(region, '$.slug') AS region_slug,
+       json_extract(image, '$.distribution') AS distribution,
+       json_extract(image, '$.name') AS image_name,
+       CASE WHEN json_extract(networks, '$.v4[0].type') = 'public'
+            THEN json_extract(networks, '$.v4[0].ip_address')
+            ELSE json_extract(networks, '$.v4[1].ip_address')
+       END AS public_ipv4,
+       created_at
+FROM digitalocean.compute.droplets
+ORDER BY region_slug, name;
+```
+
+### Block storage volumes
+
+Volumes by size with their region and attachment state, where a zero in `attached_droplets` is a volume that is billed but not mounted anywhere:
+
+```sql
+SELECT id, name, size_gigabytes,
+       json_extract(region, '$.slug') AS region_slug,
+       filesystem_type,
+       json_array_length(droplet_ids) AS attached_droplets,
+       created_at
+FROM digitalocean.compute.volumes
+ORDER BY size_gigabytes DESC;
+```
+
+### Kubernetes clusters and node pools
+
+Version, state, high availability and the first node pool of every DOKS cluster:
+
+```sql
+SELECT name, region, version,
+       json_extract(status, '$.state') AS state,
+       ha, auto_upgrade,
+       json_array_length(node_pools) AS pool_count,
+       json_extract(node_pools, '$[0].name') AS first_pool,
+       json_extract(node_pools, '$[0].size') AS first_pool_size,
+       json_extract(node_pools, '$[0].count') AS first_pool_nodes
+FROM digitalocean.kubernetes.clusters
+ORDER BY name;
+```
+
+### Managed database clusters
+
+Engine, version, footprint and end-of-life date for every managed database cluster:
+
+```sql
+SELECT name, engine, version, size, num_nodes, region, status,
+       storage_size_mib, version_end_of_life
+FROM digitalocean.databases.clusters
+ORDER BY engine, name;
+```
+
+### App Platform apps
+
+Apps with their region, tier, live URL and the phase of the active deployment:
+
+```sql
+SELECT id,
+       json_extract(spec, '$.name') AS app_name,
+       json_extract(region, '$.slug') AS region_slug,
+       tier_slug, live_url,
+       json_extract(active_deployment, '$.phase') AS deployment_phase,
+       updated_at
+FROM digitalocean.apps.apps
+ORDER BY app_name;
+```
+
+### Droplets by VPC
+
+Each droplet joined to the VPC it sits in, with the VPC region and address range:
+
+```sql
+SELECT v.name AS vpc, v.region, v.ip_range,
+       d.name AS droplet, d.status, d.size_slug
+FROM digitalocean.compute.droplets d
+JOIN digitalocean.vpcs.vpcs v
+  ON v.id = d.vpc_uuid
+ORDER BY v.name, d.name;
+```
+
+### DNS records for a domain
+
+The A records of one domain, where `domain_name` is required and the `type` predicate is sent to the API as a query parameter rather than filtered locally:
+
+```sql
+SELECT id, name, type, data, ttl
+FROM digitalocean.compute.domain_records
+WHERE domain_name = '{{ domain_name }}'
+  AND type = 'A'
+ORDER BY name;
+```
+
+### Droplet spend by region
+
+Droplet count, vCPUs and list-price monthly cost per region, taken from the size object embedded in each droplet:
+
+```sql
+SELECT json_extract(region, '$.slug') AS region_slug,
+       COUNT(*) AS droplets,
+       SUM(vcpus) AS total_vcpus,
+       SUM(json_extract(size, '$.price_monthly')) AS monthly_usd
+FROM digitalocean.compute.droplets
+GROUP BY json_extract(region, '$.slug')
+ORDER BY monthly_usd DESC;
+```
+
+### Create and destroy a droplet
+
+Create the smallest droplet with a tag, look it up by that tag (the `tag_name` predicate is pushed to the API), then destroy it by id:
+
+```sql
+INSERT INTO digitalocean.compute.droplets (name, region, size, image, tags)
+SELECT 'stackql-demo-01', 'syd1', 's-1vcpu-512mb-10gb', 'ubuntu-24-04-x64', '["stackql-demo"]';
+
+SELECT id, name, status
+FROM digitalocean.compute.droplets
+WHERE tag_name = 'stackql-demo';
+
+DELETE FROM digitalocean.compute.droplets
+WHERE droplet_id = '{{ droplet_id }}';
+```
+
+### Droplet lifecycle actions
+
+Power a droplet off, snapshot it and power it back on using the named lifecycle methods, each of which also has a `_by_tag` variant that acts on every droplet carrying a tag:
+
+```sql
+EXEC digitalocean.compute.droplets.power_off
+  @droplet_id = '{{ droplet_id }}';
+
+EXEC digitalocean.compute.droplets.snapshot
+  @droplet_id = '{{ droplet_id }}'
+  @@json = '{"name": "{{ snapshot_name }}"}';
+
+EXEC digitalocean.compute.droplets.power_on
+  @droplet_id = '{{ droplet_id }}';
+```
+
+
 ## Services
 <div class="row">
 <div class="providerDocColumn">
