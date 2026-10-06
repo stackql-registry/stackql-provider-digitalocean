@@ -7,6 +7,7 @@
 SHELL := /bin/bash
 
 PROVIDER_NAME := digitalocean
+SOURCE_PROJECT ?= https://github.com/stackql-registry/stackql-provider-digitalocean
 SPEC_URL      := https://api-engineering.nyc3.digitaloceanspaces.com/spec-ci/DigitalOcean-public.v2.yaml
 SPEC_FILE     := provider-dev/downloaded/digitalocean-public.v2.yaml
 SOURCE_DIR    := provider-dev/source
@@ -93,7 +94,8 @@ docs:
 	  --provider-name $(PROVIDER_NAME) \
 	  --provider-dir ./$(PROVIDER_DIR) \
 	  --output-dir ./website \
-	  --provider-data-dir ./provider-dev/docgen/provider-data
+	  --provider-data-dir ./provider-dev/docgen/provider-data \
+	  --source-project $(SOURCE_PROJECT)
 	node provider-dev/scripts/fix-webdocs.mjs
 
 website:
