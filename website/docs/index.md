@@ -22,6 +22,7 @@ DigitalOcean for managing cloud servers, databases, networking, and storage in a
 
 total services: __19__  
 total resources: __276__  
+source project: __[stackql-provider-digitalocean](https://github.com/stackql-registry/stackql-provider-digitalocean)__  
 
 :::
 
